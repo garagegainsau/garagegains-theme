@@ -1,210 +1,108 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "gg-hero": {
+      "type": "gg-hero",
       "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Image banner",
-            "heading_size": "h0"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
-          }
-        },
-        "button": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
+        "trust-1": { "type": "trust_item", "settings": { "icon": "🚚", "title": "Free Shipping Over $199", "body": "Fast Australia-wide delivery from our Sydney & Melbourne warehouses." } },
+        "trust-2": { "type": "trust_item", "settings": { "icon": "🛡️", "title": "6 Month Warranty", "body": "Every piece of equipment backed by a full 6 month warranty." } },
+        "trust-3": { "type": "trust_item", "settings": { "icon": "💬", "title": "Real Human Support", "body": "Aussie-based team ready to help Mon–Fri, 9am–5pm AEST." } },
+        "trust-4": { "type": "trust_item", "settings": { "icon": "🔄", "title": "14-Day Returns", "body": "Not happy? We'll sort it. Simple, no-hassle returns every time." } }
       },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
+      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4"],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "eyebrow": "From your favourite fitness brands",
+        "headline_line1": "REDEFINING",
+        "headline_line2": "PERFORMANCE",
+        "headline_line3": "",
+        "subheading": "Commercial-grade equipment, without the commercial price tag. Built for everyday Australians who train hard.",
+        "cta_primary_text": "SHOP NOW",
+        "cta_primary_url": "/collections/all",
+        "cta_secondary_text": "EXPLORE GEAR",
+        "cta_secondary_url": "/collections"
       }
     },
-    "rich_text": {
-      "type": "rich-text",
+    "gg-ticker": {
+      "type": "gg-ticker",
+      "settings": {
+        "ticker_text": "Power Racks, Olympic Barbells, Adjustable Dumbbells, Gym Benches, Kettlebells, Resistance Bands, Cardio Equipment, Gym Mats, Pull-Up Bars"
+      }
+    },
+    "gg-categories": {
+      "type": "gg-categories",
       "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Talk about your brand",
-            "heading_size": "h1"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.<\/p>"
-          }
-        }
+        "cat-1": { "type": "category", "settings": { "name": "Power Racks & Cages", "url": "/collections/power-racks", "emoji": "🏗️", "tag": "Most Popular", "bg_color": "#111111" } },
+        "cat-2": { "type": "category", "settings": { "name": "Barbells & Weights", "url": "/collections/barbells", "emoji": "🏋️", "tag": "", "bg_color": "#2b2b2b" } },
+        "cat-3": { "type": "category", "settings": { "name": "Dumbbells & Kettlebells", "url": "/collections/dumbbells", "emoji": "💪", "tag": "New In", "bg_color": "#111111" } },
+        "cat-4": { "type": "category", "settings": { "name": "Benches", "url": "/collections/benches", "emoji": "🛋️", "tag": "", "bg_color": "#2b2b2b" } },
+        "cat-5": { "type": "category", "settings": { "name": "Cardio", "url": "/collections/cardio", "emoji": "🚴", "tag": "", "bg_color": "#111111" } },
+        "cat-6": { "type": "category", "settings": { "name": "Mats & Flooring", "url": "/collections/flooring-mats", "emoji": "🟫", "tag": "Best Value", "bg_color": "#2b2b2b" } }
       },
-      "block_order": [
-        "heading",
-        "text"
-      ],
+      "block_order": ["cat-1", "cat-2", "cat-3", "cat-4", "cat-5", "cat-6"],
       "settings": {
-        "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 0
+        "eyebrow": "Browse",
+        "title": "Shop By Category",
+        "view_all_url": "/collections/all"
       }
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "gg-featured-products": {
+      "type": "gg-featured-products",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "show_view_all": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "columns_mobile": "2",
-        "padding_top": 28,
-        "padding_bottom": 36
+        "eyebrow": "Handpicked",
+        "title": "Featured Gear",
+        "collection": "",
+        "product_count": 4,
+        "view_all_url": "/collections/all"
       }
     },
-    "collage": {
-      "type": "collage",
+    "gg-email-cta": {
+      "type": "gg-email-cta",
+      "settings": {
+        "eyebrow": "Limited Time",
+        "headline": "Get 10% Off",
+        "headline_accent": "Your First Order",
+        "body": "Join the GarageGains community. Sign up and receive 10% off your first order, plus early access to new products and exclusive deals.",
+        "input_placeholder": "your@email.com.au",
+        "cta_text": "Claim 10% Off"
+      }
+    },
+    "gg-trust": {
+      "type": "gg-trust",
       "blocks": {
-        "collection-0": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        },
-        "product": {
-          "type": "product",
-          "settings": {
-            "product": "",
-            "second_image": false
-          }
-        },
-        "collection-1": {
-          "type": "collection",
-          "settings": {
-            "collection": ""
-          }
-        }
+        "trust-1": { "type": "trust_item", "settings": { "icon": "🚚", "title": "Free Shipping Over $199", "body": "Fast Australia-wide delivery from our Sydney & Melbourne warehouses." } },
+        "trust-2": { "type": "trust_item", "settings": { "icon": "🛡️", "title": "6 Month Warranty", "body": "Every piece of equipment backed by a full 6 month warranty." } },
+        "trust-3": { "type": "trust_item", "settings": { "icon": "💬", "title": "Real Human Support", "body": "Aussie-based team ready to help Mon–Fri, 9am–5pm AEST." } },
+        "trust-4": { "type": "trust_item", "settings": { "icon": "🔄", "title": "14-Day Returns", "body": "Not happy? We'll sort it. Simple, no-hassle returns every time." } }
       },
-      "block_order": [
-        "collection-0",
-        "product",
-        "collection-1"
-      ],
+      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4"],
       "settings": {
-        "heading": "Multimedia collage",
-        "heading_size": "h2",
-        "desktop_layout": "left",
-        "mobile_layout": "collage",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "show_heading": true,
+        "eyebrow": "Why GarageGains",
+        "title": "Built On Trust"
       }
     },
-    "video": {
-      "type": "video",
-      "settings": {
-        "heading": "",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "heading_size": "h1",
-        "description": "",
-        "full_width": false,
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
+    "gg-reviews": {
+      "type": "gg-reviews",
       "blocks": {
-        "column1": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column2": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column3": {
-          "type": "column",
-          "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
+        "rev-1": { "type": "review", "settings": { "stars": 5, "text": "Set up my full garage gym in a weekend. Quality is legit — feels like gear that'll last 20 years. Fast shipping too.", "name": "Mitch T.", "location": "Brisbane, QLD" } },
+        "rev-2": { "type": "review", "settings": { "stars": 5, "text": "Finally a store that gets it — no fluff, straight-up solid equipment at prices that don't need a second mortgage.", "name": "Sarah K.", "location": "Melbourne, VIC" } },
+        "rev-3": { "type": "review", "settings": { "stars": 5, "text": "Power rack is rock solid. Cheaper than going to a commercial gym for a year. Couldn't be happier.", "name": "Dave R.", "location": "Perth, WA" } }
       },
-      "block_order": [
-        "column1",
-        "column2",
-        "column3"
-      ],
+      "block_order": ["rev-1", "rev-2", "rev-3"],
       "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "third",
-        "image_ratio": "adapt",
-        "columns_desktop": 3,
-        "column_alignment": "center",
-        "background_style": "none",
-        "button_label": "",
-        "button_link": "",
-        "swipe_on_mobile": false,
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "eyebrow": "Real Customers",
+        "title": "What They're Saying",
+        "aggregate_rating": "4.9 / 5",
+        "total_reviews": "2,400+ reviews"
       }
     }
   },
   "order": [
-    "image_banner",
-    "rich_text",
-    "featured_collection",
-    "collage",
-    "video",
-    "multicolumn"
+    "gg-hero",
+    "gg-ticker",
+    "gg-categories",
+    "gg-featured-products",
+    "gg-email-cta",
+    "gg-trust",
+    "gg-reviews"
   ]
 }

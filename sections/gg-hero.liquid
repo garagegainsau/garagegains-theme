@@ -1,22 +1,28 @@
-<!-- ===========================
-     Section: GG Hero v2
-     Full-bleed background photo
-     =========================== -->
+{% comment %}
+  Section: GG Hero
+  File: sections/gg-hero.liquid
+  Description: Full-bleed homepage hero with trust bar — matches ggshopifyMAIN
+{% endcomment %}
 
 <section class="gg-hero-v2">
 
   <!-- Background image -->
   <div class="gg-hero-v2__bg fi">
     {% if section.settings.bg_image %}
-      {{ section.settings.bg_image | image_url: width: 2000 | image_tag:
+      {{ section.settings.bg_image | image_url: width: 2400, format: 'webp' | image_tag:
           loading: 'eager',
           fetchpriority: 'high',
           class: 'gg-hero-v2__photo',
           alt: section.settings.bg_image.alt | default: 'GarageGains hero'
       }}
     {% else %}
-      <!-- Fallback dark gradient when no image is set -->
-      <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a1a 0%,#0d0d0d 100%);"></div>
+      <img
+        src="{{ 'gg-hero-bg.jpg' | asset_url }}"
+        alt="GarageGains — Redefining Performance"
+        class="gg-hero-v2__photo"
+        loading="eager"
+        fetchpriority="high"
+      >
     {% endif %}
   </div>
 
@@ -32,10 +38,8 @@
 
       <h1 class="gg-hero-v2__title fu2">
         {{ section.settings.headline_line1 }}<br>
-        <span class="gg-hero-v2__accent">{{ section.settings.headline_line2 }}</span><br>
-        {{ section.settings.headline_line3 }}
-
-
+        <span class="gg-hero-v2__accent">{{ section.settings.headline_line2 }}</span>
+        {%- if section.settings.headline_line3 != blank %}<br>{{ section.settings.headline_line3 }}{% endif %}
       </h1>
 
       <p class="gg-hero-v2__body fu3">{{ section.settings.subheading }}</p>
@@ -54,9 +58,7 @@
 
 </section>
 
-<!-- ===========================
-     Trust Bar (below hero)
-     =========================== -->
+<!-- Trust Bar -->
 <div class="gg-trustbar">
   <div class="gg-trustbar__inner">
     {% for block in section.blocks %}
@@ -74,7 +76,7 @@
 </div>
 
 <style>
-  /* ---- Hero v2 ---- */
+  /* ---- Hero ---- */
   .gg-hero-v2 {
     position: relative;
     height: 88vh;
@@ -91,7 +93,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 30%;
+    object-position: 65% 30%;
     display: block;
   }
   .gg-hero-v2__overlay {
@@ -129,7 +131,7 @@
   }
   .gg-hero-v2__eyebrow {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
+    font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -139,7 +141,7 @@
   .gg-hero-v2__title {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 900;
-    font-size: 5.5rem; /* fixed size — consistent across screens */
+    font-size: 88px;
     text-transform: uppercase;
     line-height: 0.9;
     letter-spacing: -0.01em;
@@ -149,19 +151,24 @@
   .gg-hero-v2__accent { color: var(--ember); }
   .gg-hero-v2__body {
     font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
+    font-size: 16px;
     color: rgba(245,243,239,0.72);
     line-height: 1.65;
     max-width: 420px;
     margin-bottom: 36px;
   }
-  .gg-hero-v2__ctas { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .gg-hero-v2__ctas {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
   .gg-hero-v2__btn-primary {
     background: var(--ember);
     color: var(--bone);
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 16px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     padding: 14px 32px;
@@ -178,7 +185,7 @@
     border: 1px solid rgba(245,243,239,0.3);
     font-family: 'DM Sans', sans-serif;
     font-weight: 500;
-    font-size: 0.88rem;
+    font-size: 14px;
     padding: 13px 24px;
     border-radius: 4px;
     text-decoration: none;
@@ -207,11 +214,11 @@
     gap: 14px;
   }
   .gg-trustbar__item:last-child { border-right: none; }
-  .gg-trustbar__icon { font-size: 1.3rem; margin-top: 2px; flex-shrink: 0; }
+  .gg-trustbar__icon { font-size: 21px; margin-top: 2px; flex-shrink: 0; }
   .gg-trustbar__title {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 16px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ember);
@@ -219,18 +226,18 @@
   }
   .gg-trustbar__body {
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
+    font-size: 13px;
     color: var(--steel);
     line-height: 1.4;
   }
 
   /* ---- Responsive ---- */
   @media (max-width: 1024px) {
-    .gg-hero-v2__title { font-size: 4.5rem; }
+    .gg-hero-v2__title { font-size: 72px; }
     .gg-hero-v2__inner { padding: 0 40px 80px 40px; }
   }
   @media (max-width: 768px) {
-    .gg-hero-v2__title { font-size: 3.5rem; }
+    .gg-hero-v2__title { font-size: 56px; }
     .gg-hero-v2__inner { padding: 0 24px 60px 24px; }
     .gg-trustbar__inner { grid-template-columns: 1fr 1fr; }
     .gg-trustbar__item { border-right: none; border-bottom: 1px solid #1A1A1A; }
@@ -238,7 +245,8 @@
     .gg-trustbar__item:last-child { border-bottom: none; }
   }
   @media (max-width: 480px) {
-    .gg-hero-v2__title { font-size: 3rem; }
+    .gg-hero-v2__title { font-size: 48px; }
+    .gg-hero-v2__body { font-size: 15px; }
     .gg-trustbar__inner { grid-template-columns: 1fr; }
     .gg-trustbar__item:nth-child(odd) { border-right: none; }
   }
@@ -253,20 +261,19 @@
   .fu4 { animation: fadeUp 0.8s 0.60s ease both; }
 </style>
 
-
 {% schema %}
 {
-  "name": "GG – Hero (Photo)",
+  "name": "GG – Hero",
   "settings": [
-    { "type": "image_picker", "id": "bg_image",           "label": "Background photo",        "info": "Recommended: dark, moody gym photo. Min 1600px wide." },
-    { "type": "text",         "id": "eyebrow",            "label": "Eyebrow text",            "default": "Australia's Garage Gym Store" },
-    { "type": "text",         "id": "headline_line1",     "label": "Headline line 1",         "default": "BUILD YOUR" },
-    { "type": "text",         "id": "headline_line2",     "label": "Headline line 2 (ember)", "default": "GARAGE" },
-    { "type": "text",         "id": "headline_line3",     "label": "Headline line 3",         "default": "GYM." },
+    { "type": "image_picker", "id": "bg_image",           "label": "Background photo",        "info": "Recommended: dark gym photo, min 1600px wide. Leave blank to use default." },
+    { "type": "text",         "id": "eyebrow",            "label": "Eyebrow text",            "default": "From your favourite fitness brands" },
+    { "type": "text",         "id": "headline_line1",     "label": "Headline line 1",         "default": "REDEFINING" },
+    { "type": "text",         "id": "headline_line2",     "label": "Headline line 2 (ember)", "default": "PERFORMANCE" },
+    { "type": "text",         "id": "headline_line3",     "label": "Headline line 3" },
     { "type": "textarea",     "id": "subheading",         "label": "Subheading",              "default": "Commercial-grade equipment, without the commercial price tag. Built for everyday Australians who train hard." },
-    { "type": "text",         "id": "cta_primary_text",   "label": "Primary button text",     "default": "Shop Now" },
+    { "type": "text",         "id": "cta_primary_text",   "label": "Primary button text",     "default": "SHOP NOW" },
     { "type": "url",          "id": "cta_primary_url",    "label": "Primary button link" },
-    { "type": "text",         "id": "cta_secondary_text", "label": "Secondary button text",   "default": "View Categories" },
+    { "type": "text",         "id": "cta_secondary_text", "label": "Secondary button text",   "default": "EXPLORE GEAR" },
     { "type": "url",          "id": "cta_secondary_url",  "label": "Secondary button link" }
   ],
   "blocks": [
@@ -282,12 +289,12 @@
     }
   ],
   "presets": [{
-    "name": "GG – Hero (Photo)",
+    "name": "GG – Hero",
     "blocks": [
-      { "type": "trust_item", "settings": { "icon": "🚚", "title": "FREE DELIVERY",  "body": "On all orders over $199" } },
-      { "type": "trust_item", "settings": { "icon": "🔄", "title": "30 DAY RETURNS", "body": "Easy, no-hassle returns" } },
-      { "type": "trust_item", "settings": { "icon": "🛡️", "title": "2-YEAR WARRANTY","body": "On all equipment" } },
-      { "type": "trust_item", "settings": { "icon": "🔒", "title": "SECURE PAYMENT", "body": "Protected checkout" } }
+      { "type": "trust_item", "settings": { "icon": "🚚", "title": "FREE DELIVERY",     "body": "On all orders over $199" } },
+      { "type": "trust_item", "settings": { "icon": "🔄", "title": "30 DAY RETURNS",    "body": "Easy, no-hassle returns" } },
+      { "type": "trust_item", "settings": { "icon": "🛡️", "title": "2-YEAR WARRANTY",  "body": "On all equipment" } },
+      { "type": "trust_item", "settings": { "icon": "🔒", "title": "SECURE PAYMENT",    "body": "Protected checkout" } }
     ]
   }]
 }

@@ -1,0 +1,553 @@
+{% comment %}
+  Section: GG Header
+  File: sections/gg-header.liquid
+  Description: GarageGains sticky nav — hides on scroll down, reveals on scroll up
+{% endcomment %}
+
+<style>
+  /* ================================================================
+     NAV — base
+  ================================================================ */
+  .gg-nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    background: #111111;
+    border-bottom: 1px solid transparent;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
+                background 0.3s ease,
+                border-color 0.3s ease,
+                backdrop-filter 0.3s ease,
+                box-shadow 0.3s ease;
+  }
+
+  /* Scrolled → tinted glass */
+  .gg-nav.scrolled {
+    background: rgba(17,17,17,0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-color: #1A1A1A;
+    box-shadow: 0 2px 40px rgba(0,0,0,0.45);
+  }
+
+  /* Scrolling DOWN → slide off the top */
+  .gg-nav.is-hidden {
+    transform: translateY(-100%);
+  }
+
+  .gg-nav__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  /* ---- Logo ---- */
+  .gg-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .gg-logo__mark {
+    width: 36px; height: 36px;
+    background: var(--ember);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(10% 0%,90% 0%,100% 10%,100% 90%,90% 100%,10% 100%,0% 90%,0% 10%);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: #F5F3EF;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+  }
+  .gg-logo__name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #F5F3EF;
+    line-height: 1;
+  }
+  .gg-logo__sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    color: var(--ember);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  /* ---- Desktop nav links ---- */
+  .gg-nav__links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex: 1;
+  }
+  .nav-link {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5C5C5C;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: #F5F3EF; }
+  .nav-link--sale { color: var(--ember) !important; }
+  .nav-link--sale:hover { color: #E0622E !important; }
+
+  /* ---- Desktop actions ---- */
+  .gg-nav__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+
+  /* Icon buttons */
+  .gg-icon-btn {
+    color: #5C5C5C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .gg-icon-btn:hover { color: #F5F3EF; }
+
+  /* Cart count badge */
+  .gg-cart-btn { position: relative; }
+  .gg-cart-count {
+    position: absolute;
+    top: -2px; right: -2px;
+    background: var(--ember);
+    color: #F5F3EF;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    min-width: 16px; height: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    line-height: 1;
+  }
+
+  /* Sign In button */
+  .gg-nav__signin {
+    background: var(--ember);
+    color: #F5F3EF;
+    border: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .gg-nav__signin:hover { background: #E0622E; transform: translateY(-1px); }
+
+  /* ---- Mobile: cart + burger ---- */
+  .gg-nav__mobile {
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .gg-burger {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px; height: 40px;
+    gap: 5px;
+    cursor: pointer;
+    padding: 0;
+  }
+  .gg-burger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: #F5F3EF;
+    border-radius: 2px;
+    transition: transform 0.28s ease, opacity 0.28s ease;
+    transform-origin: center;
+  }
+  .gg-burger.is-active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .gg-burger.is-active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .gg-burger.is-active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Spacer below fixed nav */
+  .gg-nav-spacer { height: 64px; }
+
+  @media (max-width: 1024px) {
+    .gg-nav__links    { display: none; }
+    .gg-nav__actions  { display: none; }
+    .gg-nav__mobile   { display: flex; }
+    .gg-nav__inner    { padding: 0 20px; }
+  }
+
+  /* ================================================================
+     MOBILE DRAWER
+  ================================================================ */
+  .gg-drawer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+  }
+  .gg-drawer.is-open { display: block; }
+
+  .gg-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: ggFadeIn 0.22s ease;
+  }
+  .gg-drawer__panel {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: min(300px, 82vw);
+    background: #0D0D0D;
+    border-right: 1px solid #1E1E1E;
+    display: flex;
+    flex-direction: column;
+    animation: ggSlideIn 0.3s cubic-bezier(0.4,0,0.2,1);
+    overflow-y: auto;
+  }
+  @keyframes ggFadeIn  { from { opacity: 0; }                   to { opacity: 1; } }
+  @keyframes ggSlideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+  .gg-drawer__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 22px;
+    border-bottom: 1px solid #1E1E1E;
+    flex-shrink: 0;
+  }
+  .gg-drawer__close {
+    background: none;
+    border: none;
+    color: #5C5C5C;
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .gg-drawer__close:hover { color: #F5F3EF; }
+  .gg-drawer__close svg { width: 22px; height: 22px; }
+
+  .gg-drawer__links { flex: 1; padding: 12px 0; }
+  .gg-drawer__link {
+    display: block;
+    padding: 15px 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: rgba(245,243,239,0.5);
+    border-left: 3px solid transparent;
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s, background 0.2s, padding-left 0.2s;
+  }
+  .gg-drawer__link:hover {
+    color: #F5F3EF;
+    border-left-color: var(--ember);
+    background: rgba(201,74,30,0.06);
+    padding-left: 28px;
+  }
+  .gg-drawer__link--sale { color: var(--ember); }
+  .gg-drawer__link--sale:hover { color: #E0622E; }
+
+  .gg-drawer__footer {
+    padding: 24px;
+    border-top: 1px solid #1A1A1A;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .gg-drawer__signin {
+    background: var(--ember);
+    color: #F5F3EF;
+    border: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.2s;
+  }
+  .gg-drawer__signin:hover { background: #E0622E; }
+  .gg-drawer__meta {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: #5C5C5C;
+    text-align: center;
+    line-height: 1.6;
+  }
+</style>
+
+<!-- ===================== HEADER ===================== -->
+<header class="gg-nav" id="gg-nav" role="banner">
+  <div class="gg-nav__inner">
+
+    <!-- Logo -->
+    <a href="{{ routes.root_url }}" class="gg-logo" aria-label="{{ shop.name }}">
+      {%- if section.settings.logo != blank -%}
+        {{
+          section.settings.logo
+          | image_url: width: 280, format: 'webp'
+          | image_tag: loading: 'eager', alt: shop.name, style: 'height:34px;width:auto;display:block;'
+        }}
+      {%- else -%}
+        <div class="gg-logo__mark">GG</div>
+        <div>
+          <div class="gg-logo__name">GarageGains</div>
+          <div class="gg-logo__sub">Australia</div>
+        </div>
+      {%- endif -%}
+    </a>
+
+    <!-- Desktop nav links -->
+    <nav class="gg-nav__links" aria-label="Main navigation">
+      {%- assign nav_links = linklists[section.settings.menu].links -%}
+      {%- if nav_links.size > 0 -%}
+        {%- for link in nav_links -%}
+          <a
+            href="{{ link.url }}"
+            class="nav-link{% if link.title == 'Sale' or link.title == 'SALE' %} nav-link--sale{% endif %}"
+            {% if link.active %}aria-current="page"{% endif %}
+          >{{ link.title }}</a>
+        {%- endfor -%}
+      {%- else -%}
+        <a href="/collections/strength"      class="nav-link">Strength</a>
+        <a href="/collections/cardio"        class="nav-link">Cardio</a>
+        <a href="/collections/functional"    class="nav-link">Functional</a>
+        <a href="/collections/commercial"    class="nav-link">Commercial</a>
+        <a href="/collections/flooring-mats" class="nav-link">Flooring &amp; Mats</a>
+        <a href="/collections/sale"          class="nav-link nav-link--sale">Sale</a>
+        <a href="/pages/contact"             class="nav-link">Contact</a>
+      {%- endif -%}
+    </nav>
+
+    <!-- Desktop actions: search + account + cart + sign in -->
+    <div class="gg-nav__actions">
+      <a href="{{ routes.search_url }}" class="gg-icon-btn" aria-label="Search">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </a>
+      <a href="{{ routes.account_url }}" class="gg-icon-btn" aria-label="Account">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </a>
+      <a href="{{ routes.cart_url }}" class="gg-icon-btn gg-cart-btn" aria-label="Cart ({{ cart.item_count }} items)">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="gg-cart-count" id="cart-count">{{ cart.item_count }}</span>
+      </a>
+      <a href="{{ routes.account_login_url }}" class="gg-nav__signin">Sign In</a>
+    </div>
+
+    <!-- Mobile: cart + burger -->
+    <div class="gg-nav__mobile">
+      <a href="{{ routes.cart_url }}" class="gg-icon-btn gg-cart-btn" aria-label="Cart">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span class="gg-cart-count">{{ cart.item_count }}</span>
+      </a>
+      <button
+        class="gg-burger"
+        id="gg-burger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="gg-drawer"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<div class="gg-nav-spacer" aria-hidden="true"></div>
+
+<!-- ===================== MOBILE DRAWER ===================== -->
+<div class="gg-drawer" id="gg-drawer" role="dialog" aria-modal="true" aria-label="Navigation" aria-hidden="true">
+  <div class="gg-drawer__backdrop" id="gg-backdrop"></div>
+  <nav class="gg-drawer__panel">
+
+    <div class="gg-drawer__head">
+      <a href="{{ routes.root_url }}" class="gg-logo">
+        <div class="gg-logo__mark">GG</div>
+        <div>
+          <div class="gg-logo__name">GarageGains</div>
+          <div class="gg-logo__sub">Australia</div>
+        </div>
+      </a>
+      <button class="gg-drawer__close" id="gg-drawer-close" aria-label="Close menu">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path d="M18 6 6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="gg-drawer__links">
+      {%- assign nav_links = linklists[section.settings.menu].links -%}
+      {%- if nav_links.size > 0 -%}
+        {%- for link in nav_links -%}
+          <a
+            href="{{ link.url }}"
+            class="gg-drawer__link{% if link.title == 'Sale' or link.title == 'SALE' %} gg-drawer__link--sale{% endif %}"
+          >{{ link.title }}</a>
+        {%- endfor -%}
+      {%- else -%}
+        <a href="/collections/strength"      class="gg-drawer__link">Strength</a>
+        <a href="/collections/cardio"        class="gg-drawer__link">Cardio</a>
+        <a href="/collections/functional"    class="gg-drawer__link">Functional</a>
+        <a href="/collections/commercial"    class="gg-drawer__link">Commercial</a>
+        <a href="/collections/flooring-mats" class="gg-drawer__link">Flooring &amp; Mats</a>
+        <a href="/collections/sale"          class="gg-drawer__link gg-drawer__link--sale">Sale</a>
+        <a href="/pages/contact"             class="gg-drawer__link">Contact</a>
+      {%- endif -%}
+    </div>
+
+    <div class="gg-drawer__footer">
+      <a href="{{ routes.account_login_url }}" class="gg-drawer__signin">Sign In</a>
+      {%- if section.settings.support_text != blank -%}
+        <p class="gg-drawer__meta">{{ section.settings.support_text }}</p>
+      {%- endif -%}
+    </div>
+
+  </nav>
+</div>
+
+<script>
+  (function () {
+    var nav      = document.getElementById('gg-nav');
+    var burger   = document.getElementById('gg-burger');
+    var drawer   = document.getElementById('gg-drawer');
+    var backdrop = document.getElementById('gg-backdrop');
+    var closeBtn = document.getElementById('gg-drawer-close');
+    var lastY    = 0;
+    var ticking  = false;
+
+    function openMenu() {
+      drawer.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      burger.classList.add('is-active');
+      burger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      burger.classList.remove('is-active');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    burger.addEventListener('click', function () {
+      drawer.classList.contains('is-open') ? closeMenu() : openMenu();
+    });
+    backdrop.addEventListener('click', closeMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMenu();
+    });
+
+    /* --- Smart scroll: scrolled glass + hide on down / reveal on up --- */
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        var currentY = window.scrollY;
+
+        /* Scrolled-glass effect */
+        nav.classList.toggle('scrolled', currentY > 40);
+
+        /* Hide / reveal — only after scrolling 80px from top */
+        if (currentY > 80) {
+          if (currentY > lastY + 4) {
+            nav.classList.add('is-hidden');
+          } else if (currentY < lastY - 4) {
+            nav.classList.remove('is-hidden');
+          }
+        } else {
+          nav.classList.remove('is-hidden');
+        }
+
+        lastY   = currentY;
+        ticking = false;
+      });
+    }, { passive: true });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "GG – Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image",
+      "info": "Leave blank to use the GG mark + GarageGains wordmark"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation menu",
+      "default": "main-menu",
+      "info": "Set up a menu in Shopify admin → Navigation with links: Strength, Cardio, Functional, Commercial, Flooring & Mats, Sale, Contact"
+    },
+    {
+      "type": "text",
+      "id": "support_text",
+      "label": "Drawer footer text",
+      "default": "support@garagegains.com.au · Mon–Fri 9am–5pm AEST"
+    }
+  ]
+}
+{% endschema %}

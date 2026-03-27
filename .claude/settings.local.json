@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip -p garagegains-FINALv2.zip layout/theme.liquid)",
+      "Bash(unzip -p garagegains-FINALv2.zip assets/garagegains.css)"
+    ]
+  }
+}
