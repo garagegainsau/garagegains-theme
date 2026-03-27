@@ -1,0 +1,294 @@
+<!-- ===========================
+     Section: GG Hero v2
+     Full-bleed background photo
+     =========================== -->
+
+<section class="gg-hero-v2">
+
+  <!-- Background image -->
+  <div class="gg-hero-v2__bg fi">
+    {% if section.settings.bg_image %}
+      {{ section.settings.bg_image | image_url: width: 2000 | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          class: 'gg-hero-v2__photo',
+          alt: section.settings.bg_image.alt | default: 'GarageGains hero'
+      }}
+    {% else %}
+      <!-- Fallback dark gradient when no image is set -->
+      <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a1a 0%,#0d0d0d 100%);"></div>
+    {% endif %}
+  </div>
+
+  <!-- Overlays -->
+  <div class="gg-hero-v2__overlay"></div>
+  <div class="gg-hero-v2__glow"></div>
+
+  <!-- Content -->
+  <div class="gg-hero-v2__content">
+    <div class="gg-hero-v2__inner">
+
+      <p class="gg-hero-v2__eyebrow fu1">{{ section.settings.eyebrow }}</p>
+
+      <h1 class="gg-hero-v2__title fu2">
+        {{ section.settings.headline_line1 }}<br>
+        <span class="gg-hero-v2__accent">{{ section.settings.headline_line2 }}</span><br>
+        {{ section.settings.headline_line3 }}
+
+
+      </h1>
+
+      <p class="gg-hero-v2__body fu3">{{ section.settings.subheading }}</p>
+
+      <div class="gg-hero-v2__ctas fu4">
+        <a href="{{ section.settings.cta_primary_url }}" class="gg-hero-v2__btn-primary">
+          {{ section.settings.cta_primary_text }} &nbsp;&rarr;
+        </a>
+        <a href="{{ section.settings.cta_secondary_url }}" class="gg-hero-v2__btn-secondary">
+          {{ section.settings.cta_secondary_text }}
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- ===========================
+     Trust Bar (below hero)
+     =========================== -->
+<div class="gg-trustbar">
+  <div class="gg-trustbar__inner">
+    {% for block in section.blocks %}
+      {% if block.type == 'trust_item' %}
+        <div class="gg-trustbar__item" {{ block.shopify_attributes }}>
+          <span class="gg-trustbar__icon">{{ block.settings.icon }}</span>
+          <div>
+            <div class="gg-trustbar__title">{{ block.settings.title }}</div>
+            <div class="gg-trustbar__body">{{ block.settings.body }}</div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  /* ---- Hero v2 ---- */
+  .gg-hero-v2 {
+    position: relative;
+    height: 88vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .gg-hero-v2__bg {
+    position: absolute;
+    inset: 0;
+  }
+  .gg-hero-v2__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+  }
+  .gg-hero-v2__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(10,10,10,0.35) 0%,
+      rgba(10,10,10,0.20) 35%,
+      rgba(10,10,10,0.70) 70%,
+      rgba(10,10,10,0.95) 100%
+    );
+  }
+  .gg-hero-v2__glow {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse at 0% 100%, rgba(201,74,30,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .gg-hero-v2__content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+  .gg-hero-v2__inner {
+    width: 100%;
+    max-width: 700px;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 0 48px 80px 48px;
+  }
+  .gg-hero-v2__eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 18px;
+  }
+  .gg-hero-v2__title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 5.5rem; /* fixed size — consistent across screens */
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    color: var(--bone);
+    margin-bottom: 28px;
+  }
+  .gg-hero-v2__accent { color: var(--ember); }
+  .gg-hero-v2__body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    color: rgba(245,243,239,0.72);
+    line-height: 1.65;
+    max-width: 420px;
+    margin-bottom: 36px;
+  }
+  .gg-hero-v2__ctas { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .gg-hero-v2__btn-primary {
+    background: var(--ember);
+    color: var(--bone);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .gg-hero-v2__btn-primary:hover { background: var(--ember-light); transform: translateY(-1px); }
+  .gg-hero-v2__btn-secondary {
+    background: transparent;
+    color: var(--bone);
+    border: 1px solid rgba(245,243,239,0.3);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.88rem;
+    padding: 13px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: border-color 0.2s;
+  }
+  .gg-hero-v2__btn-secondary:hover { border-color: rgba(245,243,239,0.7); }
+
+  /* ---- Trust Bar ---- */
+  .gg-trustbar {
+    background: #0D0D0D;
+    border-bottom: 1px solid #1A1A1A;
+  }
+  .gg-trustbar__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid #1A1A1A;
+  }
+  .gg-trustbar__item {
+    padding: 28px 20px;
+    border-right: 1px solid #1A1A1A;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .gg-trustbar__item:last-child { border-right: none; }
+  .gg-trustbar__icon { font-size: 1.3rem; margin-top: 2px; flex-shrink: 0; }
+  .gg-trustbar__title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 4px;
+  }
+  .gg-trustbar__body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    color: var(--steel);
+    line-height: 1.4;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 1024px) {
+    .gg-hero-v2__title { font-size: 4.5rem; }
+    .gg-hero-v2__inner { padding: 0 40px 80px 40px; }
+  }
+  @media (max-width: 768px) {
+    .gg-hero-v2__title { font-size: 3.5rem; }
+    .gg-hero-v2__inner { padding: 0 24px 60px 24px; }
+    .gg-trustbar__inner { grid-template-columns: 1fr 1fr; }
+    .gg-trustbar__item { border-right: none; border-bottom: 1px solid #1A1A1A; }
+    .gg-trustbar__item:nth-child(odd) { border-right: 1px solid #1A1A1A; }
+    .gg-trustbar__item:last-child { border-bottom: none; }
+  }
+  @media (max-width: 480px) {
+    .gg-hero-v2__title { font-size: 3rem; }
+    .gg-trustbar__inner { grid-template-columns: 1fr; }
+    .gg-trustbar__item:nth-child(odd) { border-right: none; }
+  }
+
+  /* ---- Fade-in animations ---- */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .fi  { animation: fadeIn  1.2s ease both; }
+  .fu1 { animation: fadeUp 0.8s 0.10s ease both; }
+  .fu2 { animation: fadeUp 0.8s 0.25s ease both; }
+  .fu3 { animation: fadeUp 0.8s 0.45s ease both; }
+  .fu4 { animation: fadeUp 0.8s 0.60s ease both; }
+</style>
+
+
+{% schema %}
+{
+  "name": "GG – Hero (Photo)",
+  "settings": [
+    { "type": "image_picker", "id": "bg_image",           "label": "Background photo",        "info": "Recommended: dark, moody gym photo. Min 1600px wide." },
+    { "type": "text",         "id": "eyebrow",            "label": "Eyebrow text",            "default": "Australia's Garage Gym Store" },
+    { "type": "text",         "id": "headline_line1",     "label": "Headline line 1",         "default": "BUILD YOUR" },
+    { "type": "text",         "id": "headline_line2",     "label": "Headline line 2 (ember)", "default": "GARAGE" },
+    { "type": "text",         "id": "headline_line3",     "label": "Headline line 3",         "default": "GYM." },
+    { "type": "textarea",     "id": "subheading",         "label": "Subheading",              "default": "Commercial-grade equipment, without the commercial price tag. Built for everyday Australians who train hard." },
+    { "type": "text",         "id": "cta_primary_text",   "label": "Primary button text",     "default": "Shop Now" },
+    { "type": "url",          "id": "cta_primary_url",    "label": "Primary button link" },
+    { "type": "text",         "id": "cta_secondary_text", "label": "Secondary button text",   "default": "View Categories" },
+    { "type": "url",          "id": "cta_secondary_url",  "label": "Secondary button link" }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "limit": 4,
+      "settings": [
+        { "type": "text",     "id": "icon",  "label": "Emoji icon", "default": "🚚" },
+        { "type": "text",     "id": "title", "label": "Title",      "default": "FREE DELIVERY" },
+        { "type": "textarea", "id": "body",  "label": "Body",       "default": "On all orders over $199" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "GG – Hero (Photo)",
+    "blocks": [
+      { "type": "trust_item", "settings": { "icon": "🚚", "title": "FREE DELIVERY",  "body": "On all orders over $199" } },
+      { "type": "trust_item", "settings": { "icon": "🔄", "title": "30 DAY RETURNS", "body": "Easy, no-hassle returns" } },
+      { "type": "trust_item", "settings": { "icon": "🛡️", "title": "2-YEAR WARRANTY","body": "On all equipment" } },
+      { "type": "trust_item", "settings": { "icon": "🔒", "title": "SECURE PAYMENT", "body": "Protected checkout" } }
+    ]
+  }]
+}
+{% endschema %}

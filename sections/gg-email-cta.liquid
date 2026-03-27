@@ -1,0 +1,53 @@
+<!-- ===========================
+     Section: GG Email CTA Banner
+     =========================== -->
+
+<div class="gg-banner">
+  <div class="gg-banner__inner">
+    <div class="gg-banner__glow"></div>
+    <div class="gg-banner__line"></div>
+
+    <div>
+      <p class="section-label">{{ section.settings.eyebrow }}</p>
+      <h2 class="gg-banner__title">
+        {{ section.settings.headline }}<br>
+        <span>{{ section.settings.headline_accent }}</span>
+      </h2>
+      <p class="gg-banner__body">{{ section.settings.body }}</p>
+    </div>
+
+    {% form 'customer', id: 'gg-email-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="gg-banner__form">
+        <input
+          class="gg-banner__input"
+          type="email"
+          name="contact[email]"
+          placeholder="{{ section.settings.input_placeholder }}"
+          required
+        >
+        <button type="submit" class="btn-primary">
+          {{ section.settings.cta_text }}
+        </button>
+      </div>
+      {% if form.posted_successfully? %}
+        <p style="color:#4CAF50; font-size:0.85rem; margin-top:10px;">✓ You're in! Check your inbox for your 10% off code.</p>
+      {% endif %}
+    {% endform %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "GG – Email CTA",
+  "settings": [
+    { "type": "text",     "id": "eyebrow",           "label": "Eyebrow",             "default": "Limited Time" },
+    { "type": "text",     "id": "headline",           "label": "Headline",            "default": "Get 10% Off" },
+    { "type": "text",     "id": "headline_accent",    "label": "Headline (accent)",   "default": "Your First Order" },
+    { "type": "textarea", "id": "body",               "label": "Body text",           "default": "Join the GarageGains community. Sign up and receive 10% off your first order, plus early access to new products and exclusive deals." },
+    { "type": "text",     "id": "input_placeholder",  "label": "Email placeholder",   "default": "your@email.com.au" },
+    { "type": "text",     "id": "cta_text",           "label": "Button text",         "default": "Claim 10% Off" }
+  ],
+  "presets": [{ "name": "GG – Email CTA" }]
+}
+{% endschema %}

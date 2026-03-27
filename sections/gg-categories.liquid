@@ -1,0 +1,71 @@
+<!-- ===========================
+     Section: GG Categories
+     =========================== -->
+
+<section class="gg-section" style="padding-bottom: 0;">
+  <div class="gg-section__header">
+    <div>
+      <p class="section-label">{{ section.settings.eyebrow }}</p>
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+    </div>
+    <a href="{{ section.settings.view_all_url }}" class="gg-section__more">
+      View All &rarr;
+    </a>
+  </div>
+
+  <div class="gg-cats">
+    {% for block in section.blocks %}
+      {% if block.type == 'category' %}
+        <a href="{{ block.settings.url }}" class="gg-cat-card" style="background: {{ block.settings.bg_color }};">
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 600 | image_tag: class: 'cat-bg', loading: 'lazy', alt: block.settings.name }}
+          {% else %}
+            <span>{{ block.settings.emoji }}</span>
+          {% endif %}
+          <div class="gg-cat-card__info">
+            {% if block.settings.tag != blank %}
+              <div class="gg-cat-card__tag">{{ block.settings.tag }}</div>
+            {% endif %}
+            <div class="gg-cat-card__name">{{ block.settings.name }}</div>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GG – Categories",
+  "settings": [
+    { "type": "text", "id": "eyebrow",      "label": "Eyebrow",       "default": "Browse" },
+    { "type": "text", "id": "title",        "label": "Title",         "default": "Shop By Category" },
+    { "type": "url",  "id": "view_all_url", "label": "View all link" }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        { "type": "text",         "id": "name",     "label": "Name",            "default": "Power Racks & Cages" },
+        { "type": "url",          "id": "url",      "label": "Link" },
+        { "type": "text",         "id": "emoji",    "label": "Emoji (fallback)", "default": "🏗️" },
+        { "type": "image_picker", "id": "image",    "label": "Category image" },
+        { "type": "text",         "id": "tag",      "label": "Badge label (optional)" },
+        { "type": "color",        "id": "bg_color", "label": "Background colour", "default": "#1A1A1A" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "GG – Categories",
+    "blocks": [
+      { "type": "category", "settings": { "name": "Power Racks & Cages",      "emoji": "🏗️", "tag": "Most Popular" } },
+      { "type": "category", "settings": { "name": "Barbells & Weights",        "emoji": "🏋️" } },
+      { "type": "category", "settings": { "name": "Dumbbells & Kettlebells",   "emoji": "💪", "tag": "New In" } },
+      { "type": "category", "settings": { "name": "Benches",                   "emoji": "🛋️" } },
+      { "type": "category", "settings": { "name": "Cardio",                    "emoji": "🚴" } },
+      { "type": "category", "settings": { "name": "Mats & Flooring",           "emoji": "🟫", "tag": "Best Value" } }
+    ]
+  }]
+}
+{% endschema %}

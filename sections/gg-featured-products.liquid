@@ -1,0 +1,131 @@
+<!-- ===========================
+     Section: GG Featured Products
+     =========================== -->
+
+<section class="gg-section">
+  <div class="gg-section__header">
+    <div>
+      <p class="section-label">{{ section.settings.eyebrow }}</p>
+      <h2 class="section-title">{{ section.settings.title }}</h2>
+    </div>
+    <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="gg-section__more">
+      All Products &rarr;
+    </a>
+  </div>
+
+  <div class="gg-products" id="featured">
+    {% assign featured = collections[section.settings.collection] %}
+    {% if featured != blank %}
+      {% for product in featured.products limit: section.settings.product_count %}
+        <div class="gg-product-card">
+
+          <!-- Thumbnail -->
+          <div class="gg-product-card__thumb">
+            {% if product.featured_image %}
+              <img
+                src="{{ product.featured_image | image_url: width: 400 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                class="gg-product-card__img"
+                loading="lazy"
+                width="400"
+              >
+            {% else %}
+              <span class="gg-product-card__img" style="font-size:4.5rem;">🏋️</span>
+            {% endif %}
+
+            {% if product.compare_at_price > product.price %}
+              <div class="gg-product-card__badge gg-product-card__badge--sale">Sale</div>
+            {% elsif product.tags contains 'new-arrival' %}
+              <div class="gg-product-card__badge">New Arrival</div>
+            {% elsif product.tags contains 'best-seller' %}
+              <div class="gg-product-card__badge">Best Seller</div>
+            {% endif %}
+          </div>
+
+          <!-- Body -->
+          <div class="gg-product-card__body">
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+              <span class="gg-product-card__stars">★★★★★</span>
+            </div>
+            <div class="gg-product-card__title">{{ product.title }}</div>
+            <div class="gg-product-card__footer">
+              <div>
+                <span class="gg-product-card__price">{{ product.price | money }}</span>
+                {% if product.compare_at_price > product.price %}
+                  <span class="gg-product-card__was">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
+              <button
+                class="gg-product-card__add"
+                data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                onclick="addToCart(this)"
+              >
+                Add +
+              </button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <!-- Placeholder cards shown until a collection is assigned in the editor -->
+      {% for i in (1..4) %}
+        <div class="gg-product-card">
+          <div class="gg-product-card__thumb">
+            <span class="gg-product-card__img" style="font-size:4.5rem;">🏋️</span>
+          </div>
+          <div class="gg-product-card__body">
+            <div class="gg-product-card__title">Sample Product {{ i }}</div>
+            <div class="gg-product-card__footer">
+              <span class="gg-product-card__price">$199.00</span>
+              <button class="gg-product-card__add">Add +</button>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</section>
+
+<!-- Ajax Add to Cart -->
+<script>
+function addToCart(btn) {
+  const variantId = btn.dataset.variantId;
+  if (!variantId) return;
+  btn.textContent = '✓ Added';
+  btn.style.background = '#2E7D32';
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: variantId, quantity: 1 })
+  })
+  .then(r => r.json())
+  .then(() => {
+    // Update cart count in nav
+    return fetch('/cart.js');
+  })
+  .then(r => r.json())
+  .then(cart => {
+    const badge = document.getElementById('cart-count');
+    if (badge) badge.textContent = cart.item_count;
+    setTimeout(() => {
+      btn.textContent = 'Add +';
+      btn.style.background = '';
+    }, 1800);
+  })
+  .catch(console.error);
+}
+</script>
+
+{% schema %}
+{
+  "name": "GG – Featured Products",
+  "settings": [
+    { "type": "text",       "id": "eyebrow",       "label": "Eyebrow",           "default": "Handpicked" },
+    { "type": "text",       "id": "title",         "label": "Title",             "default": "Featured Gear" },
+    { "type": "collection", "id": "collection",    "label": "Collection to show" },
+    { "type": "range",      "id": "product_count", "label": "Number of products", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "url",        "id": "view_all_url",  "label": "View all link" }
+  ],
+  "presets": [{ "name": "GG – Featured Products" }]
+}
+{% endschema %}

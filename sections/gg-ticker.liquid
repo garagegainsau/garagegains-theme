@@ -1,0 +1,28 @@
+<!-- ===========================
+     Section: GG Ticker Banner
+     =========================== -->
+
+<div class="gg-ticker">
+  <div class="gg-ticker__track">
+    {% assign items = section.settings.ticker_text | split: ',' %}
+    {% assign doubled = items | concat: items %}
+    {% for item in doubled %}
+      <span class="gg-ticker__item">{{ item | strip }}</span>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "GG – Ticker Banner",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "ticker_text",
+      "label": "Ticker items (comma separated)",
+      "default": "Power Racks, Olympic Barbells, Adjustable Dumbbells, Gym Benches, Kettlebells, Resistance Bands, Cardio Equipment, Gym Mats, Pull-Up Bars"
+    }
+  ],
+  "presets": [{ "name": "GG – Ticker Banner" }]
+}
+{% endschema %}
