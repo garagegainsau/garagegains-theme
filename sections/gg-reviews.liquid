@@ -1,65 +1,144 @@
-<!-- ===========================
-     Section: GG Reviews
-     =========================== -->
+{% comment %}
+  Section: GG Reviews
+  File: sections/gg-reviews.liquid
+  Description: 3-column customer review grid — fully editable via Theme Editor
+{% endcomment %}
 
-<section class="gg-section" style="padding-top: 0;">
-  <div class="gg-section__header">
-    <div>
-      <p class="section-label">{{ section.settings.eyebrow }}</p>
-      <h2 class="section-title">{{ section.settings.title }}</h2>
-    </div>
-    <div style="display:flex; align-items:center; gap:10px;">
-      <span style="color:#F5A623; font-size:0.9rem;">★★★★★</span>
-      <span style="font-size:0.82rem; color:var(--steel);">{{ section.settings.aggregate_rating }} from {{ section.settings.total_reviews }}</span>
-    </div>
+<section class="gg-section" style="padding-top:0;">
+
+  <div class="gg-sec-head">
+    <span class="gg-sec-head__label">{{ section.settings.eyebrow }}</span>
+    <h2 class="gg-sec-head__title">{{ section.settings.title }}</h2>
+    {%- if section.settings.aggregate_rating != blank -%}
+      <p class="gg-sec-head__desc" style="font-size:14px;">
+        <span style="color:#F5A623; letter-spacing:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        &nbsp;{{ section.settings.aggregate_rating }}
+        {%- if section.settings.total_reviews != blank -%}
+          &nbsp;&mdash;&nbsp;{{ section.settings.total_reviews }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
   </div>
 
-  <div class="gg-reviews">
-    {% for block in section.blocks %}
-      {% if block.type == 'review' %}
+  <div class="gg-reviews-grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'review' -%}
         <div class="gg-review-card" {{ block.shopify_attributes }}>
           <div class="gg-review-card__stars">
-            {% for i in (1..block.settings.stars) %}★{% endfor %}
+            {%- for i in (1..block.settings.stars) -%}&#9733;{%- endfor -%}
+            {%- assign empty_stars = 5 | minus: block.settings.stars -%}
+            {%- for i in (1..empty_stars) -%}<span style="opacity:0.2;">&#9733;</span>{%- endfor -%}
           </div>
-          <p class="gg-review-card__text">"{{ block.settings.text }}"</p>
+          <p class="gg-review-card__text">&ldquo;{{ block.settings.text }}&rdquo;</p>
           <div class="gg-review-card__footer">
             <span class="gg-review-card__name">{{ block.settings.name }}</span>
-            <span class="gg-review-card__location">{{ block.settings.location }}</span>
+            {%- if block.settings.location != blank -%}
+              <span class="gg-review-card__location">{{ block.settings.location }}</span>
+            {%- endif -%}
           </div>
         </div>
-      {% endif %}
-    {% endfor %}
+      {%- endif -%}
+    {%- endfor -%}
   </div>
+
 </section>
 
 {% schema %}
 {
-  "name": "GG – Reviews",
+  "name": "GG \u2013 Reviews",
   "settings": [
-    { "type": "text", "id": "eyebrow",          "label": "Eyebrow",           "default": "Real Customers" },
-    { "type": "text", "id": "title",            "label": "Title",             "default": "What They're Saying" },
-    { "type": "text", "id": "aggregate_rating", "label": "Aggregate rating",  "default": "4.9 / 5" },
-    { "type": "text", "id": "total_reviews",    "label": "Total reviews text", "default": "2,400+ reviews" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Real Customers"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What They're Saying"
+    },
+    {
+      "type": "text",
+      "id": "aggregate_rating",
+      "label": "Aggregate rating (e.g. 4.9 / 5)",
+      "default": "4.9 / 5"
+    },
+    {
+      "type": "text",
+      "id": "total_reviews",
+      "label": "Total reviews text",
+      "default": "2,400+ verified reviews"
+    }
   ],
   "blocks": [
     {
       "type": "review",
       "name": "Review",
       "settings": [
-        { "type": "range",    "id": "stars",    "label": "Stars",    "min": 1, "max": 5, "default": 5 },
-        { "type": "textarea", "id": "text",     "label": "Review text" },
-        { "type": "text",     "id": "name",     "label": "Reviewer name",     "default": "Mitch T." },
-        { "type": "text",     "id": "location", "label": "Reviewer location", "default": "Brisbane, QLD" }
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Star rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Reviewer name",
+          "default": "Mitch T."
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Reviewer location",
+          "default": "Brisbane, QLD"
+        }
       ]
     }
   ],
-  "presets": [{
-    "name": "GG – Reviews",
-    "blocks": [
-      { "type": "review", "settings": { "stars": 5, "name": "Mitch T.",  "location": "Brisbane, QLD",  "text": "Set up my full garage gym in a weekend. Quality is legit — feels like gear that'll last 20 years. Fast shipping too." } },
-      { "type": "review", "settings": { "stars": 5, "name": "Sarah K.",  "location": "Melbourne, VIC", "text": "Finally a store that gets it — no fluff, straight-up solid equipment at prices that don't need a second mortgage." } },
-      { "type": "review", "settings": { "stars": 5, "name": "Dave R.",   "location": "Perth, WA",      "text": "Power rack is rock solid. Cheaper than going to a commercial gym for a year. Couldn't be happier." } }
-    ]
-  }]
+  "presets": [
+    {
+      "name": "GG \u2013 Reviews",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "name": "Mitch T.",
+            "location": "Brisbane, QLD",
+            "text": "Set up my full garage gym in a weekend. Quality is legit \u2014 feels like gear that\u2019ll last 20 years. Fast shipping too."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "name": "Sarah K.",
+            "location": "Melbourne, VIC",
+            "text": "Finally a store that gets it \u2014 no fluff, straight-up solid equipment at prices that don\u2019t need a second mortgage."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "name": "Dave R.",
+            "location": "Perth, WA",
+            "text": "Power rack is rock solid. Cheaper than going to a commercial gym for a year. Couldn\u2019t be happier."
+          }
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

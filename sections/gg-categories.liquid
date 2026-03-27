@@ -1,71 +1,200 @@
-<!-- ===========================
-     Section: GG Categories
-     =========================== -->
+{% comment %}
+  Section: GG Categories
+  File: sections/gg-categories.liquid
+  Description: Shop by category — portrait program cards in TransformFitness style with image on top, text below
+{% endcomment %}
 
-<section class="gg-section" style="padding-bottom: 0;">
-  <div class="gg-section__header">
-    <div>
-      <p class="section-label">{{ section.settings.eyebrow }}</p>
-      <h2 class="section-title">{{ section.settings.title }}</h2>
-    </div>
-    <a href="{{ section.settings.view_all_url }}" class="gg-section__more">
-      View All &rarr;
-    </a>
+<section class="gg-section">
+
+  <div class="gg-sec-head">
+    <span class="gg-sec-head__label">{{ section.settings.eyebrow }}</span>
+    <h2 class="gg-sec-head__title">{{ section.settings.title }}</h2>
+    {%- if section.settings.description != blank -%}
+      <p class="gg-sec-head__desc">{{ section.settings.description }}</p>
+    {%- endif -%}
   </div>
 
-  <div class="gg-cats">
-    {% for block in section.blocks %}
-      {% if block.type == 'category' %}
-        <a href="{{ block.settings.url }}" class="gg-cat-card" style="background: {{ block.settings.bg_color }};">
-          {% if block.settings.image %}
-            {{ block.settings.image | image_url: width: 600 | image_tag: class: 'cat-bg', loading: 'lazy', alt: block.settings.name }}
-          {% else %}
-            <span>{{ block.settings.emoji }}</span>
-          {% endif %}
-          <div class="gg-cat-card__info">
-            {% if block.settings.tag != blank %}
-              <div class="gg-cat-card__tag">{{ block.settings.tag }}</div>
-            {% endif %}
-            <div class="gg-cat-card__name">{{ block.settings.name }}</div>
+  <div class="gg-program-grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'category' -%}
+        <a href="{{ block.settings.url }}" class="gg-program-card" {{ block.shopify_attributes }}>
+
+          {%- if block.settings.image != blank -%}
+            <div class="gg-program-card__img-wrap">
+              {{
+                block.settings.image
+                | image_url: width: 800, format: 'webp'
+                | image_tag:
+                    loading: 'lazy',
+                    alt: block.settings.name,
+                    width: 800
+              }}
+            </div>
+          {%- else -%}
+            <div class="gg-program-card__emoji-wrap">
+              {{ block.settings.emoji }}
+            </div>
+          {%- endif -%}
+
+          <div class="gg-program-card__body">
+            {%- if block.settings.tag != blank -%}
+              <span class="gg-program-card__tag">{{ block.settings.tag }}</span>
+            {%- endif -%}
+            <h3 class="gg-program-card__title">{{ block.settings.name }}</h3>
+            {%- if block.settings.description != blank -%}
+              <p class="gg-program-card__desc">{{ block.settings.description }}</p>
+            {%- endif -%}
+            <div class="gg-program-card__cta">
+              <span class="gg-btn gg-btn--primary gg-btn--sm">
+                <span class="gg-btn__label">Shop Now &rarr;</span>
+                <span class="gg-btn__bg"></span>
+                <span class="gg-btn__outline"></span>
+              </span>
+            </div>
           </div>
+
         </a>
-      {% endif %}
-    {% endfor %}
+      {%- endif -%}
+    {%- endfor -%}
   </div>
+
+  {%- if section.settings.view_all_url != blank -%}
+    <div style="text-align:center; margin-top:48px;">
+      <a href="{{ section.settings.view_all_url }}" class="gg-btn gg-btn--secondary">
+        <span class="gg-btn__label">View All Categories &rarr;</span>
+        <div class="gg-btn__bg"></div>
+        <div class="gg-btn__outline"></div>
+      </a>
+    </div>
+  {%- endif -%}
+
 </section>
 
 {% schema %}
 {
-  "name": "GG – Categories",
+  "name": "GG \u2013 Categories",
   "settings": [
-    { "type": "text", "id": "eyebrow",      "label": "Eyebrow",       "default": "Browse" },
-    { "type": "text", "id": "title",        "label": "Title",         "default": "Shop By Category" },
-    { "type": "url",  "id": "view_all_url", "label": "View all link" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Browse"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Shop By Category"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Section description",
+      "default": "Find the right equipment for your home gym setup."
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all link"
+    }
   ],
   "blocks": [
     {
       "type": "category",
       "name": "Category",
       "settings": [
-        { "type": "text",         "id": "name",     "label": "Name",            "default": "Power Racks & Cages" },
-        { "type": "url",          "id": "url",      "label": "Link" },
-        { "type": "text",         "id": "emoji",    "label": "Emoji (fallback)", "default": "🏗️" },
-        { "type": "image_picker", "id": "image",    "label": "Category image" },
-        { "type": "text",         "id": "tag",      "label": "Badge label (optional)" },
-        { "type": "color",        "id": "bg_color", "label": "Background colour", "default": "#1A1A1A" }
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Category name",
+          "default": "Power Racks"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Category link"
+        },
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji fallback (if no image)",
+          "default": "\ud83c\udfd7\ufe0f"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category image"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Badge label (optional)"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Short description"
+        }
       ]
     }
   ],
-  "presets": [{
-    "name": "GG – Categories",
-    "blocks": [
-      { "type": "category", "settings": { "name": "Power Racks & Cages",      "emoji": "🏗️", "tag": "Most Popular" } },
-      { "type": "category", "settings": { "name": "Barbells & Weights",        "emoji": "🏋️" } },
-      { "type": "category", "settings": { "name": "Dumbbells & Kettlebells",   "emoji": "💪", "tag": "New In" } },
-      { "type": "category", "settings": { "name": "Benches",                   "emoji": "🛋️" } },
-      { "type": "category", "settings": { "name": "Cardio",                    "emoji": "🚴" } },
-      { "type": "category", "settings": { "name": "Mats & Flooring",           "emoji": "🟫", "tag": "Best Value" } }
-    ]
-  }]
+  "presets": [
+    {
+      "name": "GG \u2013 Categories",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "name": "Power Racks & Cages",
+            "emoji": "\ud83c\udfd7\ufe0f",
+            "tag": "Most Popular",
+            "description": "Commercial-gauge steel squat racks for every budget."
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "name": "Barbells & Weights",
+            "emoji": "\ud83c\udfcb\ufe0f",
+            "description": "Olympic and standard barbells, weight plates, and bumpers."
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "name": "Dumbbells & Kettlebells",
+            "emoji": "\ud83d\udcaa",
+            "tag": "New In",
+            "description": "Fixed, adjustable, and hex dumbbells. Competition kettlebells."
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "name": "Benches",
+            "emoji": "\ud83d\udecc",
+            "description": "Flat, incline, and adjustable benches rated for heavy loads."
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "name": "Cardio",
+            "emoji": "\ud83d\udeb4",
+            "description": "Treadmills, rowers, assault bikes, and ski ergs."
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "name": "Mats & Flooring",
+            "emoji": "\ud83d\udfe9",
+            "tag": "Best Value",
+            "description": "Rubber gym tiles, horse stall mats, and interlocking flooring."
+          }
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

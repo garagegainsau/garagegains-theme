@@ -1,55 +1,55 @@
 {% comment %}
   Section: GG Hero
   File: sections/gg-hero.liquid
-  Description: Full-bleed homepage hero with trust bar — matches ggshopifyMAIN
+  Description: Full-viewport hero — content anchored to bottom-left, image visible right side, TransformFitness-style
 {% endcomment %}
 
-<section class="gg-hero-v2">
+<section class="gg-hero">
 
   <!-- Background image -->
-  <div class="gg-hero-v2__bg fi">
-    {% if section.settings.bg_image %}
-      {{ section.settings.bg_image | image_url: width: 2400, format: 'webp' | image_tag:
-          loading: 'eager',
-          fetchpriority: 'high',
-          class: 'gg-hero-v2__photo',
-          alt: section.settings.bg_image.alt | default: 'GarageGains hero'
+  <div class="gg-hero__bg">
+    {%- if section.settings.bg_image != blank -%}
+      {{
+        section.settings.bg_image
+        | image_url: width: 2400, format: 'webp'
+        | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            class: 'gg-hero__photo',
+            alt: section.settings.bg_image.alt | default: 'GarageGains hero'
       }}
-    {% else %}
-      <img
-        src="{{ 'gg-hero-bg.jpg' | asset_url }}"
-        alt="GarageGains — Redefining Performance"
-        class="gg-hero-v2__photo"
-        loading="eager"
-        fetchpriority="high"
-      >
-    {% endif %}
+    {%- else -%}
+      <div class="gg-hero__photo-placeholder"></div>
+    {%- endif -%}
   </div>
 
-  <!-- Overlays -->
-  <div class="gg-hero-v2__overlay"></div>
-  <div class="gg-hero-v2__glow"></div>
+  <!-- Left-to-right gradient overlay -->
+  <div class="gg-hero__overlay"></div>
 
-  <!-- Content -->
-  <div class="gg-hero-v2__content">
-    <div class="gg-hero-v2__inner">
+  <!-- Content — bottom-left anchored -->
+  <div class="gg-hero__content">
+    <div class="gg-hero__inner">
 
-      <p class="gg-hero-v2__eyebrow fu1">{{ section.settings.eyebrow }}</p>
+      <p class="gg-hero__eyebrow fu1">{{ section.settings.eyebrow }}</p>
 
-      <h1 class="gg-hero-v2__title fu2">
+      <h1 class="gg-hero__title fu2">
         {{ section.settings.headline_line1 }}<br>
-        <span class="gg-hero-v2__accent">{{ section.settings.headline_line2 }}</span>
-        {%- if section.settings.headline_line3 != blank %}<br>{{ section.settings.headline_line3 }}{% endif %}
+        <span class="gg-hero__accent">{{ section.settings.headline_line2 }}</span>
+        {%- if section.settings.headline_line3 != blank %}<br>{{ section.settings.headline_line3 }}{%- endif -%}
       </h1>
 
-      <p class="gg-hero-v2__body fu3">{{ section.settings.subheading }}</p>
+      <p class="gg-hero__body fu3">{{ section.settings.subheading }}</p>
 
-      <div class="gg-hero-v2__ctas fu4">
-        <a href="{{ section.settings.cta_primary_url }}" class="gg-hero-v2__btn-primary">
-          {{ section.settings.cta_primary_text }} &nbsp;&rarr;
+      <div class="gg-hero__ctas fu4">
+        <a href="{{ section.settings.cta_primary_url }}" class="gg-btn gg-btn--primary">
+          <span class="gg-btn__label">{{ section.settings.cta_primary_text }} &nbsp;&rarr;</span>
+          <div class="gg-btn__bg"></div>
+          <div class="gg-btn__outline"></div>
         </a>
-        <a href="{{ section.settings.cta_secondary_url }}" class="gg-hero-v2__btn-secondary">
-          {{ section.settings.cta_secondary_text }}
+        <a href="{{ section.settings.cta_secondary_url }}" class="gg-btn gg-btn--secondary">
+          <span class="gg-btn__label">{{ section.settings.cta_secondary_text }}</span>
+          <div class="gg-btn__bg"></div>
+          <div class="gg-btn__outline"></div>
         </a>
       </div>
 
@@ -61,8 +61,8 @@
 <!-- Trust Bar -->
 <div class="gg-trustbar">
   <div class="gg-trustbar__inner">
-    {% for block in section.blocks %}
-      {% if block.type == 'trust_item' %}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'trust_item' -%}
         <div class="gg-trustbar__item" {{ block.shopify_attributes }}>
           <span class="gg-trustbar__icon">{{ block.settings.icon }}</span>
           <div>
@@ -70,211 +70,248 @@
             <div class="gg-trustbar__body">{{ block.settings.body }}</div>
           </div>
         </div>
-      {% endif %}
-    {% endfor %}
+      {%- endif -%}
+    {%- endfor -%}
   </div>
 </div>
 
 <style>
   /* ---- Hero ---- */
-  .gg-hero-v2 {
+  .gg-hero {
     position: relative;
-    height: 88vh;
-    min-height: 600px;
+    height: 100vh;
+    min-height: 640px;
     overflow: hidden;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
   }
-  .gg-hero-v2__bg {
+
+  .gg-hero__bg {
     position: absolute;
     inset: 0;
   }
-  .gg-hero-v2__photo {
+
+  .gg-hero__photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 65% 30%;
+    object-position: 65% center;
     display: block;
   }
-  .gg-hero-v2__overlay {
+
+  .gg-hero__photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+  }
+
+  /* Dark on left so text is legible, fades right to reveal gym photo */
+  .gg-hero__overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      to bottom,
-      rgba(10,10,10,0.35) 0%,
-      rgba(10,10,10,0.20) 35%,
-      rgba(10,10,10,0.70) 70%,
-      rgba(10,10,10,0.95) 100%
+      to right,
+      rgba(10,10,10,0.97) 0%,
+      rgba(10,10,10,0.88) 30%,
+      rgba(10,10,10,0.45) 60%,
+      rgba(10,10,10,0.08) 100%
     );
   }
-  .gg-hero-v2__glow {
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 500px; height: 300px;
-    background: radial-gradient(ellipse at 0% 100%, rgba(201,74,30,0.18) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .gg-hero-v2__content {
+
+  .gg-hero__content {
     position: relative;
     z-index: 2;
     width: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
   }
-  .gg-hero-v2__inner {
+
+  .gg-hero__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 120px 32px 80px;
     width: 100%;
-    max-width: 700px;
-    margin-left: 0;
-    margin-right: auto;
-    padding: 0 48px 80px 48px;
   }
-  .gg-hero-v2__eyebrow {
+
+  .gg-hero__eyebrow {
     font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
     font-weight: 600;
+    font-size: 11px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--ember);
-    margin-bottom: 18px;
+    margin-bottom: 20px;
   }
-  .gg-hero-v2__title {
+
+  .gg-hero__title {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 900;
-    font-size: 88px;
+    font-size: clamp(36px, 8vw, 88px);
     text-transform: uppercase;
-    line-height: 0.9;
+    line-height: 0.92;
     letter-spacing: -0.01em;
     color: var(--bone);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
-  .gg-hero-v2__accent { color: var(--ember); }
-  .gg-hero-v2__body {
+
+  .gg-hero__accent { color: var(--ember); }
+
+  .gg-hero__body {
     font-family: 'DM Sans', sans-serif;
     font-size: 16px;
-    color: rgba(245,243,239,0.72);
-    line-height: 1.65;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
     max-width: 420px;
-    margin-bottom: 36px;
+    margin-bottom: 40px;
   }
-  .gg-hero-v2__ctas {
+
+  .gg-hero__ctas {
     display: flex;
-    gap: 12px;
-    align-items: center;
+    gap: 16px;
     flex-wrap: wrap;
   }
-  .gg-hero-v2__btn-primary {
-    background: var(--ember);
-    color: var(--bone);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 14px 32px;
-    border-radius: 4px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    transition: background 0.2s, transform 0.15s;
-  }
-  .gg-hero-v2__btn-primary:hover { background: var(--ember-light); transform: translateY(-1px); }
-  .gg-hero-v2__btn-secondary {
-    background: transparent;
-    color: var(--bone);
-    border: 1px solid rgba(245,243,239,0.3);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    padding: 13px 24px;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: border-color 0.2s;
-  }
-  .gg-hero-v2__btn-secondary:hover { border-color: rgba(245,243,239,0.7); }
 
   /* ---- Trust Bar ---- */
   .gg-trustbar {
-    background: #0D0D0D;
-    border-bottom: 1px solid #1A1A1A;
+    background: #0a0a0a;
+    border-bottom: 1px solid #1a1a1a;
   }
+
   .gg-trustbar__inner {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 32px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid #1A1A1A;
+    border-top: 1px solid #1a1a1a;
   }
+
   .gg-trustbar__item {
-    padding: 28px 20px;
-    border-right: 1px solid #1A1A1A;
+    padding: 24px 20px;
+    border-right: 1px solid #1a1a1a;
     display: flex;
     align-items: flex-start;
     gap: 14px;
   }
+
   .gg-trustbar__item:last-child { border-right: none; }
-  .gg-trustbar__icon { font-size: 21px; margin-top: 2px; flex-shrink: 0; }
+
+  .gg-trustbar__icon {
+    font-size: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
   .gg-trustbar__title {
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 13px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ember);
-    margin-bottom: 4px;
+    color: var(--bone);
+    margin-bottom: 3px;
+    line-height: 1.2;
   }
+
   .gg-trustbar__body {
     font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    color: var(--steel);
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
     line-height: 1.4;
   }
 
   /* ---- Responsive ---- */
   @media (max-width: 1024px) {
-    .gg-hero-v2__title { font-size: 72px; }
-    .gg-hero-v2__inner { padding: 0 40px 80px 40px; }
-  }
-  @media (max-width: 768px) {
-    .gg-hero-v2__title { font-size: 56px; }
-    .gg-hero-v2__inner { padding: 0 24px 60px 24px; }
-    .gg-trustbar__inner { grid-template-columns: 1fr 1fr; }
-    .gg-trustbar__item { border-right: none; border-bottom: 1px solid #1A1A1A; }
-    .gg-trustbar__item:nth-child(odd) { border-right: 1px solid #1A1A1A; }
-    .gg-trustbar__item:last-child { border-bottom: none; }
-  }
-  @media (max-width: 480px) {
-    .gg-hero-v2__title { font-size: 48px; }
-    .gg-hero-v2__body { font-size: 15px; }
-    .gg-trustbar__inner { grid-template-columns: 1fr; }
-    .gg-trustbar__item:nth-child(odd) { border-right: none; }
+    .gg-hero__inner { padding: 100px 32px 72px; }
   }
 
-  /* ---- Fade-in animations ---- */
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  .fi  { animation: fadeIn  1.2s ease both; }
-  .fu1 { animation: fadeUp 0.8s 0.10s ease both; }
-  .fu2 { animation: fadeUp 0.8s 0.25s ease both; }
-  .fu3 { animation: fadeUp 0.8s 0.45s ease both; }
-  .fu4 { animation: fadeUp 0.8s 0.60s ease both; }
+  @media (max-width: 768px) {
+    .gg-hero { height: 100svh; }
+    .gg-hero__inner { padding: 80px 24px 60px; }
+    .gg-hero__overlay {
+      background: linear-gradient(
+        to bottom,
+        rgba(10,10,10,0.55) 0%,
+        rgba(10,10,10,0.82) 55%,
+        rgba(10,10,10,0.97) 100%
+      );
+    }
+    .gg-trustbar__inner { grid-template-columns: repeat(2, 1fr); }
+    .gg-trustbar__item { border-right: none; border-bottom: 1px solid #1a1a1a; }
+    .gg-trustbar__item:nth-child(odd) { border-right: 1px solid #1a1a1a; }
+    .gg-trustbar__item:last-child,
+    .gg-trustbar__item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
+  }
+
+  @media (max-width: 480px) {
+    .gg-hero__inner { padding: 64px 20px 48px; }
+    .gg-hero__body { font-size: 14px; }
+    .gg-trustbar__inner { grid-template-columns: 1fr; }
+    .gg-trustbar__item:nth-child(odd) { border-right: none; }
+    .gg-trustbar__item { border-bottom: 1px solid #1a1a1a; }
+    .gg-trustbar__item:last-child { border-bottom: none; }
+  }
 </style>
 
 {% schema %}
 {
-  "name": "GG – Hero",
+  "name": "GG \u2013 Hero",
   "settings": [
-    { "type": "image_picker", "id": "bg_image",           "label": "Background photo",        "info": "Recommended: dark gym photo, min 1600px wide. Leave blank to use default." },
-    { "type": "text",         "id": "eyebrow",            "label": "Eyebrow text",            "default": "From your favourite fitness brands" },
-    { "type": "text",         "id": "headline_line1",     "label": "Headline line 1",         "default": "REDEFINING" },
-    { "type": "text",         "id": "headline_line2",     "label": "Headline line 2 (ember)", "default": "PERFORMANCE" },
-    { "type": "text",         "id": "headline_line3",     "label": "Headline line 3" },
-    { "type": "textarea",     "id": "subheading",         "label": "Subheading",              "default": "Commercial-grade equipment, without the commercial price tag. Built for everyday Australians who train hard." },
-    { "type": "text",         "id": "cta_primary_text",   "label": "Primary button text",     "default": "SHOP NOW" },
-    { "type": "url",          "id": "cta_primary_url",    "label": "Primary button link" },
-    { "type": "text",         "id": "cta_secondary_text", "label": "Secondary button text",   "default": "EXPLORE GEAR" },
-    { "type": "url",          "id": "cta_secondary_url",  "label": "Secondary button link" }
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background photo",
+      "info": "Recommended: dark gym photo, min 1600px wide. Leave blank to use solid dark background."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Commercial-grade gear. No commercial markup."
+    },
+    {
+      "type": "text",
+      "id": "headline_line1",
+      "label": "Headline line 1",
+      "default": "REDEFINING"
+    },
+    {
+      "type": "text",
+      "id": "headline_line2",
+      "label": "Headline line 2 (ember accent)",
+      "default": "PERFORMANCE"
+    },
+    {
+      "type": "text",
+      "id": "headline_line3",
+      "label": "Headline line 3 (optional)"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Commercial-grade equipment, without the commercial price tag. Built for everyday Australians who train hard."
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_text",
+      "label": "Primary button text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_url",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_text",
+      "label": "Secondary button text",
+      "default": "EXPLORE GEAR"
+    },
+    {
+      "type": "url",
+      "id": "cta_secondary_url",
+      "label": "Secondary button link"
+    }
   ],
   "blocks": [
     {
@@ -282,20 +319,65 @@
       "name": "Trust Item",
       "limit": 4,
       "settings": [
-        { "type": "text",     "id": "icon",  "label": "Emoji icon", "default": "🚚" },
-        { "type": "text",     "id": "title", "label": "Title",      "default": "FREE DELIVERY" },
-        { "type": "textarea", "id": "body",  "label": "Body",       "default": "On all orders over $199" }
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji icon",
+          "default": "\ud83d\ude9a"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "FREE DELIVERY"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body text",
+          "default": "On all orders over $199"
+        }
       ]
     }
   ],
-  "presets": [{
-    "name": "GG – Hero",
-    "blocks": [
-      { "type": "trust_item", "settings": { "icon": "🚚", "title": "FREE DELIVERY",     "body": "On all orders over $199" } },
-      { "type": "trust_item", "settings": { "icon": "🔄", "title": "30 DAY RETURNS",    "body": "Easy, no-hassle returns" } },
-      { "type": "trust_item", "settings": { "icon": "🛡️", "title": "2-YEAR WARRANTY",  "body": "On all equipment" } },
-      { "type": "trust_item", "settings": { "icon": "🔒", "title": "SECURE PAYMENT",    "body": "Protected checkout" } }
-    ]
-  }]
+  "presets": [
+    {
+      "name": "GG \u2013 Hero",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "\ud83d\ude9a",
+            "title": "FREE DELIVERY",
+            "body": "On all orders over $199"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "\ud83d\udd04",
+            "title": "30 DAY RETURNS",
+            "body": "Easy, no-hassle returns"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "\ud83d\udee1\ufe0f",
+            "title": "2-YEAR WARRANTY",
+            "body": "On all equipment"
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "\ud83d\udd12",
+            "title": "SECURE PAYMENT",
+            "body": "Protected checkout"
+          }
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

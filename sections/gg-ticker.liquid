@@ -1,28 +1,39 @@
-<!-- ===========================
-     Section: GG Ticker Banner
-     =========================== -->
+{% comment %}
+  Section: GG Ticker Banner
+  File: sections/gg-ticker.liquid
+  Description: CSS-only infinite marquee ticker in ember background — no JavaScript required
+{% endcomment %}
+
+{%- assign ticker_items = section.settings.ticker_text | split: ',' -%}
 
 <div class="gg-ticker">
   <div class="gg-ticker__track">
-    {% assign items = section.settings.ticker_text | split: ',' %}
-    {% assign doubled = items | concat: items %}
-    {% for item in doubled %}
+    {%- comment -%} First copy {%- endcomment -%}
+    {%- for item in ticker_items -%}
       <span class="gg-ticker__item">{{ item | strip }}</span>
-    {% endfor %}
+    {%- endfor -%}
+    {%- comment -%} Duplicate for seamless loop {%- endcomment -%}
+    {%- for item in ticker_items -%}
+      <span class="gg-ticker__item">{{ item | strip }}</span>
+    {%- endfor -%}
   </div>
 </div>
 
 {% schema %}
 {
-  "name": "GG – Ticker Banner",
+  "name": "GG \u2013 Ticker Banner",
   "settings": [
     {
       "type": "textarea",
       "id": "ticker_text",
       "label": "Ticker items (comma separated)",
-      "default": "Power Racks, Olympic Barbells, Adjustable Dumbbells, Gym Benches, Kettlebells, Resistance Bands, Cardio Equipment, Gym Mats, Pull-Up Bars"
+      "default": "RACKS, BARBELLS, PLATES, BENCHES, DUMBBELLS, KETTLEBELLS, FLOORING, CARDIO, PULL-UP BARS"
     }
   ],
-  "presets": [{ "name": "GG – Ticker Banner" }]
+  "presets": [
+    {
+      "name": "GG \u2013 Ticker Banner"
+    }
+  ]
 }
 {% endschema %}

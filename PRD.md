@@ -36,13 +36,12 @@ This Product Requirements Document (PRD) serves as the singular, granular bluepr
 | Section | Detail & Functionality | Visual Reference |
 | :--- | :--- | :--- |
 | **1. Full-Bleed Hero** | Full-width photo, 40% dark gradient, left-aligned Barlow headline, and two skewed CTAs: **[SHOP NOW]** and **[EXPLORE GEAR]**. | `image_84b24d.jpg` vibe. |
-| **2. Trust Bar** | High-contrast row with 4 minimalist icons: Free Delivery, 30-Day Returns, Lifetime Warranty, Secure Payment. | Clean, Steel-colored icons. |
-| **3. Scrolling Ticker** | CSS-looping marquee (Ember background, Black text). Content: RACKS • BARBELLS • PLATES • BENCHES. | High-speed motion loop. |
-| **4. Shop By Category** | 3-column grid (6 categories) with high-res athlete imagery and Ember-colored "BEST SELLER" badges. Emoji fallbacks included. | Transform Fitness grid. |
-| **5. Featured Gear** | 4-up grid pulling from a Shopify collection. Clean, white-background product shots to pop against dark themes. | High-contrast product cards. |
-| **6. Email CTA** | Iron background, large Ember headline: "10% OFF YOUR FIRST ORDER." Syncs with Shopify newsletter. | Transform CTA spacing. |
-| **7. Trust Badges** | 4-up grid: "Built for Australians," "3mm Steel Gauge," "Direct to Gym," "Commercial Grade." | Industrial blueprint icons. |
-| **8. Customer Reviews** | 3-column minimalist layout on Iron backgrounds. Star ratings in Ember. Editable via Theme Editor. | Sportix template style. |
+| **2. Scrolling Ticker** | CSS-looping marquee (Ember background, Black text). Content: RACKS • BARBELLS • PLATES • BENCHES. | High-speed motion loop. |
+| **3. Shop By Category** | 3-column grid (6 categories) with high-res athlete imagery and Ember-colored "BEST SELLER" badges. Emoji fallbacks included. | Transform Fitness grid. |
+| **4. Featured Gear** | 4-up grid pulling from a Shopify collection. Clean, white-background product shots to pop against dark themes. | High-contrast product cards. |
+| **5. Email CTA** | Iron background, large Ember headline: "10% OFF YOUR FIRST ORDER." Syncs with Shopify newsletter. | Transform CTA spacing. |
+| **6. Trust Badges** | 4-up grid: "Built for Australians," "3mm Steel Gauge," "Direct to Gym," "Commercial Grade." | Industrial blueprint icons. |
+| **7. Customer Reviews** | 3-column minimalist layout on Iron backgrounds. Star ratings in Ember. Editable via Theme Editor. | Sportix template style. |
 
 ---
 

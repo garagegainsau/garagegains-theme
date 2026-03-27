@@ -1,18 +1,21 @@
-<!-- ===========================
-     Section: GG Trust Badges
-     =========================== -->
+{% comment %}
+  Section: GG Trust Badges
+  File: sections/gg-trust.liquid
+  Description: 4-column trust grid — key brand differentiators with emoji icons
+{% endcomment %}
 
-<section class="gg-section" style="padding-top: 0;">
-  {% if section.settings.show_heading %}
-    <div style="text-align:center; margin-bottom:36px;">
-      <p class="section-label">{{ section.settings.eyebrow }}</p>
-      <h2 class="section-title">{{ section.settings.title }}</h2>
+<section class="gg-section" style="padding-top:0;">
+
+  {%- if section.settings.show_heading -%}
+    <div class="gg-sec-head">
+      <span class="gg-sec-head__label">{{ section.settings.eyebrow }}</span>
+      <h2 class="gg-sec-head__title">{{ section.settings.title }}</h2>
     </div>
-  {% endif %}
+  {%- endif -%}
 
-  <div class="gg-trust">
-    {% for block in section.blocks %}
-      {% if block.type == 'trust_item' %}
+  <div class="gg-trust-grid">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'trust_item' -%}
         <div class="gg-trust-item" {{ block.shopify_attributes }}>
           <div class="gg-trust-item__icon">{{ block.settings.icon }}</div>
           <div>
@@ -20,38 +23,99 @@
             <div class="gg-trust-item__body">{{ block.settings.body }}</div>
           </div>
         </div>
-      {% endif %}
-    {% endfor %}
+      {%- endif -%}
+    {%- endfor -%}
   </div>
+
 </section>
 
 {% schema %}
 {
-  "name": "GG – Trust Badges",
+  "name": "GG \u2013 Trust Badges",
   "settings": [
-    { "type": "checkbox", "id": "show_heading", "label": "Show heading",  "default": true },
-    { "type": "text",     "id": "eyebrow",      "label": "Eyebrow",       "default": "Why GarageGains" },
-    { "type": "text",     "id": "title",        "label": "Title",         "default": "Built On Trust" }
+    {
+      "type": "checkbox",
+      "id": "show_heading",
+      "label": "Show heading",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Why GarageGains"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Built On Trust"
+    }
   ],
   "blocks": [
     {
       "type": "trust_item",
       "name": "Trust Item",
       "settings": [
-        { "type": "text",     "id": "icon",  "label": "Emoji icon",  "default": "🚚" },
-        { "type": "text",     "id": "title", "label": "Title",       "default": "Free Shipping Over $199" },
-        { "type": "textarea", "id": "body",  "label": "Description", "default": "Fast Australia-wide delivery from our Sydney & Melbourne warehouses." }
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Emoji icon",
+          "default": "\ud83d\ude9a"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free Shipping Over $199"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Description",
+          "default": "Fast Australia-wide delivery from our Sydney and Melbourne warehouses."
+        }
       ]
     }
   ],
-  "presets": [{
-    "name": "GG – Trust Badges",
-    "blocks": [
-      { "type": "trust_item", "settings": { "icon": "🚚", "title": "Free Shipping Over $199",  "body": "Fast Australia-wide delivery from our Sydney & Melbourne warehouses." } },
-      { "type": "trust_item", "settings": { "icon": "🛡️", "title": "2-Year Warranty",          "body": "Every piece of equipment backed by a full two-year warranty." } },
-      { "type": "trust_item", "settings": { "icon": "💬", "title": "Real Human Support",       "body": "Aussie-based team ready to help Mon–Fri, 9am–5pm AEST." } },
-      { "type": "trust_item", "settings": { "icon": "🔄", "title": "30-Day Returns",           "body": "Not happy? We'll sort it. Simple, no-hassle returns every time." } }
-    ]
-  }]
+  "presets": [
+    {
+      "name": "GG \u2013 Trust Badges",
+      "blocks": [
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "\ud83d\ude9a",
+            "title": "Free Shipping Over $199",
+            "body": "Fast Australia-wide delivery from our Sydney and Melbourne warehouses."
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "\ud83d\udee1\ufe0f",
+            "title": "2-Year Warranty",
+            "body": "Every piece of equipment backed by a full two-year warranty."
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "\ud83d\udcac",
+            "title": "Real Human Support",
+            "body": "Aussie-based team ready to help Mon\u2013Fri, 9am\u20135pm AEST."
+          }
+        },
+        {
+          "type": "trust_item",
+          "settings": {
+            "icon": "\ud83d\udd04",
+            "title": "30-Day Returns",
+            "body": "Not happy? We\u2019ll sort it. Simple, no-hassle returns every time."
+          }
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

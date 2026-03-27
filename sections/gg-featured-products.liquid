@@ -1,131 +1,185 @@
-<!-- ===========================
-     Section: GG Featured Products
-     =========================== -->
+{% comment %}
+  Section: GG Featured Products
+  File: sections/gg-featured-products.liquid
+  Description: 4-up product grid from a selected collection. Add-to-cart uses Ajax. Badges from product tags.
+{% endcomment %}
 
 <section class="gg-section">
-  <div class="gg-section__header">
-    <div>
-      <p class="section-label">{{ section.settings.eyebrow }}</p>
-      <h2 class="section-title">{{ section.settings.title }}</h2>
-    </div>
-    <a href="{{ section.settings.view_all_url | default: '/collections/all' }}" class="gg-section__more">
-      All Products &rarr;
-    </a>
+
+  <div class="gg-sec-head">
+    <span class="gg-sec-head__label">{{ section.settings.eyebrow }}</span>
+    <h2 class="gg-sec-head__title">{{ section.settings.title }}</h2>
+    {%- if section.settings.description != blank -%}
+      <p class="gg-sec-head__desc">{{ section.settings.description }}</p>
+    {%- endif -%}
   </div>
 
-  <div class="gg-products" id="featured">
-    {% assign featured = collections[section.settings.collection] %}
-    {% if featured != blank %}
-      {% for product in featured.products limit: section.settings.product_count %}
+  <div class="gg-products-grid">
+    {%- assign featured = collections[section.settings.collection] -%}
+    {%- if featured != blank and featured.products.size > 0 -%}
+      {%- for product in featured.products limit: section.settings.product_count -%}
         <div class="gg-product-card">
 
-          <!-- Thumbnail -->
           <div class="gg-product-card__thumb">
-            {% if product.featured_image %}
-              <img
-                src="{{ product.featured_image | image_url: width: 400 }}"
-                alt="{{ product.featured_image.alt | escape }}"
-                class="gg-product-card__img"
-                loading="lazy"
-                width="400"
-              >
-            {% else %}
-              <span class="gg-product-card__img" style="font-size:4.5rem;">🏋️</span>
-            {% endif %}
+            {%- if product.featured_image -%}
+              {%- assign img_alt = product.featured_image.alt | escape -%}
+              {{
+                product.featured_image
+                | image_url: width: 600, format: 'webp'
+                | image_tag: loading: 'lazy', alt: img_alt, width: 600
+              }}
+            {%- else -%}
+              <span style="font-size:3.5rem; opacity:0.3;">🏋️</span>
+            {%- endif -%}
 
-            {% if product.compare_at_price > product.price %}
+            {%- if product.compare_at_price > product.price -%}
               <div class="gg-product-card__badge gg-product-card__badge--sale">Sale</div>
-            {% elsif product.tags contains 'new-arrival' %}
-              <div class="gg-product-card__badge">New Arrival</div>
-            {% elsif product.tags contains 'best-seller' %}
+            {%- elsif product.tags contains 'new-arrival' -%}
+              <div class="gg-product-card__badge gg-product-card__badge--new">New</div>
+            {%- elsif product.tags contains 'best-seller' -%}
               <div class="gg-product-card__badge">Best Seller</div>
-            {% endif %}
+            {%- endif -%}
           </div>
 
-          <!-- Body -->
           <div class="gg-product-card__body">
-            <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-              <span class="gg-product-card__stars">★★★★★</span>
-            </div>
             <div class="gg-product-card__title">{{ product.title }}</div>
             <div class="gg-product-card__footer">
               <div>
                 <span class="gg-product-card__price">{{ product.price | money }}</span>
-                {% if product.compare_at_price > product.price %}
+                {%- if product.compare_at_price > product.price -%}
                   <span class="gg-product-card__was">{{ product.compare_at_price | money }}</span>
-                {% endif %}
+                {%- endif -%}
               </div>
               <button
-                class="gg-product-card__add"
+                class="gg-btn gg-btn--primary gg-btn--sm gg-atc-btn"
                 data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                onclick="addToCart(this)"
+                {%- unless product.available %} disabled aria-disabled="true"{%- endunless -%}
               >
-                Add +
+                <span class="gg-btn__label">
+                  {%- if product.available -%}Add +{%- else -%}Sold Out{%- endif -%}
+                </span>
+                <div class="gg-btn__bg"></div>
+                <div class="gg-btn__outline"></div>
               </button>
             </div>
           </div>
+
         </div>
-      {% endfor %}
-    {% else %}
-      <!-- Placeholder cards shown until a collection is assigned in the editor -->
-      {% for i in (1..4) %}
+      {%- endfor -%}
+    {%- else -%}
+      <!-- Placeholder cards shown until a collection is assigned in the Theme Editor -->
+      {%- for i in (1..4) -%}
         <div class="gg-product-card">
           <div class="gg-product-card__thumb">
-            <span class="gg-product-card__img" style="font-size:4.5rem;">🏋️</span>
+            <span style="font-size:3.5rem; opacity:0.3;">🏋️</span>
           </div>
           <div class="gg-product-card__body">
             <div class="gg-product-card__title">Sample Product {{ i }}</div>
             <div class="gg-product-card__footer">
               <span class="gg-product-card__price">$199.00</span>
-              <button class="gg-product-card__add">Add +</button>
+              <span class="gg-btn gg-btn--primary gg-btn--sm">
+                <span class="gg-btn__label">Add +</span>
+                <span class="gg-btn__bg"></span>
+                <span class="gg-btn__outline"></span>
+              </span>
             </div>
           </div>
         </div>
-      {% endfor %}
-    {% endif %}
+      {%- endfor -%}
+    {%- endif -%}
   </div>
+
+  {%- if section.settings.view_all_url != blank -%}
+    <div style="text-align:center; margin-top:48px;">
+      <a href="{{ section.settings.view_all_url }}" class="gg-btn gg-btn--secondary">
+        <span class="gg-btn__label">All Products &rarr;</span>
+        <div class="gg-btn__bg"></div>
+        <div class="gg-btn__outline"></div>
+      </a>
+    </div>
+  {%- endif -%}
+
 </section>
 
-<!-- Ajax Add to Cart -->
 <script>
-function addToCart(btn) {
-  const variantId = btn.dataset.variantId;
-  if (!variantId) return;
-  btn.textContent = '✓ Added';
-  btn.style.background = '#2E7D32';
-  fetch('/cart/add.js', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id: variantId, quantity: 1 })
-  })
-  .then(r => r.json())
-  .then(() => {
-    // Update cart count in nav
-    return fetch('/cart.js');
-  })
-  .then(r => r.json())
-  .then(cart => {
-    const badge = document.getElementById('cart-count');
-    if (badge) badge.textContent = cart.item_count;
-    setTimeout(() => {
-      btn.textContent = 'Add +';
-      btn.style.background = '';
-    }, 1800);
-  })
-  .catch(console.error);
-}
+  document.querySelectorAll('.gg-atc-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var variantId = btn.dataset.variantId;
+      if (!variantId || btn.disabled) return;
+      var label = btn.querySelector('.gg-btn__label');
+      btn.disabled = true;
+      label.textContent = 'Adding...';
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: Number(variantId), quantity: 1 })
+      })
+      .then(function (r) { return r.json(); })
+      .then(function () { return fetch('/cart.js'); })
+      .then(function (r) { return r.json(); })
+      .then(function (cart) {
+        var badge = document.getElementById('cart-count');
+        if (badge) badge.textContent = cart.item_count;
+        label.textContent = '\u2713 Added';
+        setTimeout(function () {
+          label.textContent = 'Add +';
+          btn.disabled = false;
+        }, 1800);
+      })
+      .catch(function () {
+        label.textContent = 'Add +';
+        btn.disabled = false;
+      });
+    });
+  });
 </script>
 
 {% schema %}
 {
-  "name": "GG – Featured Products",
+  "name": "GG \u2013 Featured Products",
   "settings": [
-    { "type": "text",       "id": "eyebrow",       "label": "Eyebrow",           "default": "Handpicked" },
-    { "type": "text",       "id": "title",         "label": "Title",             "default": "Featured Gear" },
-    { "type": "collection", "id": "collection",    "label": "Collection to show" },
-    { "type": "range",      "id": "product_count", "label": "Number of products", "min": 2, "max": 8, "step": 1, "default": 4 },
-    { "type": "url",        "id": "view_all_url",  "label": "View all link" }
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Handpicked"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Featured Gear"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description (optional)"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection to show"
+    },
+    {
+      "type": "range",
+      "id": "product_count",
+      "label": "Number of products",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "View all link"
+    }
   ],
-  "presets": [{ "name": "GG – Featured Products" }]
+  "presets": [
+    {
+      "name": "GG \u2013 Featured Products"
+    }
+  ]
 }
 {% endschema %}
