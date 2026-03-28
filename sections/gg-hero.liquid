@@ -75,7 +75,7 @@
     min-height: 580px;
     overflow: hidden;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
   }
 
   .gg-hero__bg {
@@ -98,7 +98,7 @@
     background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
   }
 
-  /* Uniform dark overlay — solid tint across the full image */
+  /* Dark overlay so text stays legible */
   .gg-hero__overlay {
     position: absolute;
     inset: 0;
@@ -172,16 +172,46 @@
   }
 
   @media (max-width: 768px) {
-    .gg-hero { height: calc(100svh - 56px); }
-    .gg-hero__inner { padding: 80px 24px 60px; }
-    .gg-hero__overlay {
-      background: rgba(0,0,0,0.60);
+    .gg-hero {
+      height: 88svh;
+      min-height: 520px;
+      align-items: flex-end;
+    }
+    /* Zoom image in tighter — better portrait framing */
+    .gg-hero__photo {
+      object-position: 60% 15%;
+      transform: scale(2.2);
+      transform-origin: 62% 12%;
+    }
+    .gg-hero__inner {
+      padding: 0 24px 52px;
+      text-align: left;
+    }
+    /* Larger headline on mobile — desktop clamp max unchanged */
+    .gg-hero__title {
+      font-size: clamp(52px, 14vw, 72px);
+      margin-bottom: 14px;
+    }
+    .gg-hero__body {
+      font-size: 14px;
+      margin-bottom: 28px;
+      max-width: 100%;
+    }
+    .gg-hero__overlay { background: rgba(0,0,0,0.60); }
+    /* Smaller CTA buttons — hero only, desktop unaffected */
+    .gg-hero .gg-btn {
+      height: 42px !important;
+      padding: 0 22px !important;
+    }
+    .gg-hero .gg-btn .gg-btn__label {
+      font-size: 12px !important;
+      letter-spacing: 0.12em !important;
     }
   }
 
   @media (max-width: 480px) {
-    .gg-hero__inner { padding: 64px 20px 48px; }
-    .gg-hero__body { font-size: 14px; }
+    .gg-hero__inner { padding: 0 20px 44px; }
+    .gg-hero__title { font-size: clamp(48px, 13vw, 64px); }
   }
 </style>
 

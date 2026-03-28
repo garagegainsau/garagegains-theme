@@ -1062,11 +1062,12 @@ div.gg-section {
 
 /* Tablet — hide desktop nav, show mobile toggle */
 @media (max-width: 1080px) {
-  .gg-nav__links  { display: none; }
+  .gg-nav__links   { display: none; }
   .gg-nav__actions { display: none; }
-  .gg-nav__mobile { display: flex; }
-  .gg-nav { width: calc(100% - 32px); top: 12px; }
-  .gg-nav__inner { padding: 0 20px; border-radius: 60px; }
+  .gg-nav__mobile  { display: flex; }
+  .gg-nav          { width: 100%; top: 0; left: 0; right: 0; transform: none; }
+  .gg-nav.is-hidden { transform: translateY(-100%); }
+  .gg-nav__inner   { padding: 0 20px; border-radius: 12px; }
 }
 
 /* 900px — 2-col grids */
