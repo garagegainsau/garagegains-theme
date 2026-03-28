@@ -533,100 +533,125 @@ div.gg-section {
 }
 
 /* ===========================
-   PROGRAM / CATEGORY CARDS
-   (TransformFitness portrait card layout)
+   CATEGORY CARDS
+   Full-bleed image with overlay name + badge
    =========================== */
 
-.gg-program-grid {
+.gg-cat-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
-.gg-program-card {
-  display: flex;
-  flex-direction: column;
+.gg-cat-card {
+  position: relative;
+  display: block;
+  height: 420px;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--iron);
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  text-decoration: none;
+  background: #161616;
 }
 
-.gg-program-card:hover {
-  transform: translateY(-4px);
-  border-color: #333333;
-}
-
-.gg-program-card__img-wrap {
-  height: 320px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.gg-program-card__img-wrap img {
+.gg-cat-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  object-position: center;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
 }
 
-.gg-program-card:hover .gg-program-card__img-wrap img {
-  transform: scale(1.05);
+.gg-cat-card:hover .gg-cat-card__img {
+  transform: scale(1.06);
 }
 
-.gg-program-card__emoji-wrap {
-  height: 320px;
-  background: #161616;
+.gg-cat-card__fallback {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 5rem;
+  background: #161616;
 }
 
-.gg-program-card__body {
-  padding: 24px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+/* Dark gradient — stronger at bottom for text legibility */
+.gg-cat-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.05) 0%,
+    rgba(0,0,0,0.15) 40%,
+    rgba(0,0,0,0.75) 75%,
+    rgba(0,0,0,0.92) 100%
+  );
+  transition: opacity 0.3s ease;
 }
 
-.gg-program-card__tag {
-  display: inline-block;
+.gg-cat-card:hover .gg-cat-card__overlay {
+  opacity: 0.85;
+}
+
+/* Top-left badge */
+.gg-cat-card__badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
   background: var(--ember);
   color: var(--bone);
   font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 3px 8px;
+  letter-spacing: 0.12em;
+  padding: 4px 10px;
   border-radius: 3px;
-  margin-bottom: 10px;
-  align-self: flex-start;
+  z-index: 2;
 }
 
-.gg-program-card__title {
+/* Bottom content — name + arrow */
+.gg-cat-card__content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 24px 28px;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.gg-cat-card__name {
   font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-size: 22px;
+  font-weight: 900;
+  font-size: clamp(22px, 2.2vw, 30px);
   text-transform: uppercase;
   color: var(--bone);
-  margin-bottom: 8px;
-  line-height: 1.1;
+  line-height: 1;
+  letter-spacing: 0.02em;
 }
 
-.gg-program-card__desc {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  color: rgba(255,255,255,0.45);
-  line-height: 1.65;
-  flex: 1;
+.gg-cat-card__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ember);
+  color: var(--bone);
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.gg-program-card__cta {
-  margin-top: 18px;
+.gg-cat-card:hover .gg-cat-card__arrow {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* ===========================
@@ -655,7 +680,7 @@ div.gg-section {
 }
 
 .gg-product-card__thumb {
-  height: 200px;
+  height: 280px;
   background: #161616;
   display: flex;
   align-items: center;
@@ -663,6 +688,7 @@ div.gg-section {
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
+  text-decoration: none;
 }
 
 .gg-product-card__thumb img {
@@ -711,7 +737,11 @@ div.gg-section {
   line-height: 1.2;
   margin-bottom: 12px;
   flex: 1;
+  text-decoration: none;
+  transition: color 0.2s;
 }
+
+.gg-product-card__title:hover { color: var(--ember); }
 
 .gg-product-card__footer {
   display: flex;
@@ -741,6 +771,8 @@ div.gg-section {
    =========================== */
 
 .gg-cta-section {
+  position: relative;
+  overflow: hidden;
   padding: 100px 32px;
   text-align: center;
   background: var(--iron);
@@ -782,22 +814,49 @@ div.gg-section {
   flex-wrap: wrap;
 }
 
-.gg-cta-input {
+.gg-cta-input-wrap {
+  display: inline-block;
+  transform: skewX(-20deg);
+  overflow: hidden;
+  border: 1px solid #444444;
+  height: 50px;
+  width: 280px;
   background: #1a1a1a;
-  border: 1px solid #333333;
+  transition: border-color 0.2s;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.gg-cta-input-wrap:focus-within {
+  border-color: var(--ember);
+}
+
+.gg-cta-input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #1a1a1a !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
   color: var(--bone);
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
-  padding: 0 18px;
-  height: 50px;
-  border-radius: 4px;
-  outline: none;
-  width: 260px;
-  transition: border-color 0.2s;
+  padding: 0 24px;
+  transform: skewX(20deg);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.gg-cta-input:focus,
+.gg-cta-input:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  background: #1a1a1a !important;
+  border: none !important;
 }
 
 .gg-cta-input::placeholder { color: rgba(255,255,255,0.3); }
-.gg-cta-input:focus { border-color: var(--ember); }
 
 /* ===========================
    TRUST GRID
@@ -1018,9 +1077,10 @@ div.gg-section {
   .gg-trust-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .gg-program-grid {
+  .gg-cat-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .gg-cat-card { height: 340px; }
   .gg-section { padding: 72px 24px; }
 }
 
@@ -1030,9 +1090,11 @@ div.gg-section {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-  .gg-program-grid {
+  .gg-cat-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
+  .gg-cat-card { height: 280px; }
   .gg-reviews-grid {
     grid-template-columns: 1fr;
   }
@@ -1047,8 +1109,6 @@ div.gg-section {
   .gg-section { padding: 56px 20px; }
   .gg-sec-head { margin-bottom: 36px; }
   .gg-cta-section { padding: 72px 20px; }
-  .gg-program-card__img-wrap { height: 240px; }
-  .gg-program-card__emoji-wrap { height: 240px; }
 }
 
 /* 480px — single-column trust, reduced padding */

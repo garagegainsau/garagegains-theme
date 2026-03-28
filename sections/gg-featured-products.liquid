@@ -20,9 +20,10 @@
       {%- for product in featured.products limit: section.settings.product_count -%}
         <div class="gg-product-card">
 
-          <div class="gg-product-card__thumb">
+          <!-- Clickable image area -->
+          <a href="{{ product.url }}" class="gg-product-card__thumb" aria-label="{{ product.title | escape }}">
             {%- if product.featured_image -%}
-              {%- assign img_alt = product.featured_image.alt | escape -%}
+              {%- assign img_alt = product.featured_image.alt | default: product.title | escape -%}
               {{
                 product.featured_image
                 | image_url: width: 600, format: 'webp'
@@ -39,10 +40,10 @@
             {%- elsif product.tags contains 'best-seller' -%}
               <div class="gg-product-card__badge">Best Seller</div>
             {%- endif -%}
-          </div>
+          </a>
 
           <div class="gg-product-card__body">
-            <div class="gg-product-card__title">{{ product.title }}</div>
+            <a href="{{ product.url }}" class="gg-product-card__title">{{ product.title }}</a>
             <div class="gg-product-card__footer">
               <div>
                 <span class="gg-product-card__price">{{ product.price | money }}</span>
@@ -74,13 +75,11 @@
             <span style="font-size:3.5rem; opacity:0.3;">🏋️</span>
           </div>
           <div class="gg-product-card__body">
-            <div class="gg-product-card__title">Sample Product {{ i }}</div>
+            <p class="gg-product-card__title">Sample Product {{ i }}</p>
             <div class="gg-product-card__footer">
               <span class="gg-product-card__price">$199.00</span>
               <span class="gg-btn gg-btn--primary gg-btn--sm">
                 <span class="gg-btn__label">Add +</span>
-                <span class="gg-btn__bg"></span>
-                <span class="gg-btn__outline"></span>
               </span>
             </div>
           </div>

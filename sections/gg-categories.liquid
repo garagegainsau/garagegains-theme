@@ -1,56 +1,51 @@
 {% comment %}
   Section: GG Categories
   File: sections/gg-categories.liquid
-  Description: Shop by category — portrait program cards in TransformFitness style with image on top, text below
+  Description: Shop by category — full-bleed image cards with overlay name and badge
 {% endcomment %}
 
-<section class="gg-section">
+<section class="gg-section gg-categories">
 
   <div class="gg-sec-head">
     <span class="gg-sec-head__label">{{ section.settings.eyebrow }}</span>
     <h2 class="gg-sec-head__title">{{ section.settings.title }}</h2>
-    {%- if section.settings.description != blank -%}
-      <p class="gg-sec-head__desc">{{ section.settings.description }}</p>
-    {%- endif -%}
   </div>
 
-  <div class="gg-program-grid">
+  <div class="gg-cat-grid">
     {%- for block in section.blocks -%}
       {%- if block.type == 'category' -%}
-        <a href="{{ block.settings.url }}" class="gg-program-card" {{ block.shopify_attributes }}>
+        <a href="{{ block.settings.url }}" class="gg-cat-card" {{ block.shopify_attributes }}>
 
+          <!-- Image or emoji fallback -->
           {%- if block.settings.image != blank -%}
-            <div class="gg-program-card__img-wrap">
-              {{
-                block.settings.image
-                | image_url: width: 800, format: 'webp'
-                | image_tag:
-                    loading: 'lazy',
-                    alt: block.settings.name,
-                    width: 800
-              }}
-            </div>
+            {{
+              block.settings.image
+              | image_url: width: 900, format: 'webp'
+              | image_tag:
+                  loading: 'lazy',
+                  alt: block.settings.name,
+                  class: 'gg-cat-card__img'
+            }}
           {%- else -%}
-            <div class="gg-program-card__emoji-wrap">
-              {{ block.settings.emoji }}
-            </div>
+            <div class="gg-cat-card__fallback">{{ block.settings.emoji }}</div>
           {%- endif -%}
 
-          <div class="gg-program-card__body">
-            {%- if block.settings.tag != blank -%}
-              <span class="gg-program-card__tag">{{ block.settings.tag }}</span>
-            {%- endif -%}
-            <h3 class="gg-program-card__title">{{ block.settings.name }}</h3>
-            {%- if block.settings.description != blank -%}
-              <p class="gg-program-card__desc">{{ block.settings.description }}</p>
-            {%- endif -%}
-            <div class="gg-program-card__cta">
-              <span class="gg-btn gg-btn--primary gg-btn--sm">
-                <span class="gg-btn__label">Shop Now &rarr;</span>
-                <span class="gg-btn__bg"></span>
-                <span class="gg-btn__outline"></span>
-              </span>
-            </div>
+          <!-- Gradient overlay -->
+          <div class="gg-cat-card__overlay"></div>
+
+          <!-- Badge -->
+          {%- if block.settings.tag != blank -%}
+            <span class="gg-cat-card__badge">{{ block.settings.tag }}</span>
+          {%- endif -%}
+
+          <!-- Bottom content -->
+          <div class="gg-cat-card__content">
+            <h3 class="gg-cat-card__name">{{ block.settings.name }}</h3>
+            <span class="gg-cat-card__arrow">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
           </div>
 
         </a>
