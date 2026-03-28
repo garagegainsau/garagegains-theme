@@ -9,6 +9,7 @@
   <!-- Background image -->
   <div class="gg-hero__bg">
     {%- if section.settings.bg_image != blank -%}
+      {%- assign hero_alt = section.settings.bg_image.alt | default: 'GarageGains hero' -%}
       {{
         section.settings.bg_image
         | image_url: width: 2400, format: 'webp'
@@ -16,10 +17,17 @@
             loading: 'eager',
             fetchpriority: 'high',
             class: 'gg-hero__photo',
-            alt: section.settings.bg_image.alt | default: 'GarageGains hero'
+            alt: hero_alt
       }}
     {%- else -%}
-      <div class="gg-hero__photo-placeholder"></div>
+      <img
+        src="{{ 'gg-hero-bg.jpg' | asset_url }}"
+        alt="GarageGains hero"
+        class="gg-hero__photo"
+        loading="eager"
+        fetchpriority="high"
+        width="2400"
+      >
     {%- endif -%}
   </div>
 
@@ -58,29 +66,13 @@
 
 </section>
 
-<!-- Trust Bar -->
-<div class="gg-trustbar">
-  <div class="gg-trustbar__inner">
-    {%- for block in section.blocks -%}
-      {%- if block.type == 'trust_item' -%}
-        <div class="gg-trustbar__item" {{ block.shopify_attributes }}>
-          <span class="gg-trustbar__icon">{{ block.settings.icon }}</span>
-          <div>
-            <div class="gg-trustbar__title">{{ block.settings.title }}</div>
-            <div class="gg-trustbar__body">{{ block.settings.body }}</div>
-          </div>
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
-  </div>
-</div>
 
 <style>
   /* ---- Hero ---- */
   .gg-hero {
     position: relative;
-    height: 100vh;
-    min-height: 640px;
+    height: calc(100vh - 56px);
+    min-height: 580px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -89,13 +81,14 @@
   .gg-hero__bg {
     position: absolute;
     inset: 0;
+    z-index: 0;
   }
 
   .gg-hero__photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 65% center;
+    object-position: 65% 40%;
     display: block;
   }
 
@@ -105,17 +98,21 @@
     background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
   }
 
-  /* Dark on left so text is legible, fades right to reveal gym photo */
+  /* Uniform dark overlay — solid tint across the full image */
   .gg-hero__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to right,
-      rgba(10,10,10,0.97) 0%,
-      rgba(10,10,10,0.88) 30%,
-      rgba(10,10,10,0.45) 60%,
-      rgba(10,10,10,0.08) 100%
-    );
+    z-index: 1;
+    background: rgba(0,0,0,0.60);
+  }
+
+  .gg-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(0,0,0,0.60);
+    pointer-events: none;
   }
 
   .gg-hero__content {
@@ -169,85 +166,22 @@
     flex-wrap: wrap;
   }
 
-  /* ---- Trust Bar ---- */
-  .gg-trustbar {
-    background: #0a0a0a;
-    border-bottom: 1px solid #1a1a1a;
-  }
-
-  .gg-trustbar__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 32px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid #1a1a1a;
-  }
-
-  .gg-trustbar__item {
-    padding: 24px 20px;
-    border-right: 1px solid #1a1a1a;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-  }
-
-  .gg-trustbar__item:last-child { border-right: none; }
-
-  .gg-trustbar__icon {
-    font-size: 20px;
-    margin-top: 2px;
-    flex-shrink: 0;
-  }
-
-  .gg-trustbar__title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--bone);
-    margin-bottom: 3px;
-    line-height: 1.2;
-  }
-
-  .gg-trustbar__body {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    color: rgba(255,255,255,0.4);
-    line-height: 1.4;
-  }
-
   /* ---- Responsive ---- */
   @media (max-width: 1024px) {
     .gg-hero__inner { padding: 100px 32px 72px; }
   }
 
   @media (max-width: 768px) {
-    .gg-hero { height: 100svh; }
+    .gg-hero { height: calc(100svh - 56px); }
     .gg-hero__inner { padding: 80px 24px 60px; }
     .gg-hero__overlay {
-      background: linear-gradient(
-        to bottom,
-        rgba(10,10,10,0.55) 0%,
-        rgba(10,10,10,0.82) 55%,
-        rgba(10,10,10,0.97) 100%
-      );
+      background: rgba(0,0,0,0.60);
     }
-    .gg-trustbar__inner { grid-template-columns: repeat(2, 1fr); }
-    .gg-trustbar__item { border-right: none; border-bottom: 1px solid #1a1a1a; }
-    .gg-trustbar__item:nth-child(odd) { border-right: 1px solid #1a1a1a; }
-    .gg-trustbar__item:last-child,
-    .gg-trustbar__item:nth-last-child(2):nth-child(odd) { border-bottom: none; }
   }
 
   @media (max-width: 480px) {
     .gg-hero__inner { padding: 64px 20px 48px; }
     .gg-hero__body { font-size: 14px; }
-    .gg-trustbar__inner { grid-template-columns: 1fr; }
-    .gg-trustbar__item:nth-child(odd) { border-right: none; }
-    .gg-trustbar__item { border-bottom: 1px solid #1a1a1a; }
-    .gg-trustbar__item:last-child { border-bottom: none; }
   }
 </style>
 

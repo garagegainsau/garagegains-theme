@@ -6,8 +6,8 @@
 
 <style>
   /* Unique to header — everything else is in assets/garagegains.css */
-  .gg-nav.is-hidden { transform: translateY(-100%); }
-  .gg-nav-spacer { height: 64px; }
+  .gg-nav.is-hidden { transform: translateX(-50%) translateY(calc(-100% - 24px)); }
+  .gg-nav-spacer { height: 0; }
 
   /* Drawer CTA — no skew, full-width, rounded */
   .gg-drawer__cta-wrap {
@@ -60,7 +60,6 @@
         <a href="/collections/strength"      class="gg-nav__link">Strength</a>
         <a href="/collections/cardio"        class="gg-nav__link">Cardio</a>
         <a href="/collections/functional"    class="gg-nav__link">Functional</a>
-        <a href="/collections/commercial"    class="gg-nav__link">Commercial</a>
         <a href="/collections/flooring-mats" class="gg-nav__link">Flooring &amp; Mats</a>
         <a href="/collections/sale"          class="gg-nav__link gg-nav__link--sale">Sale</a>
         <a href="/pages/contact"             class="gg-nav__link">Contact</a>
@@ -89,8 +88,8 @@
         </svg>
         <span class="gg-cart-count" id="cart-count">{{ cart.item_count }}</span>
       </a>
-      <a href="{{ section.settings.cta_url | default: routes.collections_url }}" class="gg-btn gg-btn--primary" style="height:40px;padding:0 22px;">
-        <span class="gg-btn__label" style="font-size:13px;">{{ section.settings.cta_label | default: 'Shop Now' }}</span>
+      <a href="{{ section.settings.cta_url | default: routes.collections_url }}" class="gg-btn gg-btn--primary gg-btn--sm">
+        <span class="gg-btn__label">{{ section.settings.cta_label | default: 'Shop Now' }}</span>
         <div class="gg-btn__bg"></div>
         <div class="gg-btn__outline"></div>
       </a>
@@ -155,7 +154,6 @@
         <a href="/collections/strength"      class="gg-drawer__link">Strength</a>
         <a href="/collections/cardio"        class="gg-drawer__link">Cardio</a>
         <a href="/collections/functional"    class="gg-drawer__link">Functional</a>
-        <a href="/collections/commercial"    class="gg-drawer__link">Commercial</a>
         <a href="/collections/flooring-mats" class="gg-drawer__link">Flooring &amp; Mats</a>
         <a href="/collections/sale"          class="gg-drawer__link gg-drawer__link--sale">Sale</a>
         <a href="/pages/contact"             class="gg-drawer__link">Contact</a>

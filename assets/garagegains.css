@@ -97,6 +97,19 @@ button { cursor: pointer; font-family: inherit; }
 }
 .gg-btn--secondary:hover .gg-btn__label { color: #111111; }
 
+/* ---- Nav pill variant — no skew, rounded to match floating nav ---- */
+.gg-btn--nav {
+  transform: skewX(0deg) !important;
+  border-radius: 100px !important;
+  height: 38px;
+  padding: 0 20px;
+}
+.gg-btn--nav .gg-btn__label {
+  transform: skewX(0deg);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+}
+
 /* ---- Small size modifier ---- */
 .gg-btn--sm {
   height: 40px;
@@ -113,37 +126,33 @@ button { cursor: pointer; font-family: inherit; }
 
 .gg-nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 1200px;
   z-index: 200;
-  height: 64px;
-  background: #111111;
-  border-bottom: 1px solid var(--border);
-  transition:
-    transform 0.35s cubic-bezier(0.4,0,0.2,1),
-    background 0.3s ease,
-    border-color 0.3s ease,
-    backdrop-filter 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.gg-nav.scrolled {
-  background: rgba(17,17,17,0.97);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.04);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), top 0.3s ease;
 }
 
 .gg-nav__inner {
-  max-width: 1200px;
-  margin: 0 auto;
   height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  padding: 0 32px;
+  padding: 0 28px;
+  border-radius: 100px;
+  background: rgba(17,17,17,0.72);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gg-nav.scrolled .gg-nav__inner {
+  background: rgba(17,17,17,0.96);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
 }
 
 /* ---- Logo ---- */
@@ -450,7 +459,7 @@ button { cursor: pointer; font-family: inherit; }
 .gg-ticker__item {
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 17px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--bone);
@@ -997,6 +1006,8 @@ div.gg-section {
   .gg-nav__links  { display: none; }
   .gg-nav__actions { display: none; }
   .gg-nav__mobile { display: flex; }
+  .gg-nav { width: calc(100% - 32px); top: 12px; }
+  .gg-nav__inner { padding: 0 20px; border-radius: 60px; }
 }
 
 /* 900px — 2-col grids */
