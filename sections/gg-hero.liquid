@@ -48,6 +48,25 @@
 
       <p class="gg-hero__body fu3">{{ section.settings.subheading }}</p>
 
+      <!-- ── STATS ROW ── Remove this block to remove the stats row -->
+      <div class="gg-hero__stats fu3b">
+        <div class="gg-hero__stat">
+          <span class="gg-hero__stat-number">{{ section.settings.stat_1_number }}</span>
+          <span class="gg-hero__stat-label">{{ section.settings.stat_1_label }}</span>
+        </div>
+        <div class="gg-hero__stat-divider" aria-hidden="true"></div>
+        <div class="gg-hero__stat">
+          <span class="gg-hero__stat-number">{{ section.settings.stat_2_number }}</span>
+          <span class="gg-hero__stat-label">{{ section.settings.stat_2_label }}</span>
+        </div>
+        <div class="gg-hero__stat-divider" aria-hidden="true"></div>
+        <div class="gg-hero__stat">
+          <span class="gg-hero__stat-number">{{ section.settings.stat_3_number }}</span>
+          <span class="gg-hero__stat-label">{{ section.settings.stat_3_label }}</span>
+        </div>
+      </div>
+      <!-- ── END STATS ROW ── -->
+
       <div class="gg-hero__ctas fu4">
         <a href="{{ section.settings.cta_primary_url }}" class="gg-btn gg-btn--primary">
           <span class="gg-btn__label">{{ section.settings.cta_primary_text }} &nbsp;&rarr;</span>
@@ -63,6 +82,15 @@
 
     </div>
   </div>
+
+  <!-- ── SCROLL INDICATOR ── Remove this block to remove the scroll chevron -->
+  <div class="gg-hero__scroll" aria-hidden="true">
+    <span class="gg-hero__scroll-label">SCROLL</span>
+    <svg class="gg-hero__scroll-chevron" width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <!-- ── END SCROLL INDICATOR ── -->
 
 </section>
 
@@ -157,7 +185,7 @@
     color: rgba(255,255,255,0.6);
     line-height: 1.7;
     max-width: 420px;
-    margin-bottom: 40px;
+    margin-bottom: 28px;
   }
 
   .gg-hero__ctas {
@@ -165,6 +193,143 @@
     gap: 16px;
     flex-wrap: wrap;
   }
+
+
+  /* ================================================================
+     STATS ROW
+     Remove the block below (down to END STATS ROW) to disable stats
+     ================================================================ */
+  .gg-hero__stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+
+  .gg-hero__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .gg-hero__stat-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(20px, 2.5vw, 28px);
+    color: var(--bone);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+
+  .gg-hero__stat-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+
+  .gg-hero__stat-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,0.15);
+    flex-shrink: 0;
+  }
+  /* ================================================================
+     END STATS ROW
+     ================================================================ */
+
+
+  /* ================================================================
+     SCROLL INDICATOR
+     Remove the block below (down to END SCROLL INDICATOR) to disable
+     ================================================================ */
+  .gg-hero__scroll {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    animation: gg-fadein 0.6s ease forwards 1.4s;
+  }
+
+  .gg-hero__scroll-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .gg-hero__scroll-chevron {
+    color: rgba(255,255,255,0.35);
+    animation: gg-bounce 1.8s ease-in-out infinite 2s;
+  }
+  /* ================================================================
+     END SCROLL INDICATOR
+     ================================================================ */
+
+
+  /* ================================================================
+     ENTRANCE ANIMATIONS
+     Remove the block below (down to END ENTRANCE ANIMATIONS) to disable
+     ================================================================ */
+  @keyframes gg-fadeup {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes gg-fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes gg-bounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(5px); }
+  }
+
+  .fu1 { opacity: 0; animation: gg-fadeup 0.6s ease forwards 0.1s; }
+  .fu2 { opacity: 0; animation: gg-fadeup 0.7s ease forwards 0.25s; }
+  .fu3 { opacity: 0; animation: gg-fadeup 0.6s ease forwards 0.45s; }
+  .fu3b{ opacity: 0; animation: gg-fadeup 0.6s ease forwards 0.6s;  }
+  .fu4 { opacity: 0; animation: gg-fadeup 0.6s ease forwards 0.75s; }
+  /* ================================================================
+     END ENTRANCE ANIMATIONS
+     ================================================================ */
+
+
+  /* ================================================================
+     KEN BURNS
+     Remove the block below (down to END KEN BURNS) to disable
+     ================================================================ */
+  @keyframes gg-kenburns {
+    from { transform: scale(1);    }
+    to   { transform: scale(1.06); }
+  }
+
+  .gg-hero__photo {
+    animation: gg-kenburns 12s ease-out forwards;
+    transform-origin: 65% 40%;
+  }
+  /* ================================================================
+     END KEN BURNS
+     ================================================================ */
+
 
   /* ---- Responsive ---- */
   @media (max-width: 1024px) {
@@ -182,6 +347,7 @@
       object-position: 60% 15%;
       transform: scale(2.2);
       transform-origin: 62% 12%;
+      animation: none; /* Ken Burns disabled on mobile — already zoomed */
     }
     .gg-hero__inner {
       padding: 0 24px 52px;
@@ -194,7 +360,7 @@
     }
     .gg-hero__body {
       font-size: 14px;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
       max-width: 100%;
     }
     .gg-hero__overlay { background: rgba(0,0,0,0.60); }
@@ -207,11 +373,24 @@
       font-size: 12px !important;
       letter-spacing: 0.12em !important;
     }
+    /* Stats row on mobile */
+    .gg-hero__stats {
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .gg-hero__stat-number { font-size: 20px; }
+    .gg-hero__stat-label  { font-size: 10px; }
+    .gg-hero__stat-divider { height: 24px; }
+    /* Scroll indicator — hide on mobile, thumb navigation doesn't need it */
+    .gg-hero__scroll { display: none; }
   }
 
   @media (max-width: 480px) {
     .gg-hero__inner { padding: 0 20px 44px; }
     .gg-hero__title { font-size: clamp(48px, 13vw, 64px); }
+    .gg-hero__stats { gap: 10px; }
+    .gg-hero__stat-label { display: none; } /* Too cramped — numbers only */
+    .gg-hero__stat-divider { height: 20px; }
   }
 </style>
 
@@ -253,6 +432,50 @@
       "id": "subheading",
       "label": "Subheading",
       "default": "Commercial-grade equipment, without the commercial price tag. Built for everyday Australians who train hard."
+    },
+    {
+      "type": "header",
+      "content": "Stats Row"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_number",
+      "label": "Stat 1 — number / value",
+      "default": "Aussie"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 — label",
+      "default": "OWNED"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_number",
+      "label": "Stat 2 — number / value",
+      "default": "6-Month"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 — label",
+      "default": "Warranty"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_number",
+      "label": "Stat 3 — number / value",
+      "default": "AU-Wide"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 — label",
+      "default": "Delivery"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
     },
     {
       "type": "text",
