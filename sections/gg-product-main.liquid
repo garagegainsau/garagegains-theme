@@ -1,0 +1,607 @@
+{% comment %}
+  Section: GG Product Main
+  File: sections/gg-product-main.liquid
+  Description: Primary 2-column PDP section — left image grid, right info/purchase/trust.
+               Handles breadcrumbs, title, price, variant selectors, quantity, ATC,
+               trust row and delivery accordion. Powered entirely by product Liquid object.
+{% endcomment %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign has_sale        = false
+  assign save_amount     = 0
+  if product.compare_at_price > product.price
+    assign has_sale    = true
+    assign save_amount = product.compare_at_price | minus: product.price
+  endif
+  assign first_collection = product.collections.first
+-%}
+
+<div class="gg-pdp-wrapper" data-section-id="{{ section.id }}" data-section-type="gg-product-main">
+
+  {%- comment %} ===================== LEFT — IMAGE GRID ===================== {%- endcomment %}
+  <div class="gg-pdp-gallery">
+
+    {%- if product.images.size > 0 -%}
+
+      {%- comment %} Mobile swipe strip — visible below 900px {%- endcomment %}
+      <div class="gg-pdp-mobile-strip" aria-label="Product images">
+        {%- for image in product.images limit: 8 -%}
+          {%- assign img_alt = image.alt | escape -%}
+          <div class="gg-pdp-mobile-strip__slide">
+            {%- if forloop.first -%}
+              {{- image | image_url: width: 900, format: 'webp' | image_tag:
+                    loading: 'eager',
+                    fetchpriority: 'high',
+                    alt: img_alt,
+                    class: 'gg-pdp-img',
+                    width: image.width,
+                    height: image.height -}}
+            {%- else -%}
+              {{- image | image_url: width: 900, format: 'webp' | image_tag:
+                    loading: 'lazy',
+                    alt: img_alt,
+                    class: 'gg-pdp-img',
+                    width: image.width,
+                    height: image.height -}}
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- comment %} Desktop image grid — visible from 900px {%- endcomment %}
+      <div class="gg-pdp-image-grid" aria-label="Product images">
+        {%- for image in product.images limit: 5 -%}
+          {%- assign img_alt = image.alt | escape -%}
+          <div class="gg-pdp-image-grid__item{% if forloop.first %} gg-pdp-image-grid__item--hero{% endif %}">
+            {%- if forloop.first -%}
+              {{- image | image_url: width: 900, format: 'webp' | image_tag:
+                    loading: 'eager',
+                    fetchpriority: 'high',
+                    alt: img_alt,
+                    class: 'gg-pdp-img',
+                    width: image.width,
+                    height: image.height -}}
+            {%- else -%}
+              {{- image | image_url: width: 600, format: 'webp' | image_tag:
+                    loading: 'lazy',
+                    alt: img_alt,
+                    class: 'gg-pdp-img',
+                    width: image.width,
+                    height: image.height -}}
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+    {%- else -%}
+      <div class="gg-pdp-image-grid">
+        <div class="gg-pdp-image-grid__item gg-pdp-image-grid__item--hero gg-pdp-image-grid__item--placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'gg-pdp-placeholder-svg' }}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>{%- comment %} /gg-pdp-gallery {%- endcomment %}
+
+  {%- comment %} ===================== RIGHT — INFO + BUY BOX ===================== {%- endcomment %}
+  <div class="gg-pdp-info">
+
+    {%- comment %} — Breadcrumbs — {%- endcomment %}
+    <nav class="gg-pdp-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="gg-pdp-breadcrumb__sep" aria-hidden="true">/</span>
+      {%- if first_collection != blank -%}
+        <a href="{{ first_collection.url }}">{{ first_collection.title }}</a>
+        <span class="gg-pdp-breadcrumb__sep" aria-hidden="true">/</span>
+      {%- endif -%}
+      <span aria-current="page">{{ product.title }}</span>
+    </nav>
+
+    {%- comment %} — Product title — {%- endcomment %}
+    <h1 class="gg-pdp-title">{{ product.title | upcase }}</h1>
+
+    {%- comment %} — Star rating — {%- endcomment %}
+    {%- if section.settings.show_rating and section.settings.review_count > 0 -%}
+      {%- assign rating_val   = section.settings.rating -%}
+      {%- assign full_stars   = rating_val | floor -%}
+      {%- assign remainder    = rating_val | minus: full_stars -%}
+      {%- assign half_star    = false -%}
+      {%- if remainder >= 0.25 and remainder < 0.75 -%}
+        {%- assign half_star  = true -%}
+      {%- elsif remainder >= 0.75 -%}
+        {%- assign full_stars = full_stars | plus: 1 -%}
+      {%- endif -%}
+      {%- assign half_star_position = full_stars | plus: 1 -%}
+      <div class="gg-pdp-rating" aria-label="Rated {{ rating_val }} out of 5">
+        <span class="gg-pdp-stars" aria-hidden="true">
+          {%- for i in (1..5) -%}
+            {%- if i <= full_stars -%}
+              <span class="gg-pdp-star gg-pdp-star--full">★</span>
+            {%- elsif half_star and i == half_star_position -%}
+              <span class="gg-pdp-star gg-pdp-star--half">★</span>
+            {%- else -%}
+              <span class="gg-pdp-star gg-pdp-star--empty">☆</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </span>
+        <span class="gg-pdp-rating-count">({{ section.settings.review_count }} reviews)</span>
+      </div>
+    {%- endif -%}
+
+    {%- comment %} — Price block — {%- endcomment %}
+    <div class="gg-pdp-price-block" id="gg-pdp-price" data-regular="{{ current_variant.price }}" data-compare="{{ current_variant.compare_at_price }}">
+      <span class="gg-pdp-price-now">
+        {{- current_variant.price | money_with_currency -}}
+      </span>
+      {%- if has_sale -%}
+        <span class="gg-pdp-price-was">
+          {{- current_variant.compare_at_price | money_with_currency -}}
+        </span>
+        <span class="gg-pdp-save-badge" aria-label="Save {{ save_amount | money }}">
+          <span>SAVE {{ save_amount | money }}</span>
+        </span>
+      {%- endif -%}
+    </div>
+
+    {%- comment %} — SKU — {%- endcomment %}
+    {%- if section.settings.show_sku -%}
+      <p class="gg-pdp-sku" id="gg-pdp-sku"
+        {%- if current_variant.sku == blank %} style="display:none"{% endif %}>
+        SKU:&nbsp;<span id="gg-pdp-sku-val">{{ current_variant.sku }}</span>
+      </p>
+    {%- endif -%}
+
+    {%- comment %} — Short description with link to accordions — {%- endcomment %}
+    {%- if product.description != blank -%}
+      <p class="gg-pdp-short-desc">
+        {{ product.description | strip_html | truncatewords: 30 }}
+        <a href="#gg-product-accordions" class="gg-pdp-short-desc__link">Read full specs ↓</a>
+      </p>
+    {%- endif -%}
+
+    {%- if section.settings.show_vendor and product.vendor != blank -%}
+      <p class="gg-pdp-vendor">{{ product.vendor }}</p>
+    {%- endif -%}
+
+    <hr class="gg-pdp-divider">
+
+    {%- comment %} — Variant selectors — {%- endcomment %}
+    {%- unless product.has_only_default_variant -%}
+      <div class="gg-pdp-variants" id="gg-pdp-variants">
+        {%- for option in product.options_with_values -%}
+          <div class="gg-pdp-option" data-option-index="{{ forloop.index0 }}">
+            <p class="gg-pdp-option-label">
+              {{ option.name | upcase }}: <strong id="gg-option-val-{{ forloop.index0 }}">{{ option.selected_value }}</strong>
+            </p>
+            <div class="gg-variant-pills" role="radiogroup" aria-label="{{ option.name }}">
+              {%- for value in option.values -%}
+                {%- assign variant_available = false -%}
+                {%- for variant in product.variants -%}
+                  {%- case option.position -%}
+                    {%- when 1 -%}
+                      {%- if variant.option1 == value and variant.available -%}
+                        {%- assign variant_available = true -%}
+                      {%- endif -%}
+                    {%- when 2 -%}
+                      {%- if variant.option2 == value and variant.available -%}
+                        {%- assign variant_available = true -%}
+                      {%- endif -%}
+                    {%- when 3 -%}
+                      {%- if variant.option3 == value and variant.available -%}
+                        {%- assign variant_available = true -%}
+                      {%- endif -%}
+                  {%- endcase -%}
+                {%- endfor -%}
+                <button
+                  class="gg-variant-pill gg-btn{% if option.selected_value == value %} is-selected{% endif %}{% unless variant_available %} is-unavailable{% endunless %}"
+                  data-option-index="{{ forloop.parentloop.index0 }}"
+                  data-value="{{ value | escape }}"
+                  {% unless variant_available %}disabled aria-disabled="true"{% endunless %}
+                  {% if option.selected_value == value %}aria-checked="true"{% else %}aria-checked="false"{% endif %}
+                  role="radio"
+                  type="button"
+                >
+                  <span class="gg-btn__label">
+                    {{ value }}
+                    {%- unless variant_available %}<span class="gg-variant-pill__unavail" aria-hidden="true"> ✕</span>{%- endunless -%}
+                  </span>
+                </button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endunless -%}
+
+    <hr class="gg-pdp-divider">
+
+    {%- comment %} — Quantity + ATC form — {%- endcomment %}
+    {%- form 'product', product, id: 'gg-product-form', class: 'gg-pdp-form', novalidate: 'novalidate' -%}
+      <input type="hidden" name="id" id="gg-variant-id" value="{{ current_variant.id }}">
+
+      <div class="gg-pdp-qty-row">
+        <span class="gg-pdp-qty-label">QTY</span>
+        <div class="gg-pdp-qty-control" role="group" aria-label="Product quantity">
+          <button type="button" class="gg-pdp-qty-btn" id="gg-qty-minus" aria-label="Decrease quantity">−</button>
+          <input
+            type="number"
+            class="gg-pdp-qty-input"
+            id="gg-qty-input"
+            name="quantity"
+            value="1"
+            min="1"
+            max="99"
+            aria-label="Quantity"
+          >
+          <button type="button" class="gg-pdp-qty-btn" id="gg-qty-plus" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        id="gg-atc-btn"
+        class="gg-btn gg-btn--primary gg-pdp-atc"
+        {% unless current_variant.available %}disabled aria-disabled="true"{% endunless %}
+        aria-label="{% if current_variant.available %}Add {{ product.title }} to cart{% else %}Sold out{% endif %}"
+      >
+        <span class="gg-btn__label" id="gg-atc-label">
+          {%- if current_variant.available -%}
+            ADD TO CART
+          {%- else -%}
+            SOLD OUT
+          {%- endif -%}
+        </span>
+      </button>
+
+      <p class="gg-pdp-atc-error" id="gg-atc-error" style="display:none" aria-live="polite"></p>
+
+    {%- endform -%}
+
+    {%- comment %} — Wishlist ghost link — {%- endcomment %}
+    <a href="/wishlist" class="gg-pdp-wishlist" aria-label="Save to wishlist">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+      SAVE TO WISHLIST
+    </a>
+
+    {%- comment %} — Trust row — {%- endcomment %}
+    <div class="gg-pdp-trust" aria-label="Trust signals">
+
+      <div class="gg-pdp-trust-item">
+        <div class="gg-pdp-trust-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <div>
+          <p class="gg-pdp-trust-title">{{ section.settings.trust_1_title | default: 'Ships from Melbourne' }}</p>
+          <p class="gg-pdp-trust-sub">{{ section.settings.trust_1_subtitle | default: 'Fast nationwide delivery' }}</p>
+        </div>
+      </div>
+
+      <div class="gg-pdp-trust-item">
+        <div class="gg-pdp-trust-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="gg-pdp-trust-title">{{ section.settings.trust_2_title | default: 'Lifetime Warranty' }}</p>
+          <p class="gg-pdp-trust-sub">{{ section.settings.trust_2_subtitle | default: 'Commercial-grade build quality' }}</p>
+        </div>
+      </div>
+
+      <div class="gg-pdp-trust-item">
+        <div class="gg-pdp-trust-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3"/>
+          </svg>
+        </div>
+        <div>
+          <p class="gg-pdp-trust-title">{{ section.settings.trust_3_title | default: '30-Day Returns' }}</p>
+          <p class="gg-pdp-trust-sub">{{ section.settings.trust_3_subtitle | default: 'Hassle-free, no questions asked' }}</p>
+        </div>
+      </div>
+
+    </div>{%- comment %} /gg-pdp-trust {%- endcomment %}
+
+    {%- comment %} — Delivery accordion — {%- endcomment %}
+    <details class="gg-pdp-delivery">
+      <summary>DELIVERY &amp; RETURNS</summary>
+      <div class="gg-pdp-delivery-body">
+        <ul>
+          <li>Free standard delivery Australia-wide on orders over $199</li>
+          <li>Freight/bulky items: 5–10 business days</li>
+          <li>Regional WA &amp; NT may require additional transit time</li>
+          <li>30-day hassle-free returns on unused, unassembled items</li>
+          <li>Email <a href="mailto:returns@garagegains.com.au">returns@garagegains.com.au</a> to start a return</li>
+        </ul>
+      </div>
+    </details>
+
+  </div>{%- comment %} /gg-pdp-info {%- endcomment %}
+
+</div>{%- comment %} /gg-pdp-wrapper {%- endcomment %}
+
+{%- comment %} Serialise product variants for JS — placed outside wrapper so it doesn't affect grid {%- endcomment %}
+<script type="application/json" id="gg-product-json">
+  {{ product | json }}
+</script>
+
+<script type="module">
+  (function() {
+    // ---- Product data ----
+    const productData  = JSON.parse(document.getElementById('gg-product-json').textContent);
+    const variants     = productData.variants;
+
+    // ---- DOM refs ----
+    const form         = document.getElementById('gg-product-form');
+    const variantInput = document.getElementById('gg-variant-id');
+    const atcBtn       = document.getElementById('gg-atc-btn');
+    const atcLabel     = document.getElementById('gg-atc-label');
+    const atcError     = document.getElementById('gg-atc-error');
+    const qtyInput     = document.getElementById('gg-qty-input');
+    const qtyMinus     = document.getElementById('gg-qty-minus');
+    const qtyPlus      = document.getElementById('gg-qty-plus');
+    const priceBlock   = document.getElementById('gg-pdp-price');
+    const skuEl        = document.getElementById('gg-pdp-sku');
+    const skuValEl     = document.getElementById('gg-pdp-sku-val');
+
+    // ---- Selected options state ----
+    const selectedOptions = [];
+
+    // ---- Variant pill click ----
+    document.querySelectorAll('.gg-variant-pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        if (this.disabled) return;
+        const optionIndex = parseInt(this.dataset.optionIndex, 10);
+        const value       = this.dataset.value;
+
+        // Deselect siblings
+        document.querySelectorAll('.gg-variant-pill[data-option-index="' + optionIndex + '"]').forEach(function(p) {
+          p.classList.remove('is-selected');
+          p.setAttribute('aria-checked', 'false');
+        });
+
+        // Select clicked
+        this.classList.add('is-selected');
+        this.setAttribute('aria-checked', 'true');
+
+        // Update visible label
+        const labelEl = document.getElementById('gg-option-val-' + optionIndex);
+        if (labelEl) labelEl.textContent = value;
+
+        // Update selected options array
+        selectedOptions[optionIndex] = value;
+
+        // Find matching variant
+        const matched = findVariant(selectedOptions);
+        if (matched) applyVariant(matched);
+      });
+    });
+
+    function findVariant(options) {
+      return variants.find(function(v) {
+        return options.every(function(opt, i) {
+          if (opt == null) return true;
+          return v['option' + (i + 1)] === opt;
+        });
+      }) || null;
+    }
+
+    function applyVariant(variant) {
+      // Update hidden input
+      if (variantInput) variantInput.value = variant.id;
+
+      // Update ATC button state
+      const available = variant.available;
+      atcLabel.textContent   = available ? 'ADD TO CART' : 'SOLD OUT';
+      atcBtn.disabled        = !available;
+      atcBtn.setAttribute('aria-disabled', !available);
+      atcBtn.classList.toggle('is-soldout', !available);
+
+      // Update price
+      if (priceBlock) {
+        const formatter = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' });
+        const nowEl     = priceBlock.querySelector('.gg-pdp-price-now');
+        const wasEl     = priceBlock.querySelector('.gg-pdp-price-was');
+        const saveEl    = priceBlock.querySelector('.gg-pdp-save-badge');
+
+        if (nowEl) nowEl.textContent = formatter.format(variant.price / 100) + ' AUD';
+
+        if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+          const saveAmt = (variant.compare_at_price - variant.price) / 100;
+          if (wasEl) {
+            wasEl.textContent  = formatter.format(variant.compare_at_price / 100) + ' AUD';
+            wasEl.style.display = '';
+          }
+          if (saveEl) {
+            saveEl.querySelector('span').textContent = 'SAVE ' + formatter.format(saveAmt);
+            saveEl.style.display = '';
+          }
+        } else {
+          if (wasEl)  wasEl.style.display  = 'none';
+          if (saveEl) saveEl.style.display = 'none';
+        }
+      }
+
+      // Update SKU
+      if (skuEl && skuValEl) {
+        if (variant.sku) {
+          skuValEl.textContent = variant.sku;
+          skuEl.style.display  = '';
+        } else {
+          skuEl.style.display  = 'none';
+        }
+      }
+
+      // Broadcast variant change for other sections (gallery etc.)
+      document.dispatchEvent(new CustomEvent('variant:change', { detail: { variant: variant } }));
+    }
+
+    // ---- Quantity controls ----
+    if (qtyMinus) {
+      qtyMinus.addEventListener('click', function() {
+        const v = parseInt(qtyInput.value, 10) || 1;
+        if (v > 1) qtyInput.value = v - 1;
+      });
+    }
+    if (qtyPlus) {
+      qtyPlus.addEventListener('click', function() {
+        const v = parseInt(qtyInput.value, 10) || 1;
+        if (v < 99) qtyInput.value = v + 1;
+      });
+    }
+    if (qtyInput) {
+      qtyInput.addEventListener('change', function() {
+        const v = parseInt(this.value, 10);
+        if (isNaN(v) || v < 1) this.value = 1;
+        if (v > 99)            this.value = 99;
+      });
+    }
+
+    // ---- ATC submit (Ajax) ----
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (atcBtn.disabled) return;
+
+        // Loading state
+        atcBtn.disabled    = true;
+        atcLabel.textContent = 'ADDING…';
+        atcError.style.display = 'none';
+
+        const formData = new FormData(form);
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+          body: formData
+        })
+        .then(function(res) {
+          if (!res.ok) return res.json().then(function(d) { throw d; });
+          return res.json();
+        })
+        .then(function() {
+          // Success state
+          atcBtn.classList.add('is-added');
+          atcLabel.textContent = 'ADDED ✓';
+          document.dispatchEvent(new CustomEvent('cart:updated'));
+
+          setTimeout(function() {
+            atcBtn.classList.remove('is-added');
+            atcLabel.textContent = 'ADD TO CART';
+            atcBtn.disabled = false;
+          }, 1500);
+        })
+        .catch(function(err) {
+          const msg = (err && err.description) ? err.description : 'Could not add to cart. Please try again.';
+          atcError.textContent   = msg;
+          atcError.style.display = 'block';
+          atcLabel.textContent   = 'ADD TO CART';
+          atcBtn.disabled = false;
+        });
+      });
+    }
+
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "GG — Product Main",
+  "tag": "section",
+  "class": "gg-section-pdp-main",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product display"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sku",
+      "label": "Show SKU",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Star rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show star rating",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "rating",
+      "label": "Rating value (out of 5)",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "number",
+      "id": "review_count",
+      "label": "Review count",
+      "default": 0,
+      "info": "Set to 0 to hide the rating row"
+    },
+    {
+      "type": "header",
+      "content": "Trust signals"
+    },
+    {
+      "type": "text",
+      "id": "trust_1_title",
+      "label": "Trust signal 1 — title",
+      "default": "Ships from Melbourne"
+    },
+    {
+      "type": "text",
+      "id": "trust_1_subtitle",
+      "label": "Trust signal 1 — subtext",
+      "default": "Fast nationwide delivery"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_title",
+      "label": "Trust signal 2 — title",
+      "default": "Lifetime Warranty"
+    },
+    {
+      "type": "text",
+      "id": "trust_2_subtitle",
+      "label": "Trust signal 2 — subtext",
+      "default": "Commercial-grade build quality"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_title",
+      "label": "Trust signal 3 — title",
+      "default": "30-Day Returns"
+    },
+    {
+      "type": "text",
+      "id": "trust_3_subtitle",
+      "label": "Trust signal 3 — subtext",
+      "default": "Hassle-free, no questions asked"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GG — Product Main"
+    }
+  ]
+}
+{% endschema %}
