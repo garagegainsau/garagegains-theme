@@ -1,0 +1,181 @@
+{% comment %}
+  Section: GG Product Tabs
+  File: sections/gg-product-tabs.liquid
+  Description: Full-width below-fold accordions for Description, Tech Specs, and Shipping.
+               Uses native <details>/<summary> — zero JavaScript required.
+               Appears below the 2-column hero buy box on every PDP.
+{% endcomment %}
+
+<div id="gg-product-accordions" class="gg-pdp-accordions">
+
+  {%- comment %} ========== DESCRIPTION ========== {%- endcomment %}
+  <details class="gg-pdp-accordion" open>
+    <summary>{{ section.settings.description_heading | default: 'DESCRIPTION' }}</summary>
+    <div class="gg-pdp-accordion-body">
+      {%- if product.description != blank -%}
+        <div class="gg-richtext">
+          {{ product.description }}
+        </div>
+      {%- else -%}
+        <p class="gg-richtext" style="color: rgba(255,255,255,0.35);">No description available for this product.</p>
+      {%- endif -%}
+    </div>
+  </details>
+
+  {%- comment %} ========== TECH SPECS ========== {%- endcomment %}
+  {%- assign has_specs = false -%}
+  {%- for block in section.blocks -%}
+    {%- if block.settings.spec_label != blank -%}
+      {%- assign has_specs = true -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if has_specs -%}
+    <details class="gg-pdp-accordion">
+      <summary>{{ section.settings.specs_heading | default: 'TECH SPECS' }}</summary>
+      <div class="gg-pdp-accordion-body">
+        <table class="gg-specs-table" aria-label="Technical specifications">
+          <tbody>
+            {%- for block in section.blocks -%}
+              {%- if block.settings.spec_label != blank -%}
+                <tr {{ block.shopify_attributes }}>
+                  <td>{{ block.settings.spec_label }}</td>
+                  <td>{{ block.settings.spec_value | default: '—' }}</td>
+                </tr>
+              {%- endif -%}
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    </details>
+  {%- endif -%}
+
+  {%- comment %} ========== SHIPPING ========== {%- endcomment %}
+  <details class="gg-pdp-accordion">
+    <summary>{{ section.settings.shipping_heading | default: 'SHIPPING & RETURNS' }}</summary>
+    <div class="gg-pdp-accordion-body">
+      {%- if section.settings.shipping_content != blank -%}
+        <div class="gg-richtext">
+          {{ section.settings.shipping_content }}
+        </div>
+      {%- else -%}
+        <div class="gg-richtext">
+          <p>We ship all orders from our Melbourne warehouse. Standard delivery times apply:</p>
+          <ul>
+            <li><strong>Free shipping</strong> on orders over $199 Australia-wide</li>
+            <li>Bulky/freight items: 5–10 business days</li>
+            <li>Regional WA &amp; NT: allow additional transit time</li>
+            <li>Express options available at checkout</li>
+          </ul>
+          <p><strong>Returns:</strong> We accept returns within 30 days of delivery on unused, unassembled items in original packaging. Email <a href="mailto:returns@garagegains.com.au" style="color: var(--ember);">returns@garagegains.com.au</a> to start your return.</p>
+        </div>
+      {%- endif -%}
+    </div>
+  </details>
+
+</div>{%- comment %} /gg-product-accordions {%- endcomment %}
+
+{% schema %}
+{
+  "name": "GG — Product Tabs",
+  "tag": "section",
+  "class": "gg-section-pdp-tabs",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Accordion headings"
+    },
+    {
+      "type": "text",
+      "id": "description_heading",
+      "label": "Description accordion label",
+      "default": "DESCRIPTION"
+    },
+    {
+      "type": "text",
+      "id": "specs_heading",
+      "label": "Tech specs accordion label",
+      "default": "TECH SPECS"
+    },
+    {
+      "type": "text",
+      "id": "shipping_heading",
+      "label": "Shipping accordion label",
+      "default": "SHIPPING & RETURNS"
+    },
+    {
+      "type": "header",
+      "content": "Shipping content"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_content",
+      "label": "Shipping & returns content",
+      "info": "Leave blank to use the default delivery copy."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec_row",
+      "name": "Tech spec row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "spec_label",
+          "label": "Spec label",
+          "placeholder": "e.g. Steel Gauge"
+        },
+        {
+          "type": "text",
+          "id": "spec_value",
+          "label": "Spec value",
+          "placeholder": "e.g. 3mm"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "GG — Product Tabs",
+      "blocks": [
+        {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Steel Gauge",
+            "spec_value": ""
+          }
+        },
+        {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Load Rating",
+            "spec_value": ""
+          }
+        },
+        {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Dimensions (L × W × H mm)",
+            "spec_value": ""
+          }
+        },
+        {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Weight (kg)",
+            "spec_value": ""
+          }
+        },
+        {
+          "type": "spec_row",
+          "settings": {
+            "spec_label": "Finish",
+            "spec_value": ""
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

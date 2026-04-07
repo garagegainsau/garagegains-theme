@@ -1,0 +1,303 @@
+{% comment %}
+  Section: GG Pair Up With
+  File: sections/gg-pair-up.liquid
+  Description: "PAIR UP WITH" bundle-buy section. Shows the current product + up to 4 API-fetched
+               companion products with checkboxes, running total, and batch Add to Cart.
+               Hides silently if the recommendations API returns 0 products.
+{% endcomment %}
+
+{%- assign pair_limit = section.settings.products_to_show | default: 2 -%}
+{%- assign skeleton_total = pair_limit | plus: 1 -%}
+
+<section
+  class="gg-section gg-pair-up"
+  id="gg-pair-up-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+  data-product-title="{{ product.title | escape }}"
+  data-product-price="{{ product.price }}"
+  data-product-variant="{{ product.selected_or_first_available_variant.id }}"
+  data-product-url="{{ product.url }}"
+  data-limit="{{ pair_limit }}"
+  aria-label="{{ section.settings.heading | default: 'PAIR UP WITH' }}"
+  style="display:none"
+>
+
+  <div class="gg-pair-up__inner">
+
+    <div class="gg-sec-head">
+      {%- if section.settings.subheading != blank -%}
+        <span class="gg-sec-head__label">{{ section.settings.subheading }}</span>
+      {%- endif -%}
+      <h2 class="gg-sec-head__title">{{ section.settings.heading | default: 'PAIR UP WITH' | upcase }}</h2>
+    </div>
+
+    {%- comment %} Skeleton shimmer cards — shown while JS fetches {%- endcomment %}
+    <div class="gg-pair-up__row gg-pair-up__skeletons" aria-hidden="true">
+      {%- for i in (1..skeleton_total) -%}
+        {%- unless forloop.first -%}
+          <div class="gg-pair-up__divider" aria-hidden="true">+</div>
+        {%- endunless -%}
+        <div class="gg-pair-up__card gg-pair-up__card--skeleton">
+          <div class="gg-pair-up__thumb gg-shimmer"></div>
+          <div class="gg-pair-up__card-body">
+            <div class="gg-shimmer gg-shimmer--text" style="height:16px; width:70%; margin-bottom:10px;"></div>
+            <div class="gg-shimmer gg-shimmer--text" style="height:20px; width:40%;"></div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- comment %} JS-populated card row {%- endcomment %}
+    <div class="gg-pair-up__row gg-pair-up__cards" style="display:none" role="group" aria-label="Bundle items"></div>
+
+    {%- comment %} Footer: total + ATC {%- endcomment %}
+    <div class="gg-pair-up__footer" style="display:none" aria-live="polite">
+      <div class="gg-pair-up__footer-total">
+        <span class="gg-pair-up__footer-label">SELECTED ITEMS TOTAL</span>
+        <span class="gg-pair-up__footer-price" id="gg-pair-up-total-{{ section.id }}">—</span>
+      </div>
+      <button
+        type="button"
+        class="gg-btn gg-btn--primary gg-pair-up__atc-btn"
+        id="gg-pair-up-atc-{{ section.id }}"
+        aria-label="Add selected items to cart"
+      >
+        <span class="gg-btn__label" id="gg-pair-up-atc-label-{{ section.id }}">ADD TO CART</span>
+      </button>
+      <p class="gg-pair-up__atc-error" id="gg-pair-up-error-{{ section.id }}" style="display:none" aria-live="assertive"></p>
+    </div>
+
+  </div>
+
+</section>
+
+<script type="module">
+  (function() {
+    const section   = document.getElementById('gg-pair-up-{{ section.id }}');
+    if (!section) return;
+
+    const productId      = section.dataset.productId;
+    const productTitle   = section.dataset.productTitle;
+    const productPrice   = parseInt(section.dataset.productPrice, 10) || 0;
+    const productVariant = section.dataset.productVariant;
+    const productUrl     = section.dataset.productUrl;
+    const limit          = parseInt(section.dataset.limit, 10) || 2;
+
+    const skeletons  = section.querySelector('.gg-pair-up__skeletons');
+    const cardsRow   = section.querySelector('.gg-pair-up__cards');
+    const footer     = section.querySelector('.gg-pair-up__footer');
+    const totalEl    = document.getElementById('gg-pair-up-total-{{ section.id }}');
+    const atcBtn     = document.getElementById('gg-pair-up-atc-{{ section.id }}');
+    const atcLabel   = document.getElementById('gg-pair-up-atc-label-{{ section.id }}');
+    const errorEl    = document.getElementById('gg-pair-up-error-{{ section.id }}');
+
+    if (!productId || !cardsRow) return;
+
+    // Fetch companion recommendations
+    const url = '/recommendations/products.json?product_id=' + productId + '&limit=' + limit + '&intent=related';
+
+    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+      .then(function(res) {
+        if (!res.ok) throw new Error('Recommendations failed');
+        return res.json();
+      })
+      .then(function(data) {
+        const companions = data.products;
+        if (!companions || companions.length === 0) {
+          section.style.display = 'none';
+          return;
+        }
+
+        // Build current product as first card (always locked + checked)
+        const currentCard = buildCard({
+          variantId: productVariant,
+          price: productPrice,
+          title: productTitle,
+          url: productUrl,
+          imageUrl: '',
+          isOnSale: false,
+          compareAt: 0,
+          locked: true
+        });
+
+        // Build companion cards
+        const companionCards = companions.map(function(p) {
+          const img      = (p.images && p.images[0]) ? p.images[0] : null;
+          const imageUrl = img ? img.src.replace(/(_\d+x\d*(_crop_\w+)?)?(\?.*)?$/, '') + '?width=600&format=webp' : '';
+          const isOnSale = p.compare_at_price_max && p.compare_at_price_max > p.price;
+          return buildCard({
+            variantId: p.variants && p.variants[0] ? String(p.variants[0].id) : '',
+            price: p.price,
+            title: p.title,
+            url: p.url,
+            imageUrl: imageUrl,
+            isOnSale: isOnSale,
+            compareAt: isOnSale ? p.compare_at_price_max : 0,
+            locked: false
+          });
+        });
+
+        // Interleave dividers
+        const allCards = [currentCard].concat(companionCards);
+        const pieces   = [];
+        allCards.forEach(function(html, i) {
+          if (i > 0) pieces.push('<div class="gg-pair-up__divider" aria-hidden="true">+</div>');
+          pieces.push(html);
+        });
+
+        cardsRow.innerHTML = pieces.join('');
+        cardsRow.style.display = '';
+        if (skeletons) skeletons.style.display = 'none';
+        footer.style.display   = '';
+        section.style.display  = '';
+
+        recalculate();
+      })
+      .catch(function() {
+        section.style.display = 'none';
+      });
+
+    // Delegated checkbox toggle
+    cardsRow.addEventListener('click', function(e) {
+      const card = e.target.closest('.gg-pair-up__card');
+      if (!card || card.dataset.locked === 'true') return;
+      card.classList.toggle('is-checked');
+      recalculate();
+    });
+
+    // ATC handler
+    if (atcBtn) {
+      atcBtn.addEventListener('click', function() {
+        if (atcBtn.disabled) return;
+
+        const checkedCards = Array.from(cardsRow.querySelectorAll('.gg-pair-up__card.is-checked'));
+        if (checkedCards.length === 0) return;
+
+        const items = checkedCards.map(function(card) {
+          return { id: parseInt(card.dataset.variantId, 10), quantity: 1 };
+        });
+
+        atcBtn.disabled      = true;
+        atcLabel.textContent = 'ADDING\u2026';
+        errorEl.style.display = 'none';
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({ items: items })
+        })
+        .then(function(res) {
+          if (!res.ok) return res.json().then(function(d) { throw d; });
+          return res.json();
+        })
+        .then(function() {
+          atcLabel.textContent = 'ADDED \u2713';
+          atcBtn.classList.add('is-added');
+          document.dispatchEvent(new CustomEvent('cart:updated'));
+          setTimeout(function() {
+            atcBtn.classList.remove('is-added');
+            atcBtn.disabled = false;
+            recalculate();
+          }, 1500);
+        })
+        .catch(function(err) {
+          const msg = (err && err.description) ? err.description : 'Could not add to cart. Please try again.';
+          errorEl.textContent   = msg;
+          errorEl.style.display = 'block';
+          atcLabel.textContent  = 'ADD TO CART';
+          atcBtn.disabled       = false;
+        });
+      });
+    }
+
+    function recalculate() {
+      const checkedCards = Array.from(cardsRow.querySelectorAll('.gg-pair-up__card.is-checked'));
+      const total        = checkedCards.reduce(function(sum, card) {
+        return sum + (parseInt(card.dataset.price, 10) || 0);
+      }, 0);
+      const count        = checkedCards.length;
+
+      if (totalEl) totalEl.textContent = formatMoney(total);
+      if (atcLabel) {
+        atcLabel.textContent = count <= 1 ? 'ADD TO CART' : 'ADD ' + count + ' TO CART';
+      }
+      if (atcBtn) atcBtn.disabled = count === 0;
+    }
+
+    function buildCard(opts) {
+      const titleEsc = escapeHtml(opts.title);
+      const imgHtml  = opts.imageUrl
+        ? '<img src="' + opts.imageUrl + '" alt="' + titleEsc + '" loading="lazy" width="600" height="600">'
+        : '';
+      const priceHtml = opts.isOnSale
+        ? '<span>' + formatMoney(opts.price) + '</span><span class="gg-pair-up__card-was">' + formatMoney(opts.compareAt) + '</span>'
+        : '<span>' + formatMoney(opts.price) + '</span>';
+
+      const checkboxHtml = opts.locked
+        ? '<div class="gg-pair-up__checkbox-wrap"><span class="gg-pair-up__checkbox-custom"><span class="gg-pair-up__checkbox-mark">&#10003;</span></span></div>'
+        : '<div class="gg-pair-up__checkbox-wrap"><span class="gg-pair-up__checkbox-custom"><span class="gg-pair-up__checkbox-mark">&#10003;</span></span></div>';
+
+      const classes = 'gg-pair-up__card is-checked' + (opts.locked ? ' is-locked' : '');
+
+      return '<div class="' + classes + '" data-variant-id="' + escapeHtml(opts.variantId) + '" data-price="' + opts.price + '" data-locked="' + (opts.locked ? 'true' : 'false') + '">' +
+        checkboxHtml +
+        '<div class="gg-pair-up__thumb">' + imgHtml + '</div>' +
+        '<div class="gg-pair-up__card-body">' +
+          '<span class="gg-pair-up__card-title">' + titleEsc + '</span>' +
+          '<div class="gg-pair-up__card-price">' + priceHtml + '</div>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function formatMoney(cents) {
+      return new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(cents / 100);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "GG — Pair Up With",
+  "tag": "section",
+  "class": "gg-section-pair-up",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Eyebrow label",
+      "default": "RECOMMENDED"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section heading",
+      "default": "PAIR UP WITH"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Companion products to fetch",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 2,
+      "info": "Number of companion products shown alongside the current product."
+    }
+  ],
+  "presets": [
+    {
+      "name": "GG — Pair Up With"
+    }
+  ]
+}
+{% endschema %}

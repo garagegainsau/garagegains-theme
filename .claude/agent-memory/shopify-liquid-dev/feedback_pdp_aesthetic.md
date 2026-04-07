@@ -15,3 +15,16 @@ Key things to avoid repeating (inferred from rejection):
 - Any light-coloured surfaces or non-dark-mode elements on the PDP
 - Layout structures that feel more suited to apparel/lifestyle than heavy equipment
 - Anything that doesn't feel like it belongs alongside the hero and footer aesthetic already approved
+
+## PDP v2 — Built 2026-04-06
+
+The merchant provided reference files in `website references/pdp references/` including `rebel.html`
+and `rebel pdp main reference.png`. A full detailed brief was provided specifying:
+- Rebel Sport layout pattern (2-col grid, image grid left, buy box right, accordions below)
+- GarageGains dark treatment applied throughout (no light surfaces)
+- Single combined section `gg-product-main.liquid` to handle the 2-col layout correctly
+- `<details>/<summary>` accordions (no JS) for Description / Tech Specs / Shipping
+- Upsell grid with shimmer skeletons and silent JS fallback
+
+v2 files: `sections/gg-product-main.liquid`, `sections/gg-product-tabs.liquid`,
+`sections/gg-upsell.liquid`, `templates/product.json` (all written to `feature/pdp-v2` branch).
