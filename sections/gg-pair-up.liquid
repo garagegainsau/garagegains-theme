@@ -95,15 +95,27 @@
     if (!productId || !cardsRow) return;
 
     // Fetch companion recommendations
-    const url = '/recommendations/products.json?product_id=' + productId + '&limit=' + limit + '&intent=related';
+    const url = '/recommendations/products.json?product_id=' + productId + '&limit=' + limit + '&intent=complementary';
 
-    fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-      .then(function(res) {
-        if (!res.ok) throw new Error('Recommendations failed');
-        return res.json();
+    function fetchCompanions(intentUrl) {
+      return fetch(intentUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(function(res) {
+          if (!res.ok) throw new Error('Recommendations failed');
+          return res.json();
+        })
+        .then(function(data) { return data.products || []; });
+    }
+
+    fetchCompanions(url)
+      .then(function(companions) {
+        // Fall back to related if no complementary products are set for this product
+        if (!companions || companions.length === 0) {
+          const fallbackUrl = '/recommendations/products.json?product_id=' + productId + '&limit=' + limit + '&intent=related';
+          return fetchCompanions(fallbackUrl);
+        }
+        return companions;
       })
-      .then(function(data) {
-        const companions = data.products;
+      .then(function(companions) {
         if (!companions || companions.length === 0) {
           section.style.display = 'none';
           return;
