@@ -12,20 +12,20 @@
      Scoped to .gg-mega — all other nav CSS lives in garagegains.css
      ============================================================ */
 
+  /* Dropdown panel — distinctly lighter than nav bar (#111) for depth */
   .gg-mega {
     position: fixed;
     top: 68px;
     left: 0;
     right: 0;
-    background: rgba(10,10,10,0.97);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: #1a1a1a;
     border-top: 2px solid var(--ember);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid #2a2a2a;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     pointer-events: none;
-    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+    transition: opacity 0.18s ease-out, transform 0.18s ease-out;
     z-index: 201;
   }
 
@@ -38,39 +38,73 @@
   .gg-mega__inner {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 48px 80px 52px;
+    padding: 44px 80px 48px;
     display: flex;
-    gap: 48px;
+    gap: 0;
     align-items: flex-start;
   }
 
+  /* ---- Featured left column — large Barlow bold links (Reebok sidebar style) ---- */
+  .gg-mega__featured-col {
+    flex-shrink: 0;
+    width: 200px;
+    padding-right: 40px;
+    border-right: 1px solid #2a2a2a;
+    margin-right: 48px;
+  }
+
+  .gg-mega__featured-link {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: rgba(245,243,239,0.5);
+    text-decoration: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #242424;
+    transition: color 0.2s;
+    line-height: 1.1;
+  }
+
+  .gg-mega__featured-link:first-child { padding-top: 0; }
+  .gg-mega__featured-link:last-child { border-bottom: none; }
+
+  .gg-mega__featured-link:hover {
+    color: var(--bone);
+  }
+
+  /* ---- Right column grid ---- */
   .gg-mega__cols {
     display: flex;
-    gap: 40px;
+    gap: 48px;
     flex: 1;
     flex-wrap: wrap;
+    align-items: flex-start;
   }
 
   .gg-mega__col {
     flex: 1;
-    min-width: 140px;
+    min-width: 120px;
   }
 
+  /* Column heading — ember label like Technogym's category titles */
   .gg-mega__col-head {
     display: block;
     font-family: 'Barlow Condensed', sans-serif;
     font-weight: 800;
-    font-size: 13px;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgba(245,243,239,0.5);
+    letter-spacing: 0.2em;
+    color: var(--ember);
     text-decoration: none;
-    margin-bottom: 16px;
-    transition: color 0.2s;
+    margin-bottom: 14px;
+    transition: opacity 0.2s;
   }
 
   .gg-mega__col-head:hover {
-    color: var(--ember);
+    opacity: 0.75;
   }
 
   .gg-mega__list {
@@ -79,50 +113,24 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
+  /* Sub-links — clean DM Sans, slide right on hover */
   .gg-mega__link {
     display: block;
     font-family: 'DM Sans', sans-serif;
     font-weight: 400;
-    font-size: 14px;
-    color: rgba(245,243,239,0.65);
+    font-size: 15px;
+    color: rgba(245,243,239,0.6);
     text-decoration: none;
-    padding: 2px 0;
-    transition: color 0.2s, padding-left 0.2s;
+    padding: 3px 0;
+    transition: color 0.15s, padding-left 0.15s;
   }
 
   .gg-mega__link:hover {
     color: var(--bone);
-    padding-left: 4px;
-  }
-
-  /* Direct links (no grandchildren) rendered in a "featured" first column */
-  .gg-mega__featured-col {
-    flex: 1;
-    min-width: 160px;
-  }
-
-  .gg-mega__featured-link {
-    display: block;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: 15px;
-    color: var(--bone);
-    text-decoration: none;
-    padding: 6px 0;
-    border-bottom: 1px solid var(--border);
-    transition: color 0.2s, padding-left 0.2s;
-  }
-
-  .gg-mega__featured-link:last-child {
-    border-bottom: none;
-  }
-
-  .gg-mega__featured-link:hover {
-    color: var(--ember);
-    padding-left: 4px;
+    padding-left: 6px;
   }
 
   /* Nav link chevron */
