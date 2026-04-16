@@ -1,0 +1,3 @@
+- [GarageGains z-index stacking context](project_zindex_stacking.md) — .gg-nav is z-index 200; mega/overlay panels must be 201+; drawer is 500
+- [image_tag alt pre-assignment rule](feedback_inline_alt_escape.md) — never use image.alt | escape inline in image_tag params; pre-assign to variable
+- [Section audit history](project_audit_history.md) — log of all audited sections, status, and critical findings

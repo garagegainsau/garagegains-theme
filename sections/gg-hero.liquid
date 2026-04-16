@@ -99,8 +99,8 @@
   /* ---- Hero ---- */
   .gg-hero {
     position: relative;
-    height: calc(100vh - 56px);
-    min-height: 580px;
+    height: calc(100vh - var(--header-height, 56px) - 180px);
+    min-height: 500px;
     overflow: hidden;
     display: flex;
     align-items: flex-end;
@@ -338,8 +338,8 @@
 
   @media (max-width: 768px) {
     .gg-hero {
-      height: 88svh;
-      min-height: 520px;
+      height: calc(88svh - 180px);
+      min-height: 420px;
       align-items: flex-end;
     }
     /* Zoom image in tighter — better portrait framing */

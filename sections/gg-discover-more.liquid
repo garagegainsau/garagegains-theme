@@ -265,15 +265,24 @@
       const track = panel.querySelector('.gg-discover__track--team');
       if (!track || !productId) return;
 
-      const url = '/recommendations/products.json?product_id=' + productId + '&limit=' + limit + '&intent=related';
+      const compUrl     = '/recommendations/products.json?product_id=' + productId + '&limit=' + limit + '&intent=complementary';
+      const relatedUrl  = '/recommendations/products.json?product_id=' + productId + '&limit=' + limit + '&intent=related';
 
-      fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-        .then(function(res) {
-          if (!res.ok) throw new Error('Recommendations failed');
-          return res.json();
+      function fetchRecs(u) {
+        return fetch(u, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+          .then(function(res) {
+            if (!res.ok) throw new Error('Recommendations failed');
+            return res.json();
+          })
+          .then(function(data) { return data.products || []; });
+      }
+
+      fetchRecs(compUrl)
+        .then(function(products) {
+          if (!products || products.length === 0) return fetchRecs(relatedUrl);
+          return products;
         })
-        .then(function(data) {
-          const products = data.products;
+        .then(function(products) {
           if (!products || products.length === 0) {
             track.innerHTML = '<p style="color:var(--steel);font-family:DM Sans,sans-serif;padding:24px 0;">No related products found.</p>';
             return;

@@ -80,19 +80,22 @@
         "title": "Built On Trust"
       }
     },
-    "gg-reviews": {
-      "type": "gg-reviews",
+    "gg-consultation": {
+      "type": "gg-consultation",
       "blocks": {
-        "rev-1": { "type": "review", "settings": { "stars": 5, "text": "Set up my full garage gym in a weekend. Quality is legit — feels like gear that'll last 20 years. Fast shipping too.", "name": "Mitch T.", "location": "Brisbane, QLD" } },
-        "rev-2": { "type": "review", "settings": { "stars": 5, "text": "Finally a store that gets it — no fluff, straight-up solid equipment at prices that don't need a second mortgage.", "name": "Sarah K.", "location": "Melbourne, VIC" } },
-        "rev-3": { "type": "review", "settings": { "stars": 5, "text": "Power rack is rock solid. Cheaper than going to a commercial gym for a year. Couldn't be happier.", "name": "Dave R.", "location": "Perth, WA" } }
+        "perk-1": { "type": "perk", "settings": { "label": "Tailored to your goals" } },
+        "perk-2": { "type": "perk", "settings": { "label": "Space & layout planning" } },
+        "perk-3": { "type": "perk", "settings": { "label": "Complimentary, zero commitment" } }
       },
-      "block_order": ["rev-1", "rev-2", "rev-3"],
+      "block_order": ["perk-1", "perk-2", "perk-3"],
       "settings": {
-        "eyebrow": "Real Customers",
-        "title": "What They're Saying",
-        "aggregate_rating": "4.9 / 5",
-        "total_reviews": "2,400+ reviews"
+        "eyebrow": "Free Expert Advice",
+        "headline": "Need Help Building",
+        "headline_accent": "Your Home Gym?",
+        "body": "Our qualified PTs will help you pick the right gear for your space, goals, and budget. No guesswork, no wasted money.",
+        "cta_label": "Book Free Consult",
+        "cta_url": "",
+        "cta_subtext": "Takes 2 minutes to book"
       }
     }
   },
@@ -103,6 +106,6 @@
     "gg-featured-products",
     "gg-email-cta",
     "gg-trust",
-    "gg-reviews"
+    "gg-consultation"
   ]
 }

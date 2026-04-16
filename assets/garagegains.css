@@ -125,34 +125,36 @@ button { cursor: pointer; font-family: inherit; }
    =========================== */
 
 .gg-nav {
-  position: fixed;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 48px);
-  max-width: 1200px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 200;
-  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), top 0.3s ease;
+  background: rgba(17,17,17,0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), border-color 0.3s ease, background 0.3s ease;
 }
 
+.gg-nav.is-hidden { transform: translateY(-100%); }
+
 .gg-nav__inner {
-  height: 64px;
+  height: 68px;
+  max-width: 1440px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 0 28px;
-  border-radius: 100px;
-  background: rgba(17,17,17,0.72);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,0.12);
+  gap: 32px;
+  padding: 0 40px;
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
-.gg-nav.scrolled .gg-nav__inner {
-  background: rgba(17,17,17,0.96);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+.gg-nav.scrolled {
+  background: rgba(17,17,17,0.99);
+  border-bottom-color: var(--ember);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6);
 }
 
 /* ---- Logo ---- */
@@ -206,29 +208,67 @@ button { cursor: pointer; font-family: inherit; }
   align-items: center;
   gap: 4px;
   flex: 1;
+  justify-content: center;
+}
+
+/* Each top-level nav item is a positioned wrapper for its mega panel */
+.gg-nav__item {
+  position: relative;
 }
 
 .gg-nav__link {
   font-family: 'DM Sans', sans-serif;
   font-weight: 500;
   font-size: 15px;
-  color: rgba(255,255,255,0.6);
-  padding: 8px 14px;
-  border-radius: 4px;
+  color: rgba(255,255,255,0.65);
+  padding: 10px 14px;
   text-decoration: none;
   white-space: nowrap;
-  transition: color 0.2s, background 0.2s;
+  display: block;
+  transition: color 0.2s;
+  position: relative;
 }
 
-.gg-nav__link:hover {
+/* Ember underline on hover / active */
+.gg-nav__link::before {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.gg-nav__link:hover,
+.gg-nav__item.is-open .gg-nav__link {
   color: var(--bone);
-  background: rgba(255,255,255,0.06);
+}
+
+.gg-nav__link:hover::before,
+.gg-nav__item.is-open .gg-nav__link::before {
+  transform: scaleX(1);
+}
+
+[aria-current="page"].gg-nav__link {
+  color: var(--bone);
+}
+
+[aria-current="page"].gg-nav__link::before {
+  transform: scaleX(1);
 }
 
 .gg-nav__link--sale { color: var(--ember); }
-.gg-nav__link--sale:hover {
-  color: var(--ember-hover);
-  background: rgba(201,74,30,0.08);
+.gg-nav__link--sale:hover { color: var(--ember-hover); }
+
+/* Skewed CTA in desktop nav */
+.gg-nav__cta {
+  padding: 0.6rem 1.4rem;
+  line-height: 1;
+  text-decoration: none;
 }
 
 /* ---- Nav actions (desktop) ---- */
@@ -393,9 +433,11 @@ button { cursor: pointer; font-family: inherit; }
 
 .gg-drawer__links {
   flex: 1;
-  padding: 12px 0;
+  padding: 4px 0;
+  overflow-y: auto;
 }
 
+/* Legacy flat link — kept for backward compat with simple menus */
 .gg-drawer__link {
   display: block;
   padding: 14px 24px;
@@ -424,6 +466,20 @@ button { cursor: pointer; font-family: inherit; }
   padding: 24px;
   border-top: 1px solid var(--border);
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+
+/* Full-width skew CTA inside drawer footer */
+.gg-drawer__cta-skew {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: var(--ember);
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
 }
 
 .gg-drawer__meta {
@@ -431,7 +487,7 @@ button { cursor: pointer; font-family: inherit; }
   font-size: 12px;
   color: var(--steel);
   text-align: center;
-  margin-top: 12px;
+  margin: 0;
   line-height: 1.5;
 }
 
@@ -1095,14 +1151,14 @@ div.gg-section {
    RESPONSIVE BREAKPOINTS
    =========================== */
 
-/* Tablet — hide desktop nav, show mobile toggle */
+/* Tablet/Mobile — hide desktop nav, show mobile toggle */
 @media (max-width: 1080px) {
   .gg-nav__links   { display: none; }
   .gg-nav__actions { display: none; }
   .gg-nav__mobile  { display: flex; }
-  .gg-nav          { width: 100%; top: 0; left: 0; right: 0; transform: none; }
-  .gg-nav.is-hidden { transform: translateY(-100%); }
-  .gg-nav__inner   { padding: 0 20px; border-radius: 12px; }
+  .gg-nav__inner   { padding: 0 20px; }
+  /* Mega menus never render on mobile */
+  .gg-mega         { display: none !important; }
 }
 
 /* 900px — 2-col grids */

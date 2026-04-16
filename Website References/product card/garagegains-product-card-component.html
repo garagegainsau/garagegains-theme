@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GarageGains — Product Card Component Reference</title>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  GARAGEGAINS — PRODUCT CARD COMPONENT REFERENCE             ║
+  ║  Approach A: Bone (light) image backgrounds                 ║
+  ║                                                              ║
+  ║  Colour Palette:                                             ║
+  ║    Forge Black: #111111  (primary background)                ║
+  ║    Iron:        #1E1E1E  (cards, section layering)           ║
+  ║    Steel:       #5C5C5C  (dividers, secondary UI, badges)   ║
+  ║    Ash:         #E2DED8  (metadata, subtext)                 ║
+  ║    Bone:        #F5F3EF  (body text, image backgrounds)     ║
+  ║    Ember:       #C94A1E  (CTAs, sale badges, accents)       ║
+  ║                                                              ║
+  ║  Typography:                                                 ║
+  ║    Headlines: Barlow Condensed (Extra Bold/Black), ALL-CAPS ║
+  ║    Body/UI:   DM Sans                                       ║
+  ║                                                              ║
+  ║  UI Motifs:                                                  ║
+  ║    - 20° skewed parallelogram buttons/badges                ║
+  ║    - Dark-mode first                                        ║
+  ║    - Product image containers use Bone background           ║
+  ║                                                              ║
+  ║  Responsive Grid:                                            ║
+  ║    Desktop (1440+): 4 columns                               ║
+  ║    Tablet (810–1439): 3 columns                             ║
+  ║    Mobile (≤809): 2 columns                                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forge-black: #111111;
+    --iron: #1E1E1E;
+    --steel: #5C5C5C;
+    --ash: #E2DED8;
+    --bone: #F5F3EF;
+    --ember: #C94A1E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--forge-black);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--bone);
+    min-height: 100vh;
+  }
+
+  /* ── Section Header ── */
+  .section-header {
+    text-align: center;
+    padding: 60px 24px 16px;
+  }
+  .section-header .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 12px;
+  }
+  .section-header h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 56px);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    color: var(--bone);
+  }
+  .section-header .divider {
+    width: 60px;
+    height: 3px;
+    background: var(--ember);
+    margin: 20px auto 0;
+    transform: skewX(-20deg);
+  }
+
+  /* ── Product Grid ── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 24px 60px;
+  }
+  @media (max-width: 1439px) {
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 809px) {
+    .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  }
+
+  /* ── Product Card ── */
+  .product-card {
+    position: relative;
+    background: var(--iron);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  }
+
+  /* ── Badge (skewed parallelogram) ── */
+  .product-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    transform: skewX(-20deg);
+    color: white;
+  }
+  .product-badge span {
+    display: block;
+    transform: skewX(20deg);
+  }
+  .product-badge.sale      { background: var(--ember); }
+  .product-badge.new       { background: var(--steel); }
+  .product-badge.bestseller { background: var(--ember); }
+
+  /* ── Wishlist Button ── */
+  .wishlist-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+    background: rgba(17,17,17,0.7);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    backdrop-filter: blur(4px);
+  }
+  .wishlist-btn:hover { background: var(--ember); }
+  .wishlist-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--bone);
+    fill: none;
+    stroke-width: 2;
+  }
+
+  /* ── Image Container (Approach A: Bone background) ── */
+  .product-image-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--bone);
+  }
+  .product-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 16px;
+    transition: transform 0.5s ease;
+  }
+  .product-card:hover .product-image-wrap img {
+    transform: scale(1.05);
+  }
+
+  /* ── Quick Add Overlay ── */
+  .quick-add {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px;
+    background: linear-gradient(transparent, rgba(17,17,17,0.9));
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .product-card:hover .quick-add {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .quick-add-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: var(--ember);
+    color: white;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transform: skewX(-20deg);
+    transition: background 0.2s;
+  }
+  .quick-add-btn span {
+    display: block;
+    transform: skewX(20deg);
+  }
+  .quick-add-btn:hover { background: #E0551F; }
+
+  /* ── Product Info ── */
+  .product-info {
+    padding: 16px;
+  }
+  .product-brand {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 6px;
+  }
+  .product-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    text-transform: uppercase;
+    color: var(--bone);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .product-rating {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .stars { display: flex; gap: 2px; }
+  .stars svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--ember);
+  }
+  .rating-count {
+    font-size: 12px;
+    color: var(--steel);
+  }
+  .product-price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .price-current {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--bone);
+  }
+  .price-compare {
+    font-size: 14px;
+    color: var(--steel);
+    text-decoration: line-through;
+  }
+  .price-save {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ember);
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Section Header ── -->
+<div class="section-header">
+  <div class="eyebrow">Built to Perform</div>
+  <h2>Featured Gear</h2>
+  <div class="divider"></div>
+</div>
+
+<!-- ── Product Grid (4-up) ── -->
+<div class="product-grid">
+
+  <!-- Card 1: SALE badge + compare price -->
+  <div class="product-card">
+    <div class="product-badge sale"><span>SALE</span></div>
+    <div class="wishlist-btn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+    <div class="product-image-wrap">
+      <img src="/mnt/user-data/uploads/1775688555175_image.png" alt="157.5KG Olympic Weight Pack" loading="lazy">
+      <div class="quick-add"><button class="quick-add-btn"><span>Quick Add</span></button></div>
+    </div>
+    <div class="product-info">
+      <div class="product-brand">Morgan</div>
+      <div class="product-title">157.5KG Olympic Tri-Grip Weight Pack</div>
+      <div class="product-rating">
+        <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span class="rating-count">(24)</span>
+      </div>
+      <div class="product-price">
+        <span class="price-current">$1,149</span>
+        <span class="price-compare">$1,499</span>
+        <span class="price-save">SAVE $350</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: BEST SELLER badge + standard price -->
+  <div class="product-card">
+    <div class="product-badge bestseller"><span>BEST SELLER</span></div>
+    <div class="wishlist-btn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+    <div class="product-image-wrap">
+      <img src="/mnt/user-data/uploads/1775688555175_image.png" alt="20KG Olympic Barbell" loading="lazy">
+      <div class="quick-add"><button class="quick-add-btn"><span>Quick Add</span></button></div>
+    </div>
+    <div class="product-info">
+      <div class="product-brand">Morgan</div>
+      <div class="product-title">20KG Olympic Barbell — IPF Spec</div>
+      <div class="product-rating">
+        <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span class="rating-count">(41)</span>
+      </div>
+      <div class="product-price">
+        <span class="price-current">$349</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: NEW badge + compare price -->
+  <div class="product-card">
+    <div class="product-badge new"><span>NEW</span></div>
+    <div class="wishlist-btn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+    <div class="product-image-wrap">
+      <img src="/mnt/user-data/uploads/1775688555175_image.png" alt="FID Adjustable Bench" loading="lazy">
+      <div class="quick-add"><button class="quick-add-btn"><span>Quick Add</span></button></div>
+    </div>
+    <div class="product-info">
+      <div class="product-brand">Morgan</div>
+      <div class="product-title">FID Adjustable Bench — 500KG Rated</div>
+      <div class="product-rating">
+        <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span class="rating-count">(18)</span>
+      </div>
+      <div class="product-price">
+        <span class="price-current">$599</span>
+        <span class="price-compare">$749</span>
+        <span class="price-save">SAVE $150</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4: No badge + standard price -->
+  <div class="product-card">
+    <div class="wishlist-btn"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+    <div class="product-image-wrap">
+      <img src="/mnt/user-data/uploads/1775688555175_image.png" alt="Half Rack with Lat Pulldown" loading="lazy">
+      <div class="quick-add"><button class="quick-add-btn"><span>Quick Add</span></button></div>
+    </div>
+    <div class="product-info">
+      <div class="product-brand">Morgan</div>
+      <div class="product-title">Half Rack w/ Lat Pulldown — 3mm Steel</div>
+      <div class="product-rating">
+        <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span class="rating-count">(37)</span>
+      </div>
+      <div class="product-price">
+        <span class="price-current">$2,199</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,28 +1,288 @@
 {% comment %}
   Section: GG Header
   File: sections/gg-header.liquid
-  Description: GarageGains sticky nav — hides on scroll down, reveals on scroll up
+  Description: Full-width sticky nav with multi-column mega menu dropdowns (desktop)
+               and accordion slide-in drawer (mobile). Hides on scroll-down,
+               reveals on scroll-up.
 {% endcomment %}
 
 <style>
-  /* Unique to header — everything else is in assets/garagegains.css */
-  .gg-nav.is-hidden { transform: translateX(-50%) translateY(-100%); }
-  .gg-nav-spacer { height: 0; }
+  /* ============================================================
+     MEGA MENU
+     Scoped to .gg-mega — all other nav CSS lives in garagegains.css
+     ============================================================ */
 
-  /* Drawer CTA — no skew, full-width, rounded */
-  .gg-drawer__cta-wrap {
+  /* Dropdown panel — distinctly lighter than nav bar (#111) for depth */
+  .gg-mega {
+    position: fixed;
+    top: 68px;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    border-top: 2px solid var(--ember);
+    border-bottom: 1px solid #2a2a2a;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 0.18s ease-out, transform 0.18s ease-out;
+    z-index: 201;
+  }
+
+  .gg-mega.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .gg-mega__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 44px 80px 48px;
+    display: flex;
+    gap: 0;
+    align-items: flex-start;
+  }
+
+  /* ---- Featured left column — large Barlow bold links (Reebok sidebar style) ---- */
+  .gg-mega__featured-col {
+    flex-shrink: 0;
+    width: 200px;
+    padding-right: 40px;
+    border-right: 1px solid #2a2a2a;
+    margin-right: 48px;
+  }
+
+  .gg-mega__featured-link {
     display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: rgba(245,243,239,0.5);
+    text-decoration: none;
+    padding: 10px 0;
+    border-bottom: 1px solid #242424;
+    transition: color 0.2s;
+    line-height: 1.1;
   }
-  .gg-drawer__cta-wrap .gg-btn {
-    width: 100%;
-    height: 48px;
-    transform: skewX(0deg) !important;
-    border-radius: 4px !important;
+
+  .gg-mega__featured-link:first-child { padding-top: 0; }
+  .gg-mega__featured-link:last-child { border-bottom: none; }
+
+  .gg-mega__featured-link:hover {
+    color: var(--bone);
   }
-  .gg-drawer__cta-wrap .gg-btn .gg-btn__label {
-    transform: skewX(0deg);
+
+  /* ---- Right column grid ---- */
+  .gg-mega__cols {
+    display: flex;
+    gap: 48px;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .gg-mega__col {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  /* Column heading — ember label like Technogym's category titles */
+  .gg-mega__col-head {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ember);
+    text-decoration: none;
+    margin-bottom: 14px;
+    transition: opacity 0.2s;
+  }
+
+  .gg-mega__col-head:hover {
+    opacity: 0.75;
+  }
+
+  .gg-mega__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Sub-links — clean DM Sans, slide right on hover */
+  .gg-mega__link {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: rgba(245,243,239,0.6);
+    text-decoration: none;
+    padding: 3px 0;
+    transition: color 0.15s, padding-left 0.15s;
+  }
+
+  .gg-mega__link:hover {
+    color: var(--bone);
+    padding-left: 6px;
+  }
+
+  /* Nav link chevron */
+  .gg-nav__link--has-children::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    margin-left: 6px;
+    opacity: 0.5;
+    transition: transform 0.2s, opacity 0.2s;
+    vertical-align: middle;
+  }
+
+  .gg-nav__item.is-open .gg-nav__link--has-children::after {
+    transform: rotate(-135deg) translateY(-2px);
+    opacity: 1;
+  }
+
+  /* ============================================================
+     DRAWER ACCORDION (mobile)
+     New rules only — base drawer panel CSS is in garagegains.css
+     ============================================================ */
+
+  .gg-drawer__item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .gg-drawer__item:last-child {
+    border-bottom: none;
+  }
+
+  /* Row containing the link label + toggle icon */
+  .gg-drawer__row {
+    display: flex;
+    align-items: stretch;
+  }
+
+  /* The actual navigation link (left side of row) */
+  .gg-drawer__row-link {
+    flex: 1;
+    display: block;
+    padding: 14px 0 14px 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(245,243,239,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .gg-drawer__row-link:hover {
+    color: var(--bone);
+  }
+
+  .gg-drawer__row-link--sale { color: var(--ember); }
+  .gg-drawer__row-link--sale:hover { color: var(--ember-hover); }
+
+  /* Accordion toggle button (right side of row, only when children exist) */
+  .gg-drawer__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--ember);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: transform 0.25s ease;
+  }
+
+  .gg-drawer__toggle[aria-expanded="true"] {
+    transform: rotate(45deg);
+  }
+
+  /* Sub-link container — max-height accordion */
+  .gg-drawer__sub {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .gg-drawer__sub.is-open {
+    max-height: 600px;
+  }
+
+  /* Child heading (when grandchildren exist) */
+  .gg-drawer__sub-head {
+    display: block;
+    padding: 10px 24px 6px 32px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(245,243,239,0.35);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .gg-drawer__sub-head:hover {
+    color: var(--ember);
+  }
+
+  /* Grandchild links */
+  .gg-drawer__sub-link {
+    display: block;
+    padding: 7px 24px 7px 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(245,243,239,0.55);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .gg-drawer__sub-link:hover {
+    color: var(--bone);
+  }
+
+  /* Flat child link (no grandchildren) */
+  .gg-drawer__sub-flat {
+    display: block;
+    padding: 9px 24px 9px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(245,243,239,0.6);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .gg-drawer__sub-flat:hover {
+    color: var(--bone);
   }
 </style>
+
+{%- liquid
+  assign nav_menu   = linklists[section.settings.menu]
+  assign cta_label  = section.settings.cta_label | default: 'Shop Now'
+  assign cta_url    = section.settings.cta_url | default: routes.collections_url
+  assign logo_alt   = shop.name | escape
+-%}
 
 <!-- ===================== HEADER ===================== -->
 <header class="gg-nav" id="gg-nav" role="banner">
@@ -31,10 +291,11 @@
     <!-- Logo -->
     <a href="{{ routes.root_url }}" class="gg-logo" aria-label="{{ shop.name }}">
       {%- if section.settings.logo != blank -%}
+        {%- assign logo_img = section.settings.logo -%}
         {{
-          section.settings.logo
+          logo_img
           | image_url: width: 280, format: 'webp'
-          | image_tag: loading: 'eager', alt: shop.name, style: 'height:34px;width:auto;display:block;'
+          | image_tag: loading: 'eager', alt: logo_alt, style: 'height:34px;width:auto;display:block;'
         }}
       {%- else -%}
         <div class="gg-logo__mark">GG</div>
@@ -47,58 +308,86 @@
 
     <!-- Desktop nav links -->
     <nav class="gg-nav__links" aria-label="Main navigation">
-      {%- assign nav_links = linklists[section.settings.menu].links -%}
-      {%- if nav_links.size > 0 -%}
-        {%- for link in nav_links -%}
-          <a
-            href="{{ link.url }}"
-            class="gg-nav__link{% if link.title == 'Sale' or link.title == 'SALE' %} gg-nav__link--sale{% endif %}"
-            {% if link.active %}aria-current="page"{% endif %}
-          >{{ link.title }}</a>
+      {%- if nav_menu.links.size > 0 -%}
+        {%- for link in nav_menu.links -%}
+          {%- liquid
+            assign has_children = false
+            if link.links.size > 0
+              assign has_children = true
+            endif
+            assign link_id = 'mega-' | append: forloop.index
+          -%}
+          <div
+            class="gg-nav__item{% if has_children %} gg-nav__item--has-mega{% endif %}"
+            {% if has_children %}
+              data-mega="{{ link_id }}"
+              aria-haspopup="true"
+            {% endif %}
+          >
+            <a
+              href="{{ link.url }}"
+              class="gg-nav__link{% if has_children %} gg-nav__link--has-children{% endif %}{% if link.title == 'Sale' or link.title == 'SALE' %} gg-nav__link--sale{% endif %}"
+              {% if link.active %}aria-current="page"{% endif %}
+              {% if has_children %}
+                aria-expanded="false"
+                aria-controls="{{ link_id }}"
+              {% endif %}
+            >{{ link.title }}</a>
+          </div>
         {%- endfor -%}
       {%- else -%}
-        <a href="/collections/strength"      class="gg-nav__link">Strength</a>
-        <a href="/collections/cardio"        class="gg-nav__link">Cardio</a>
-        <a href="/collections/functional"    class="gg-nav__link">Functional</a>
-        <a href="/collections/flooring-mats" class="gg-nav__link">Flooring &amp; Mats</a>
-        <a href="/collections/sale"          class="gg-nav__link gg-nav__link--sale">Sale</a>
-        <a href="/pages/contact"             class="gg-nav__link">Contact</a>
+        <div class="gg-nav__item">
+          <a href="/collections/strength" class="gg-nav__link">Strength</a>
+        </div>
+        <div class="gg-nav__item">
+          <a href="/collections/cardio" class="gg-nav__link">Cardio</a>
+        </div>
+        <div class="gg-nav__item">
+          <a href="/collections/functional" class="gg-nav__link">Functional</a>
+        </div>
+        <div class="gg-nav__item">
+          <a href="/collections/flooring-mats" class="gg-nav__link">Flooring &amp; Mats</a>
+        </div>
+        <div class="gg-nav__item">
+          <a href="/collections/sale" class="gg-nav__link gg-nav__link--sale">Sale</a>
+        </div>
+        <div class="gg-nav__item">
+          <a href="/pages/contact" class="gg-nav__link">Contact</a>
+        </div>
       {%- endif -%}
     </nav>
 
     <!-- Desktop actions: search + account + cart + skewed CTA -->
     <div class="gg-nav__actions">
       <a href="{{ routes.search_url }}" class="gg-icon-btn" aria-label="Search">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="11" cy="11" r="8"/>
           <path d="m21 21-4.35-4.35"/>
         </svg>
       </a>
       <a href="{{ routes.account_url }}" class="gg-icon-btn" aria-label="Account">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
           <circle cx="12" cy="7" r="4"/>
         </svg>
       </a>
       <a href="{{ routes.cart_url }}" class="gg-icon-btn gg-cart-btn" aria-label="Cart ({{ cart.item_count }} items)">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 0 1-8 0"/>
         </svg>
         <span class="gg-cart-count" id="cart-count">{{ cart.item_count }}</span>
       </a>
-      <a href="{{ section.settings.cta_url | default: routes.collections_url }}" class="gg-btn gg-btn--primary gg-btn--sm">
-        <span class="gg-btn__label">{{ section.settings.cta_label | default: 'Shop Now' }}</span>
-        <div class="gg-btn__bg"></div>
-        <div class="gg-btn__outline"></div>
+      <a href="{{ cta_url }}" class="gg-btn gg-btn--primary gg-btn--sm">
+        <span class="gg-btn__label">{{ cta_label }}</span>
       </a>
     </div>
 
     <!-- Mobile: cart + burger -->
     <div class="gg-nav__mobile">
-      <a href="{{ routes.cart_url }}" class="gg-icon-btn gg-cart-btn" aria-label="Cart">
-        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <a href="{{ routes.cart_url }}" class="gg-icon-btn gg-cart-btn" aria-label="Cart ({{ cart.item_count }} items)">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
           <line x1="3" y1="6" x2="21" y2="6"/>
           <path d="M16 10a4 4 0 0 1-8 0"/>
@@ -119,7 +408,66 @@
   </div>
 </header>
 
-<div class="gg-nav-spacer" aria-hidden="true"></div>
+<!-- ===================== MEGA MENUS ===================== -->
+{%- if nav_menu.links.size > 0 -%}
+  {%- for link in nav_menu.links -%}
+    {%- if link.links.size > 0 -%}
+      {%- assign link_id = 'mega-' | append: forloop.index -%}
+      {%- liquid
+        assign has_direct   = false
+        assign has_columnar = false
+        for child in link.links
+          if child.links.size > 0
+            assign has_columnar = true
+          else
+            assign has_direct = true
+          endif
+        endfor
+      -%}
+      <div
+        class="gg-mega"
+        id="{{ link_id }}"
+        role="region"
+        aria-label="{{ link.title }} submenu"
+      >
+        <div class="gg-mega__inner">
+
+          {%- comment %} Direct-link featured column (children with no grandchildren) {%- endcomment -%}
+          {%- if has_direct -%}
+            <div class="gg-mega__featured-col">
+              {%- for child in link.links -%}
+                {%- if child.links.size == 0 -%}
+                  <a href="{{ child.url }}" class="gg-mega__featured-link">{{ child.title }}</a>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          {%- comment %} Columnar children (children that have grandchildren) {%- endcomment -%}
+          {%- if has_columnar -%}
+            <div class="gg-mega__cols">
+              {%- for child in link.links -%}
+                {%- if child.links.size > 0 -%}
+                  <div class="gg-mega__col">
+                    <a href="{{ child.url }}" class="gg-mega__col-head">{{ child.title }}</a>
+                    <ul class="gg-mega__list">
+                      {%- for grandchild in child.links -%}
+                        <li>
+                          <a href="{{ grandchild.url }}" class="gg-mega__link">{{ grandchild.title }}</a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 
 <!-- ===================== MOBILE DRAWER ===================== -->
 <div class="gg-drawer" id="gg-drawer" role="dialog" aria-modal="true" aria-label="Navigation" aria-hidden="true">
@@ -127,7 +475,7 @@
   <nav class="gg-drawer__panel">
 
     <div class="gg-drawer__head">
-      <a href="{{ routes.root_url }}" class="gg-logo">
+      <a href="{{ routes.root_url }}" class="gg-logo" aria-label="{{ shop.name }}">
         <div class="gg-logo__mark">GG</div>
         <div>
           <div class="gg-logo__name">GarageGains</div>
@@ -135,39 +483,94 @@
         </div>
       </a>
       <button class="gg-drawer__close" id="gg-drawer-close" aria-label="Close menu">
-        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M18 6 6 18M6 6l12 12"/>
         </svg>
       </button>
     </div>
 
     <div class="gg-drawer__links">
-      {%- assign nav_links = linklists[section.settings.menu].links -%}
-      {%- if nav_links.size > 0 -%}
-        {%- for link in nav_links -%}
-          <a
-            href="{{ link.url }}"
-            class="gg-drawer__link{% if link.title == 'Sale' or link.title == 'SALE' %} gg-drawer__link--sale{% endif %}"
-          >{{ link.title }}</a>
+      {%- if nav_menu.links.size > 0 -%}
+        {%- for link in nav_menu.links -%}
+          {%- assign has_sub = false -%}
+          {%- if link.links.size > 0 -%}
+            {%- assign has_sub = true -%}
+          {%- endif -%}
+          {%- assign acc_id = 'drawer-sub-' | append: forloop.index -%}
+
+          <div class="gg-drawer__item">
+            <div class="gg-drawer__row">
+              <a
+                href="{{ link.url }}"
+                class="gg-drawer__row-link{% if link.title == 'Sale' or link.title == 'SALE' %} gg-drawer__row-link--sale{% endif %}"
+              >{{ link.title }}</a>
+              {%- if has_sub -%}
+                <button
+                  class="gg-drawer__toggle"
+                  aria-expanded="false"
+                  aria-controls="{{ acc_id }}"
+                  aria-label="Expand {{ link.title }}"
+                >+</button>
+              {%- endif -%}
+            </div>
+
+            {%- if has_sub -%}
+              <div class="gg-drawer__sub" id="{{ acc_id }}">
+                {%- for child in link.links -%}
+                  {%- if child.links.size > 0 -%}
+                    {%- comment %} Child has grandchildren — render as sub-heading + indented links {%- endcomment -%}
+                    <a href="{{ child.url }}" class="gg-drawer__sub-head">{{ child.title }}</a>
+                    {%- for grandchild in child.links -%}
+                      <a href="{{ grandchild.url }}" class="gg-drawer__sub-link">{{ grandchild.title }}</a>
+                    {%- endfor -%}
+                  {%- else -%}
+                    {%- comment %} Child has no grandchildren — render as flat link {%- endcomment -%}
+                    <a href="{{ child.url }}" class="gg-drawer__sub-flat">{{ child.title }}</a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+
         {%- endfor -%}
       {%- else -%}
-        <a href="/collections/strength"      class="gg-drawer__link">Strength</a>
-        <a href="/collections/cardio"        class="gg-drawer__link">Cardio</a>
-        <a href="/collections/functional"    class="gg-drawer__link">Functional</a>
-        <a href="/collections/flooring-mats" class="gg-drawer__link">Flooring &amp; Mats</a>
-        <a href="/collections/sale"          class="gg-drawer__link gg-drawer__link--sale">Sale</a>
-        <a href="/pages/contact"             class="gg-drawer__link">Contact</a>
+        <div class="gg-drawer__item">
+          <div class="gg-drawer__row">
+            <a href="/collections/strength" class="gg-drawer__row-link">Strength</a>
+          </div>
+        </div>
+        <div class="gg-drawer__item">
+          <div class="gg-drawer__row">
+            <a href="/collections/cardio" class="gg-drawer__row-link">Cardio</a>
+          </div>
+        </div>
+        <div class="gg-drawer__item">
+          <div class="gg-drawer__row">
+            <a href="/collections/functional" class="gg-drawer__row-link">Functional</a>
+          </div>
+        </div>
+        <div class="gg-drawer__item">
+          <div class="gg-drawer__row">
+            <a href="/collections/flooring-mats" class="gg-drawer__row-link">Flooring &amp; Mats</a>
+          </div>
+        </div>
+        <div class="gg-drawer__item">
+          <div class="gg-drawer__row">
+            <a href="/collections/sale" class="gg-drawer__row-link gg-drawer__row-link--sale">Sale</a>
+          </div>
+        </div>
+        <div class="gg-drawer__item">
+          <div class="gg-drawer__row">
+            <a href="/pages/contact" class="gg-drawer__row-link">Contact</a>
+          </div>
+        </div>
       {%- endif -%}
     </div>
 
     <div class="gg-drawer__footer">
-      <div class="gg-drawer__cta-wrap">
-        <a href="{{ section.settings.cta_url | default: routes.collections_url }}" class="gg-btn gg-btn--primary">
-          <span class="gg-btn__label">{{ section.settings.cta_label | default: 'Shop Now' }}</span>
-          <div class="gg-btn__bg"></div>
-          <div class="gg-btn__outline"></div>
-        </a>
-      </div>
+      <a href="{{ cta_url }}" class="gg-btn gg-btn--primary" style="width:100%;justify-content:center;">
+        <span class="gg-btn__label">{{ cta_label }}</span>
+      </a>
       {%- if section.settings.support_text != blank -%}
         <p class="gg-drawer__meta">{{ section.settings.support_text }}</p>
       {%- endif -%}
@@ -177,23 +580,25 @@
 </div>
 
 <script>
-  (function () {
-    var nav      = document.getElementById('gg-nav');
-    var burger   = document.getElementById('gg-burger');
-    var drawer   = document.getElementById('gg-drawer');
-    var backdrop = document.getElementById('gg-backdrop');
-    var closeBtn = document.getElementById('gg-drawer-close');
-    var lastY    = 0;
-    var ticking  = false;
+(function () {
+  document.addEventListener('DOMContentLoaded', function () {
 
-    function openMenu() {
+    /* ---------- Element refs ---------- */
+    const nav      = document.getElementById('gg-nav');
+    const burger   = document.getElementById('gg-burger');
+    const drawer   = document.getElementById('gg-drawer');
+    const backdrop = document.getElementById('gg-backdrop');
+    const closeBtn = document.getElementById('gg-drawer-close');
+
+    /* ---------- Drawer open / close ---------- */
+    function openDrawer() {
       drawer.classList.add('is-open');
       drawer.setAttribute('aria-hidden', 'false');
       burger.classList.add('is-active');
       burger.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
     }
-    function closeMenu() {
+    function closeDrawer() {
       drawer.classList.remove('is-open');
       drawer.setAttribute('aria-hidden', 'true');
       burger.classList.remove('is-active');
@@ -202,20 +607,28 @@
     }
 
     burger.addEventListener('click', function () {
-      drawer.classList.contains('is-open') ? closeMenu() : openMenu();
+      drawer.classList.contains('is-open') ? closeDrawer() : openDrawer();
     });
-    backdrop.addEventListener('click', closeMenu);
-    closeBtn.addEventListener('click', closeMenu);
+    backdrop.addEventListener('click', closeDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+
+    /* ---------- Keyboard: Escape closes drawer and all megas ---------- */
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeMenu();
+      if (e.key === 'Escape') {
+        closeDrawer();
+        closeAllMegas();
+      }
     });
 
-    /* --- Smart scroll: glass on scroll + hide on down / reveal on up --- */
+    /* ---------- Smart scroll: hide on down, reveal on up ---------- */
+    let lastY   = 0;
+    let ticking = false;
+
     window.addEventListener('scroll', function () {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(function () {
-        var currentY = window.scrollY;
+        const currentY = window.scrollY;
         nav.classList.toggle('scrolled', currentY > 40);
         if (currentY > 80) {
           if (currentY > lastY + 4)      { nav.classList.add('is-hidden'); }
@@ -227,25 +640,132 @@
         ticking = false;
       });
     }, { passive: true });
-  })();
+
+    /* ---------- Mega menu hover logic ---------- */
+    let openTimeout  = null;
+    let closeTimeout = null;
+    let currentMega  = null;
+
+    function closeAllMegas() {
+      document.querySelectorAll('.gg-mega.is-open').forEach(function (m) {
+        m.classList.remove('is-open');
+      });
+      document.querySelectorAll('.gg-nav__item.is-open').forEach(function (item) {
+        item.classList.remove('is-open');
+        const link = item.querySelector('.gg-nav__link');
+        if (link) link.setAttribute('aria-expanded', 'false');
+      });
+      currentMega = null;
+    }
+
+    function openMega(item) {
+      const megaId = item.dataset.mega;
+      if (!megaId) return;
+      const mega = document.getElementById(megaId);
+      if (!mega) return;
+      closeAllMegas();
+      item.classList.add('is-open');
+      mega.classList.add('is-open');
+      const link = item.querySelector('.gg-nav__link');
+      if (link) link.setAttribute('aria-expanded', 'true');
+      currentMega = mega;
+    }
+
+    document.querySelectorAll('.gg-nav__item--has-mega').forEach(function (item) {
+      item.addEventListener('mouseenter', function () {
+        clearTimeout(closeTimeout);
+        openTimeout = setTimeout(function () {
+          openMega(item);
+        }, 100);
+      });
+
+      item.addEventListener('mouseleave', function () {
+        clearTimeout(openTimeout);
+        closeTimeout = setTimeout(function () {
+          closeAllMegas();
+        }, 120);
+      });
+    });
+
+    /* Keep mega open when cursor moves into the panel itself */
+    document.querySelectorAll('.gg-mega').forEach(function (mega) {
+      mega.addEventListener('mouseenter', function () {
+        clearTimeout(closeTimeout);
+      });
+      mega.addEventListener('mouseleave', function () {
+        closeTimeout = setTimeout(closeAllMegas, 120);
+      });
+    });
+
+    /* ---------- Keyboard navigation for mega menus ---------- */
+    document.querySelectorAll('.gg-nav__link--has-children').forEach(function (link) {
+      link.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const item = link.closest('.gg-nav__item');
+          if (item.classList.contains('is-open')) {
+            closeAllMegas();
+          } else {
+            openMega(item);
+          }
+        }
+      });
+    });
+
+    /* ---------- Mobile accordion ---------- */
+    document.querySelectorAll('.gg-drawer__toggle').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const subId = btn.getAttribute('aria-controls');
+        const sub   = document.getElementById(subId);
+        if (!sub) return;
+        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+        if (isExpanded) {
+          sub.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        } else {
+          sub.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    /* ---------- Cart count: listen for cart:updated ---------- */
+    document.addEventListener('cart:updated', function () {
+      fetch('/cart.js')
+        .then(function (r) {
+          if (!r.ok) throw new Error('cart.js ' + r.status);
+          return r.json();
+        })
+        .then(function (data) {
+          document.querySelectorAll('.gg-cart-count').forEach(function (el) {
+            el.textContent = data.item_count;
+          });
+        })
+        .catch(function () { /* fail silently — counts remain stale until next navigation */ });
+    });
+
+  }); /* end DOMContentLoaded */
+})();
 </script>
 
 {% schema %}
 {
-  "name": "GG \u2013 Header",
+  "name": "GG \u2014 Header",
   "class": "section-header",
   "settings": [
     {
       "type": "image_picker",
       "id": "logo",
       "label": "Logo image",
-      "info": "Leave blank to use the GG mark + GarageGains wordmark"
+      "info": "Leave blank to use the GG mark + GarageGains wordmark. Recommended: WebP, 280\u00d780px."
     },
     {
       "type": "link_list",
       "id": "menu",
       "label": "Navigation menu",
-      "default": "main-menu"
+      "default": "main-menu",
+      "info": "Two-level nesting supported. Children with sub-links render as mega menu columns."
     },
     {
       "type": "text",

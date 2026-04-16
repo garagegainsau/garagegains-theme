@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GarageGains — Consultation CTA Block</title>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  GARAGEGAINS — CONSULTATION CTA BLOCK v3                    ║
+  ║  Inline homepage section. Team of PTs positioning.          ║
+  ║  Background: diagonal ember accent stripes + gradient.      ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forge-black: #111111;
+    --iron: #1E1E1E;
+    --steel: #5C5C5C;
+    --ash: #E2DED8;
+    --bone: #F5F3EF;
+    --ember: #C94A1E;
+    --ember-hover: #E0551F;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--forge-black);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--bone);
+  }
+  .page-spacer {
+    height: 40px;
+    background: var(--forge-black);
+  }
+
+  /* ══════════════════════════════════════
+     CONSULTATION CTA BLOCK
+     ══════════════════════════════════════ */
+  .consult-block {
+    position: relative;
+    overflow: hidden;
+    padding: 56px 24px;
+    background: var(--iron);
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  /* Diagonal ember accent stripes */
+  .consult-block::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -5%;
+    width: 35%;
+    height: 200%;
+    background: repeating-linear-gradient(
+      -70deg,
+      transparent,
+      transparent 18px,
+      rgba(201, 74, 30, 0.06) 18px,
+      rgba(201, 74, 30, 0.06) 20px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle radial glow from the CTA side */
+  .consult-block::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    width: 400px;
+    height: 400px;
+    transform: translateY(-50%);
+    background: radial-gradient(circle, rgba(201, 74, 30, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Noise texture layer */
+  .consult-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Left ember edge accent */
+  .consult-edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--ember);
+    z-index: 1;
+  }
+
+  /* ── Inner Layout ── */
+  .consult-inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── Left: Content ── */
+  .consult-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 10px;
+  }
+
+  .consult-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 3.5vw, 40px);
+    text-transform: uppercase;
+    line-height: 1.05;
+    color: var(--bone);
+    margin-bottom: 12px;
+  }
+  .consult-headline em {
+    font-style: normal;
+    color: var(--ember);
+  }
+
+  .consult-body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ash);
+    max-width: 520px;
+    margin-bottom: 20px;
+  }
+
+  .consult-perks {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .perk {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--bone);
+  }
+  .perk-icon {
+    width: 18px;
+    height: 18px;
+    background: var(--ember);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: skewX(-20deg);
+    flex-shrink: 0;
+  }
+  .perk-icon svg {
+    width: 10px;
+    height: 10px;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+    transform: skewX(20deg);
+  }
+
+  /* ── Right: CTA ── */
+  .consult-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .btn-consult {
+    display: inline-block;
+    padding: 16px 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transform: skewX(-20deg);
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+    background: var(--ember);
+    color: white;
+    white-space: nowrap;
+  }
+  .btn-consult span {
+    display: block;
+    transform: skewX(20deg);
+  }
+  .btn-consult:hover {
+    background: var(--ember-hover);
+    box-shadow: 0 8px 32px rgba(201, 74, 30, 0.3);
+    transform: skewX(-20deg) translateY(-2px);
+  }
+
+  .consult-sub {
+    font-size: 11px;
+    color: var(--steel);
+    letter-spacing: 0.5px;
+  }
+
+  /* ══════════════════════════════════════
+     RESPONSIVE — MOBILE
+     ══════════════════════════════════════ */
+  @media (max-width: 809px) {
+    .consult-block { padding: 40px 20px; }
+
+    .consult-inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      text-align: center;
+    }
+
+    .consult-body {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .consult-perks {
+      justify-content: center;
+    }
+
+    .consult-cta {
+      width: 100%;
+    }
+    .btn-consult {
+      width: 100%;
+      text-align: center;
+    }
+
+    .consult-edge { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Simulated section above -->
+<div class="page-spacer"></div>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- CONSULTATION CTA BLOCK                      -->
+<!-- ════════════════════════════════════════════ -->
+<section class="consult-block">
+  <div class="consult-noise"></div>
+  <div class="consult-edge"></div>
+
+  <div class="consult-inner">
+
+    <div class="consult-content">
+      <div class="consult-eyebrow">Free Expert Advice</div>
+      <h2 class="consult-headline">Need Help Building<br>Your <em>Home Gym?</em></h2>
+      <p class="consult-body">
+        Our qualified PTs will help you pick the right gear for your space, 
+        goals, and budget. No guesswork, no wasted money.
+      </p>
+      <div class="consult-perks">
+        <div class="perk">
+          <div class="perk-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          Tailored to your goals
+        </div>
+        <div class="perk">
+          <div class="perk-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          Space & layout planning
+        </div>
+        <div class="perk">
+          <div class="perk-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          Complimentary, zero commitment
+        </div>
+      </div>
+    </div>
+
+    <div class="consult-cta">
+      <a href="#book-consultation" class="btn-consult">
+        <span>Book Free Consult</span>
+      </a>
+      <span class="consult-sub">Takes 2 minutes to book</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- Simulated section below -->
+<div class="page-spacer"></div>
+
+</body>
+</html>

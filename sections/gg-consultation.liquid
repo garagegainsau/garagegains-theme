@@ -1,0 +1,340 @@
+{% comment %}
+  Section: GG Consultation CTA
+  File: sections/gg-consultation.liquid
+  Description: Free PT consultation CTA block — replaces reviews until store has real customer reviews
+{% endcomment %}
+
+<style>
+  .gg-consult {
+    position: relative;
+    overflow: hidden;
+    padding: 56px 24px;
+    background: #1E1E1E;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  /* Diagonal ember accent stripes */
+  .gg-consult::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -5%;
+    width: 35%;
+    height: 200%;
+    background: repeating-linear-gradient(
+      -70deg,
+      transparent,
+      transparent 18px,
+      rgba(201,74,30,0.06) 18px,
+      rgba(201,74,30,0.06) 20px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Radial glow from CTA side */
+  .gg-consult::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    width: 400px;
+    height: 400px;
+    transform: translateY(-50%);
+    background: radial-gradient(circle, rgba(201,74,30,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .gg-consult__noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .gg-consult__edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: #C94A1E;
+    z-index: 1;
+  }
+
+  .gg-consult__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .gg-consult__eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #C94A1E;
+    margin-bottom: 10px;
+  }
+
+  .gg-consult__headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 3.5vw, 40px);
+    text-transform: uppercase;
+    line-height: 1.05;
+    color: #F5F3EF;
+    margin-bottom: 12px;
+  }
+
+  .gg-consult__headline em {
+    font-style: normal;
+    color: #C94A1E;
+  }
+
+  .gg-consult__body {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #E2DED8;
+    max-width: 520px;
+    margin-bottom: 20px;
+  }
+
+  .gg-consult__perks {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .gg-consult__perk {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #F5F3EF;
+  }
+
+  .gg-consult__perk-icon {
+    width: 18px;
+    height: 18px;
+    background: #C94A1E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: skewX(-20deg);
+    flex-shrink: 0;
+  }
+
+  .gg-consult__perk-icon svg {
+    width: 10px;
+    height: 10px;
+    stroke: white;
+    stroke-width: 3;
+    fill: none;
+    transform: skewX(20deg);
+  }
+
+  .gg-consult__cta-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .gg-consult__btn {
+    display: inline-block;
+    padding: 16px 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+    background: #C94A1E;
+    transform: skewX(-20deg);
+    transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+  }
+
+  .gg-consult__btn span {
+    display: block;
+    transform: skewX(20deg);
+  }
+
+  .gg-consult__btn:hover {
+    background: #E0551F;
+    box-shadow: 0 8px 32px rgba(201,74,30,0.3);
+    transform: skewX(-20deg) translateY(-2px);
+  }
+
+  .gg-consult__sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: #5C5C5C;
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: 809px) {
+    .gg-consult { padding: 40px 20px; }
+
+    .gg-consult__inner {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      text-align: center;
+    }
+
+    .gg-consult__body {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .gg-consult__perks { justify-content: center; }
+
+    .gg-consult__cta-wrap { width: 100%; }
+
+    .gg-consult__btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    .gg-consult__edge { display: none; }
+  }
+</style>
+
+<section class="gg-consult">
+  <div class="gg-consult__noise"></div>
+  <div class="gg-consult__edge"></div>
+
+  <div class="gg-consult__inner">
+
+    <div class="gg-consult__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="gg-consult__eyebrow">{{ section.settings.eyebrow }}</div>
+      {%- endif -%}
+
+      <h2 class="gg-consult__headline">
+        {{ section.settings.headline }}
+        {%- if section.settings.headline_accent != blank -%}
+          <br><em>{{ section.settings.headline_accent }}</em>
+        {%- endif -%}
+      </h2>
+
+      {%- if section.settings.body != blank -%}
+        <p class="gg-consult__body">{{ section.settings.body }}</p>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="gg-consult__perks">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'perk' and block.settings.label != blank -%}
+              <div class="gg-consult__perk" {{ block.shopify_attributes }}>
+                <div class="gg-consult__perk-icon">
+                  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                {{ block.settings.label }}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="gg-consult__cta-wrap">
+      <a href="{{ section.settings.cta_url }}" class="gg-consult__btn">
+        <span>{{ section.settings.cta_label }}</span>
+      </a>
+      {%- if section.settings.cta_subtext != blank -%}
+        <span class="gg-consult__sub">{{ section.settings.cta_subtext }}</span>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "GG \u2013 Consultation CTA",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Free Expert Advice"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Need Help Building"
+    },
+    {
+      "type": "text",
+      "id": "headline_accent",
+      "label": "Headline accent (ember colour)",
+      "default": "Your Home Gym?"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Our qualified PTs will help you pick the right gear for your space, goals, and budget. No guesswork, no wasted money."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Book Free Consult"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "text",
+      "id": "cta_subtext",
+      "label": "Button subtext",
+      "default": "Takes 2 minutes to book"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "perk",
+      "name": "Perk",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Perk label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "GG \u2013 Consultation CTA",
+      "blocks": [
+        { "type": "perk", "settings": { "label": "Tailored to your goals" } },
+        { "type": "perk", "settings": { "label": "Space & layout planning" } },
+        { "type": "perk", "settings": { "label": "Complimentary, zero commitment" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
