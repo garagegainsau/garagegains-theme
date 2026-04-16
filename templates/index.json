@@ -1,14 +1,56 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "gg-hero": {
       "type": "gg-hero",
       "blocks": {
-        "trust-1": { "type": "trust_item", "settings": { "icon": "🚚", "title": "Free Shipping Over $199", "body": "Fast Australia-wide delivery from our Sydney & Melbourne warehouses." } },
-        "trust-2": { "type": "trust_item", "settings": { "icon": "🛡️", "title": "6 Month Warranty", "body": "Every piece of equipment backed by a full 6 month warranty." } },
-        "trust-3": { "type": "trust_item", "settings": { "icon": "💬", "title": "Real Human Support", "body": "Aussie-based team ready to help Mon–Fri, 9am–5pm AEST." } },
-        "trust-4": { "type": "trust_item", "settings": { "icon": "🔄", "title": "14-Day Returns", "body": "Not happy? We'll sort it. Simple, no-hassle returns every time." } }
+        "trust-1": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🚚",
+            "title": "Free Shipping Over $199",
+            "body": "Fast Australia-wide delivery from our Sydney & Melbourne warehouses."
+          }
+        },
+        "trust-2": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🛡️",
+            "title": "6 Month Warranty",
+            "body": "Every piece of equipment backed by a full 6 month warranty."
+          }
+        },
+        "trust-3": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "💬",
+            "title": "Real Human Support",
+            "body": "Aussie-based team ready to help Mon–Fri, 9am–5pm AEST."
+          }
+        },
+        "trust-4": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🔄",
+            "title": "14-Day Returns",
+            "body": "Not happy? We'll sort it. Simple, no-hassle returns every time."
+          }
+        }
       },
-      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4"],
+      "block_order": [
+        "trust-1",
+        "trust-2",
+        "trust-3",
+        "trust-4"
+      ],
       "settings": {
         "eyebrow": "From your favourite fitness brands",
         "headline_line1": "REDEFINING",
@@ -30,14 +72,69 @@
     "gg-categories": {
       "type": "gg-categories",
       "blocks": {
-        "cat-1": { "type": "category", "settings": { "name": "Power Racks & Cages", "url": "/collections/power-racks", "emoji": "🏗️", "tag": "Most Popular", "bg_color": "#111111" } },
-        "cat-2": { "type": "category", "settings": { "name": "Barbells & Weights", "url": "/collections/barbells", "emoji": "🏋️", "tag": "", "bg_color": "#2b2b2b" } },
-        "cat-3": { "type": "category", "settings": { "name": "Dumbbells & Kettlebells", "url": "/collections/dumbbells", "emoji": "💪", "tag": "New In", "bg_color": "#111111" } },
-        "cat-4": { "type": "category", "settings": { "name": "Benches", "url": "/collections/benches", "emoji": "🛋️", "tag": "", "bg_color": "#2b2b2b" } },
-        "cat-5": { "type": "category", "settings": { "name": "Cardio", "url": "/collections/cardio", "emoji": "🚴", "tag": "", "bg_color": "#111111" } },
-        "cat-6": { "type": "category", "settings": { "name": "Mats & Flooring", "url": "/collections/flooring-mats", "emoji": "🟫", "tag": "Best Value", "bg_color": "#2b2b2b" } }
+        "cat-1": {
+          "type": "category",
+          "settings": {
+            "name": "Power Racks & Cages",
+            "url": "/collections/power-racks",
+            "emoji": "🏗️",
+            "tag": "Most Popular"
+          }
+        },
+        "cat-2": {
+          "type": "category",
+          "settings": {
+            "name": "Barbells & Weights",
+            "url": "/collections/barbells",
+            "emoji": "🏋️",
+            "tag": ""
+          }
+        },
+        "cat-3": {
+          "type": "category",
+          "settings": {
+            "name": "Dumbbells & Kettlebells",
+            "url": "/collections/dumbbells",
+            "emoji": "💪",
+            "tag": "New In"
+          }
+        },
+        "cat-4": {
+          "type": "category",
+          "settings": {
+            "name": "Benches",
+            "url": "/collections/benches",
+            "emoji": "🛋️",
+            "tag": ""
+          }
+        },
+        "cat-5": {
+          "type": "category",
+          "settings": {
+            "name": "Cardio",
+            "url": "/collections/cardio",
+            "emoji": "🚴",
+            "tag": ""
+          }
+        },
+        "cat-6": {
+          "type": "category",
+          "settings": {
+            "name": "Mats & Flooring",
+            "url": "/collections/flooring-mats",
+            "emoji": "🟫",
+            "tag": "Best Value"
+          }
+        }
       },
-      "block_order": ["cat-1", "cat-2", "cat-3", "cat-4", "cat-5", "cat-6"],
+      "block_order": [
+        "cat-1",
+        "cat-2",
+        "cat-3",
+        "cat-4",
+        "cat-5",
+        "cat-6"
+      ],
       "settings": {
         "eyebrow": "Browse",
         "title": "Shop By Category",
@@ -68,41 +165,96 @@
     "gg-trust": {
       "type": "gg-trust",
       "blocks": {
-        "trust-1": { "type": "trust_item", "settings": { "icon": "🚚", "title": "Free Shipping Over $199", "body": "Fast Australia-wide delivery from our Sydney & Melbourne warehouses." } },
-        "trust-2": { "type": "trust_item", "settings": { "icon": "🛡️", "title": "6 Month Warranty", "body": "Every piece of equipment backed by a full 6 month warranty." } },
-        "trust-3": { "type": "trust_item", "settings": { "icon": "💬", "title": "Real Human Support", "body": "Aussie-based team ready to help Mon–Fri, 9am–5pm AEST." } },
-        "trust-4": { "type": "trust_item", "settings": { "icon": "🔄", "title": "14-Day Returns", "body": "Not happy? We'll sort it. Simple, no-hassle returns every time." } }
+        "trust-1": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🚚",
+            "title": "Free Shipping Over $199",
+            "body": "Fast Australia-wide delivery from our Sydney & Melbourne warehouses."
+          }
+        },
+        "trust-2": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🛡️",
+            "title": "6 Month Warranty",
+            "body": "Every piece of equipment backed by a full 6 month warranty."
+          }
+        },
+        "trust-3": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "💬",
+            "title": "Real Human Support",
+            "body": "Aussie-based team ready to help Mon–Fri, 9am–5pm AEST."
+          }
+        },
+        "trust-4": {
+          "type": "trust_item",
+          "settings": {
+            "icon": "🔄",
+            "title": "14-Day Returns",
+            "body": "Not happy? We'll sort it. Simple, no-hassle returns every time."
+          }
+        }
       },
-      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4"],
+      "block_order": [
+        "trust-1",
+        "trust-2",
+        "trust-3",
+        "trust-4"
+      ],
       "settings": {
         "show_heading": true,
         "eyebrow": "Why GarageGains",
         "title": "Built On Trust"
       }
     },
-    "gg-reviews": {
-      "type": "gg-reviews",
+    "gg-consultation": {
+      "type": "gg-consultation",
       "blocks": {
-        "rev-1": { "type": "review", "settings": { "stars": 5, "text": "Set up my full garage gym in a weekend. Quality is legit — feels like gear that'll last 20 years. Fast shipping too.", "name": "Mitch T.", "location": "Brisbane, QLD" } },
-        "rev-2": { "type": "review", "settings": { "stars": 5, "text": "Finally a store that gets it — no fluff, straight-up solid equipment at prices that don't need a second mortgage.", "name": "Sarah K.", "location": "Melbourne, VIC" } },
-        "rev-3": { "type": "review", "settings": { "stars": 5, "text": "Power rack is rock solid. Cheaper than going to a commercial gym for a year. Couldn't be happier.", "name": "Dave R.", "location": "Perth, WA" } }
+        "perk-1": {
+          "type": "perk",
+          "settings": {
+            "label": "Tailored to your goals"
+          }
+        },
+        "perk-2": {
+          "type": "perk",
+          "settings": {
+            "label": "Space & layout planning"
+          }
+        },
+        "perk-3": {
+          "type": "perk",
+          "settings": {
+            "label": "Complimentary, zero commitment"
+          }
+        }
       },
-      "block_order": ["rev-1", "rev-2", "rev-3"],
+      "block_order": [
+        "perk-1",
+        "perk-2",
+        "perk-3"
+      ],
       "settings": {
-        "eyebrow": "Real Customers",
-        "title": "What They're Saying",
-        "aggregate_rating": "4.9 / 5",
-        "total_reviews": "2,400+ reviews"
+        "eyebrow": "Free Expert Advice",
+        "headline": "Need Help Building",
+        "headline_accent": "Your Home Gym?",
+        "body": "Our qualified PTs will help you pick the right gear for your space, goals, and budget. No guesswork, no wasted money.",
+        "cta_label": "Book Free Consult",
+        "cta_url": "",
+        "cta_subtext": "Takes 2 minutes to book"
       }
     }
   },
   "order": [
-    "gg-hero",
     "gg-ticker",
+    "gg-hero",
     "gg-categories",
     "gg-featured-products",
     "gg-email-cta",
     "gg-trust",
-    "gg-reviews"
+    "gg-consultation"
   ]
 }
