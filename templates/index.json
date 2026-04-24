@@ -57,6 +57,12 @@
         "headline_line2": "PERFORMANCE",
         "headline_line3": "",
         "subheading": "Commercial-grade equipment, without the commercial price tag. Built for everyday Australians who train hard.",
+        "stat_1_number": "Aussie",
+        "stat_1_label": "OWNED",
+        "stat_2_number": "6-Month",
+        "stat_2_label": "Warranty",
+        "stat_3_number": "AU-Wide",
+        "stat_3_label": "Delivery",
         "cta_primary_text": "SHOP NOW",
         "cta_primary_url": "/collections/all",
         "cta_secondary_text": "EXPLORE GEAR",
@@ -78,7 +84,8 @@
             "name": "Power Racks & Cages",
             "url": "/collections/power-racks",
             "emoji": "🏗️",
-            "tag": "Most Popular"
+            "tag": "Most Popular",
+            "description": ""
           }
         },
         "cat-2": {
@@ -87,7 +94,8 @@
             "name": "Barbells & Weights",
             "url": "/collections/barbells",
             "emoji": "🏋️",
-            "tag": ""
+            "tag": "",
+            "description": ""
           }
         },
         "cat-3": {
@@ -96,7 +104,8 @@
             "name": "Dumbbells & Kettlebells",
             "url": "/collections/dumbbells",
             "emoji": "💪",
-            "tag": "New In"
+            "tag": "New In",
+            "description": ""
           }
         },
         "cat-4": {
@@ -105,7 +114,8 @@
             "name": "Benches",
             "url": "/collections/benches",
             "emoji": "🛋️",
-            "tag": ""
+            "tag": "",
+            "description": ""
           }
         },
         "cat-5": {
@@ -114,7 +124,8 @@
             "name": "Cardio",
             "url": "/collections/cardio",
             "emoji": "🚴",
-            "tag": ""
+            "tag": "",
+            "description": ""
           }
         },
         "cat-6": {
@@ -123,7 +134,8 @@
             "name": "Mats & Flooring",
             "url": "/collections/flooring-mats",
             "emoji": "🟫",
-            "tag": "Best Value"
+            "tag": "Best Value",
+            "description": ""
           }
         }
       },
@@ -138,6 +150,7 @@
       "settings": {
         "eyebrow": "Browse",
         "title": "Shop By Category",
+        "description": "Find the right equipment for your home gym setup.",
         "view_all_url": "/collections/all"
       }
     },
@@ -146,6 +159,7 @@
       "settings": {
         "eyebrow": "Handpicked",
         "title": "Featured Gear",
+        "description": "",
         "collection": "",
         "product_count": 4,
         "view_all_url": "/collections/all"
@@ -249,8 +263,8 @@
     }
   },
   "order": [
-    "gg-ticker",
     "gg-hero",
+    "gg-ticker",
     "gg-categories",
     "gg-featured-products",
     "gg-email-cta",
