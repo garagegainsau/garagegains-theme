@@ -42,12 +42,12 @@
         </button>
       </div>
       {%- if form.posted_successfully? -%}
-        <p style="color:#4ade80; font-family:'DM Sans',sans-serif; font-size:14px; margin-top:16px; text-align:center;">
+        <p style="color:#4ade80; font-family:'Archivo Narrow',sans-serif; font-size:14px; margin-top:16px; text-align:center;">
           &#10003; You&rsquo;re in! Check your inbox for your discount code.
         </p>
       {%- endif -%}
       {%- if form.errors -%}
-        <p style="color:#f87171; font-family:'DM Sans',sans-serif; font-size:14px; margin-top:16px; text-align:center;">
+        <p style="color:#f87171; font-family:'Archivo Narrow',sans-serif; font-size:14px; margin-top:16px; text-align:center;">
           {{ form.errors.translated_fields | join: ', ' | capitalize }} {{ form.errors.messages['email'] }}
         </p>
       {%- endif -%}

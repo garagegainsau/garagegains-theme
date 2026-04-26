@@ -15,7 +15,7 @@
   /* Dropdown panel — distinctly lighter than nav bar (#111) for depth */
   .gg-mega {
     position: fixed;
-    top: 72px;
+    top: 106px; /* fallback: 72px nav + 34px announce bar; JS openMega() overrides dynamically */
     left: 0;
     right: 0;
     background: #1a1a1a;
@@ -116,10 +116,10 @@
     gap: 6px;
   }
 
-  /* Sub-links — clean DM Sans, slide right on hover */
+  /* Sub-links — Archivo Narrow, slide right on hover */
   .gg-mega__link {
     display: block;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Archivo Narrow', sans-serif;
     font-weight: 400;
     font-size: 15px;
     color: rgba(245,243,239,0.6);
@@ -248,7 +248,7 @@
   .gg-drawer__sub-link {
     display: block;
     padding: 7px 24px 7px 40px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Archivo Narrow', sans-serif;
     font-size: 15px;
     font-weight: 400;
     color: rgba(245,243,239,0.55);
@@ -264,7 +264,7 @@
   .gg-drawer__sub-flat {
     display: block;
     padding: 9px 24px 9px 32px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Archivo Narrow', sans-serif;
     font-size: 15px;
     font-weight: 500;
     color: rgba(245,243,239,0.6);
@@ -313,7 +313,7 @@
         {{
           logo_img
           | image_url: width: 280, format: 'webp'
-          | image_tag: loading: 'eager', alt: logo_alt, style: 'height:34px;width:auto;display:block;'
+          | image_tag: loading: 'eager', fetchpriority: 'high', alt: logo_alt, style: 'height:34px;width:auto;display:block;'
         }}
       {%- else -%}
         <div class="gg-logo__mark">GG</div>
@@ -682,6 +682,9 @@
       const mega = document.getElementById(megaId);
       if (!mega) return;
       closeAllMegas();
+      /* Position flush below whatever is currently the bottom of the nav
+         (accounts for announcement bar being visible or scrolled away) */
+      mega.style.top = nav.getBoundingClientRect().bottom + 'px';
       item.classList.add('is-open');
       mega.classList.add('is-open');
       const link = item.querySelector('.gg-nav__link');
@@ -808,6 +811,11 @@
       "id": "support_text",
       "label": "Drawer footer text",
       "default": "support@garagegains.com.au \u00b7 Mon\u2013Fri 9am\u20135pm AEST"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GG \u2014 Header"
     }
   ]
 }

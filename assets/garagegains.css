@@ -9,11 +9,11 @@
   --ember:        #C94A1E;
   --ember-hover:  #E05524;
   --forge:        #111111;
-  --iron:         #0D0D0D;
+  --iron:         #1E1E1E;
   --border:       #222222;
   --bone:         #F5F3EF;
-  --steel:        #888888;
-  --ash:          rgba(255,255,255,0.6);
+  --steel:        #5C5C5C;
+  --ash:          #E2DED8;
 }
 
 /* ---- Reset ---- */
@@ -522,12 +522,17 @@ button { cursor: pointer; font-family: inherit; }
   align-items: center;
   white-space: nowrap;
   flex-shrink: 0;
+  width: max-content;
   animation: announce-scroll 30s linear infinite;
 }
 
 @keyframes announce-scroll {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gg-announce__track { animation: none; }
 }
 
 .gg-announce__item {
@@ -1076,7 +1081,7 @@ div.gg-section {
 }
 
 .gg-review-card__stars {
-  color: #F5A623;
+  color: var(--ember);
   font-size: 14px;
   letter-spacing: 2px;
   margin-bottom: 14px;

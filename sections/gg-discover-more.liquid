@@ -284,7 +284,7 @@
         })
         .then(function(products) {
           if (!products || products.length === 0) {
-            track.innerHTML = '<p style="color:var(--steel);font-family:DM Sans,sans-serif;padding:24px 0;">No related products found.</p>';
+            track.innerHTML = '<p style="color:var(--steel);font-family:Archivo Narrow,sans-serif;padding:24px 0;">No related products found.</p>';
             return;
           }
 
@@ -322,7 +322,7 @@
           setTimeout(function() { updateArrows(panel); }, 50);
         })
         .catch(function() {
-          track.innerHTML = '<p style="color:var(--steel);font-family:DM Sans,sans-serif;padding:24px 0;">Could not load recommendations.</p>';
+          track.innerHTML = '<p style="color:var(--steel);font-family:Archivo Narrow,sans-serif;padding:24px 0;">Could not load recommendations.</p>';
         });
     }
 
