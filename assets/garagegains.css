@@ -22,7 +22,7 @@ html { font-size: 16px !important; scroll-behavior: smooth; }
 body {
   background: var(--forge) !important;
   color: var(--bone) !important;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -110,6 +110,21 @@ button { cursor: pointer; font-family: inherit; }
   letter-spacing: 0.1em;
 }
 
+/* ---- Nav header CTA — clip-path parallelogram, no skewX transform ---- */
+.gg-btn--header-cta {
+  transform: none !important;
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  height: 42px;
+  padding: 0 28px;
+  margin-left: 12px;
+}
+.gg-btn--header-cta .gg-btn__label {
+  transform: none;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  font-weight: 900;
+}
+
 /* ---- Small size modifier ---- */
 .gg-btn--sm {
   height: 40px;
@@ -134,14 +149,14 @@ button { cursor: pointer; font-family: inherit; }
   background: rgba(17,17,17,0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), border-color 0.3s ease, background 0.3s ease;
+  border-bottom: 2px solid var(--ember);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), background 0.3s ease;
 }
 
 .gg-nav.is-hidden { transform: translateY(-100%); }
 
 .gg-nav__inner {
-  height: 68px;
+  height: 72px;
   max-width: 1440px;
   margin: 0 auto;
   display: flex;
@@ -153,7 +168,6 @@ button { cursor: pointer; font-family: inherit; }
 
 .gg-nav.scrolled {
   background: rgba(17,17,17,0.99);
-  border-bottom-color: var(--ember);
   box-shadow: 0 4px 24px rgba(0,0,0,0.6);
 }
 
@@ -167,35 +181,33 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .gg-logo__mark {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   background: var(--ember);
-  clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%);
+  clip-path: polygon(7px 0%, 100% 0%, calc(100% - 7px) 100%, 0% 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-size: 15px;
-  color: var(--bone);
-  letter-spacing: 0.05em;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: #ffffff;
+  letter-spacing: 0.04em;
   flex-shrink: 0;
 }
 
 .gg-logo__name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-size: 18px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.08em;
   color: var(--bone);
   line-height: 1;
 }
 
 .gg-logo__sub {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
+  font-weight: 500;
   font-size: 9px;
-  color: var(--ember);
+  color: var(--steel);
   text-transform: uppercase;
   letter-spacing: 0.18em;
   line-height: 1;
@@ -217,11 +229,12 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .gg-nav__link {
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 500;
-  font-size: 15px;
-  color: rgba(255,255,255,0.65);
-  padding: 10px 14px;
+  font-family: 'Archivo Narrow', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--ash);
+  padding: 10px 15px;
   text-decoration: none;
   white-space: nowrap;
   display: block;
@@ -308,7 +321,7 @@ button { cursor: pointer; font-family: inherit; }
   height: 16px;
   background: var(--ember);
   color: var(--bone);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 9px;
   font-weight: 700;
   border-radius: 50%;
@@ -483,12 +496,61 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .gg-drawer__meta {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 12px;
   color: var(--steel);
   text-align: center;
   margin: 0;
   line-height: 1.5;
+}
+
+/* ===========================
+   ANNOUNCEMENT BAR
+   (header-level trust/promo ticker)
+   =========================== */
+
+.gg-announce {
+  background: var(--ember);
+  height: 34px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.gg-announce__track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  animation: announce-scroll 30s linear infinite;
+}
+
+@keyframes announce-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.gg-announce__item {
+  font-family: 'Archivo Narrow', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
+  padding: 0 36px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.gg-announce__sep {
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background: rgba(255,255,255,0.45);
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 /* ===========================
@@ -542,7 +604,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .gg-sec-head__label {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-weight: 600;
   font-size: 11px;
   text-transform: uppercase;
@@ -564,7 +626,7 @@ button { cursor: pointer; font-family: inherit; }
 }
 
 .gg-sec-head__desc {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 16px;
   color: rgba(255,255,255,0.5);
   max-width: 560px;
@@ -657,7 +719,7 @@ div.gg-section {
   left: 16px;
   background: var(--ember);
   color: var(--bone);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-weight: 700;
   font-size: 10px;
   text-transform: uppercase;
@@ -765,7 +827,7 @@ div.gg-section {
   left: 12px;
   background: #222222;
   color: var(--bone);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-weight: 600;
   font-size: 10px;
   text-transform: uppercase;
@@ -815,7 +877,7 @@ div.gg-section {
 }
 
 .gg-product-card__was {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
   color: rgba(255,255,255,0.35);
   text-decoration: line-through;
@@ -890,7 +952,7 @@ div.gg-section {
 .gg-cta-section__title span { color: var(--ember); }
 
 .gg-cta-section__body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 16px;
   color: rgba(255,255,255,0.5);
   max-width: 480px;
@@ -931,7 +993,7 @@ div.gg-section {
   outline: none !important;
   box-shadow: none !important;
   color: var(--bone);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 15px;
   padding: 0 24px;
   transform: skewX(20deg);
@@ -988,7 +1050,7 @@ div.gg-section {
 }
 
 .gg-trust-item__body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
   color: rgba(255,255,255,0.45);
   line-height: 1.5;
@@ -1022,7 +1084,7 @@ div.gg-section {
 }
 
 .gg-review-card__text {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 15px;
   color: rgba(255,255,255,0.6);
   line-height: 1.7;
@@ -1049,7 +1111,7 @@ div.gg-section {
 }
 
 .gg-review-card__location {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 12px;
   color: rgba(255,255,255,0.35);
 }
@@ -1077,7 +1139,7 @@ div.gg-section {
 }
 
 .gg-footer__brand-desc {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 14px;
   color: rgba(255,255,255,0.4);
   max-width: 260px;
@@ -1097,7 +1159,7 @@ div.gg-section {
 
 .gg-footer__link {
   display: block;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 14px;
   color: rgba(255,255,255,0.4);
   margin-bottom: 10px;
@@ -1115,7 +1177,7 @@ div.gg-section {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
   color: rgba(255,255,255,0.3);
 }
@@ -1313,7 +1375,7 @@ div.gg-section {
 
 /* Breadcrumbs */
 .gg-pdp-breadcrumb {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 12px;
   color: rgba(255,255,255,0.35);
   margin-bottom: 16px;
@@ -1364,7 +1426,7 @@ div.gg-section {
 .gg-pdp-star--empty { opacity: 0.35; }
 
 .gg-pdp-rating-count {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
   color: rgba(255,255,255,0.4);
 }
@@ -1387,7 +1449,7 @@ div.gg-section {
 }
 
 .gg-pdp-price-was {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 16px;
   color: rgba(255,255,255,0.35);
   text-decoration: line-through;
@@ -1404,7 +1466,7 @@ div.gg-section {
 .gg-pdp-save-badge span {
   display: inline-block;
   transform: skewX(20deg);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-weight: 700;
   font-size: 11px;
   text-transform: uppercase;
@@ -1414,7 +1476,7 @@ div.gg-section {
 
 /* SKU */
 .gg-pdp-sku {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 12px;
   color: rgba(255,255,255,0.3);
   margin-bottom: 12px;
@@ -1422,7 +1484,7 @@ div.gg-section {
 
 /* Short description */
 .gg-pdp-short-desc {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 15px;
   color: rgba(255,255,255,0.6);
   line-height: 1.7;
@@ -1440,7 +1502,7 @@ div.gg-section {
 
 /* Vendor */
 .gg-pdp-vendor {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 12px;
   color: rgba(255,255,255,0.3);
   text-transform: uppercase;
@@ -1461,7 +1523,7 @@ div.gg-section {
 .gg-pdp-option { margin-bottom: 20px; }
 
 .gg-pdp-option-label {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
   font-weight: 500;
   color: rgba(255,255,255,0.5);
@@ -1558,7 +1620,7 @@ div.gg-section {
   border-left: 1px solid var(--border);
   border-right: 1px solid var(--border);
   color: var(--bone);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 15px;
   text-align: center;
   outline: none;
@@ -1598,7 +1660,7 @@ div.gg-section {
 
 /* ATC error message */
 .gg-pdp-atc-error {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
   color: var(--ember);
   margin-top: 8px;
@@ -1616,7 +1678,7 @@ div.gg-section {
   background: none;
   border: none;
   color: rgba(255,255,255,0.35);
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -1655,7 +1717,7 @@ div.gg-section {
 }
 
 .gg-pdp-trust-title {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 12px;
   font-weight: 600;
   color: var(--bone);
@@ -1663,7 +1725,7 @@ div.gg-section {
 }
 
 .gg-pdp-trust-sub {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 11px;
   color: rgba(255,255,255,0.35);
   line-height: 1.4;
@@ -1711,7 +1773,7 @@ div.gg-section {
 
 .gg-pdp-delivery-body {
   padding: 16px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 14px;
   color: rgba(255,255,255,0.5);
   line-height: 1.7;
@@ -1769,7 +1831,7 @@ div.gg-section {
 
 /* Rich text content in description accordion */
 .gg-richtext p {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 15px;
   color: rgba(255,255,255,0.65);
   line-height: 1.8;
@@ -1783,7 +1845,7 @@ div.gg-section {
 }
 
 .gg-richtext li {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 15px;
   color: rgba(255,255,255,0.65);
   line-height: 1.8;
@@ -1812,7 +1874,7 @@ div.gg-section {
 
 .gg-specs-table td {
   padding: 12px 16px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 14px;
   line-height: 1.5;
   border-bottom: 1px solid rgba(255,255,255,0.04);
@@ -2066,7 +2128,7 @@ div.gg-section {
 }
 
 .gg-pair-up__card-was {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
   color: rgba(255,255,255,0.35);
   text-decoration: line-through;
@@ -2089,7 +2151,7 @@ div.gg-section {
 }
 
 .gg-pair-up__footer-label {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -2106,7 +2168,7 @@ div.gg-section {
 }
 
 .gg-pair-up__atc-error {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 13px;
   color: #e05050;
   margin-top: 12px;
@@ -2357,7 +2419,7 @@ div.gg-section {
 }
 
 .gg-discover__price-was {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Archivo Narrow', sans-serif;
   font-size: 12px;
   color: rgba(255,255,255,0.35);
   text-decoration: line-through;

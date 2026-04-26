@@ -142,13 +142,14 @@ dawn/
 
 | Use | Font | Weight | Style |
 | :--- | :--- | :--- | :--- |
-| Display / Headlines | Barlow Condensed | ExtraBold (800) / Black (900) | ALL-CAPS always |
-| Body / UI / Nav | DM Sans | Regular (400) / Medium (500) | Sentence case |
+| Logo wordmark & GG badge | Bebas Neue | Regular (single weight) | Mixed case (Bebas renders condensed natively) |
+| Display / Headlines / CTAs / Badges | Barlow Condensed | ExtraBold (800) / Black (900) | ALL-CAPS always |
+| Nav links / Body / UI / Prices | Archivo Narrow | Regular (400) / Medium (500) / SemiBold (600) / Bold (700) | Sentence case |
 
 **Load via Google Fonts** in `layout/theme.liquid`:
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@800;900&family=Archivo+Narrow:wght@400;500;600;700&display=swap" rel="stylesheet">
 ```
 
 **Headline sizing** must use `clamp()` for fluid scaling:
@@ -311,7 +312,7 @@ Structured data fields for: Steel Gauge, Load Rating, Dimensions (L x W x H), We
 
 ## 8. Navigation
 
-- **Desktop:** Horizontal nav links in `layout/theme.liquid` header. Font: DM Sans Medium. Colour: Bone. Hover: Ember underline.
+- **Desktop:** Horizontal nav links in `layout/theme.liquid` header. Font: Archivo Narrow SemiBold (600). Default colour: Ash. Hover/active: Bone + Ember underline.
 - **Mobile/Tablet:** Slide-out hamburger menu from the left. Full-screen overlay, Forge Black background. Links in Barlow Condensed.
 - **Sticky header** on scroll with slight Iron background and box-shadow for depth.
 

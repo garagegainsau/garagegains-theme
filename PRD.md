@@ -22,8 +22,9 @@ This Product Requirements Document (PRD) serves as the singular, granular bluepr
 * **Ember (#C94A1E):** Primary accent for CTAs, sale badges, and performance highlights.
 
 ### 2.2 Typography
-* **Display & Headings:** *Barlow Condensed* (Extra Bold/Black). All-caps for headlines to provide a high-impact, industrial feel.
-* **Body & UI:** *DM Sans*. Modern, clean, and highly legible for navigation and descriptions.
+* **Logo Wordmark:** *Bebas Neue*. Raw, heavy, industrial. Used exclusively for the GarageGains logo name and GG badge mark.
+* **Display & Headings / CTAs / Badges:** *Barlow Condensed* (Extra Bold 800 / Black 900). All-caps always for headlines, CTA buttons, and product badges.
+* **Nav Links, Body & UI:** *Archivo Narrow* (400–700). Mechanical, fast-scanning at small sizes, excellent number rendering for prices and specs. Replaces DM Sans across all nav and body contexts.
 
 ### 2.3 UI Motifs
 * **The "Performance Skew":** Buttons and labels must utilize a 20-degree skewed parallelogram shape to imply speed and movement, following the **Transform Fitness** design.

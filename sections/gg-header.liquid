@@ -15,7 +15,7 @@
   /* Dropdown panel — distinctly lighter than nav bar (#111) for depth */
   .gg-mega {
     position: fixed;
-    top: 68px;
+    top: 72px;
     left: 0;
     right: 0;
     background: #1a1a1a;
@@ -284,6 +284,24 @@
   assign logo_alt   = shop.name | escape
 -%}
 
+<!-- ===================== ANNOUNCEMENT BAR ===================== -->
+{%- if section.settings.announcement_text != blank -%}
+<div class="gg-announce" aria-label="Announcements">
+  <div class="gg-announce__track">
+    {%- assign announce_items = section.settings.announcement_text | split: '|' -%}
+    {%- comment %} Render twice for seamless infinite loop {%- endcomment -%}
+    {%- for i in (1..2) -%}
+      {%- for item in announce_items -%}
+        <span class="gg-announce__item">
+          {{- item | strip -}}
+          <span class="gg-announce__sep" aria-hidden="true"></span>
+        </span>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%}
+
 <!-- ===================== HEADER ===================== -->
 <header class="gg-nav" id="gg-nav" role="banner">
   <div class="gg-nav__inner">
@@ -379,7 +397,7 @@
         </svg>
         <span class="gg-cart-count" id="cart-count">{{ cart.item_count }}</span>
       </a>
-      <a href="{{ cta_url }}" class="gg-btn gg-btn--primary gg-btn--sm">
+      <a href="{{ cta_url }}" class="gg-btn gg-btn--primary gg-btn--header-cta">
         <span class="gg-btn__label">{{ cta_label }}</span>
       </a>
     </div>
@@ -754,6 +772,13 @@
   "name": "GG \u2014 Header",
   "class": "section-header",
   "settings": [
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement bar messages",
+      "default": "Free Delivery Australia-Wide | Commercial-Grade Equipment | Lifetime Warranty on All Racks | Up to 30% Off — Sale Now On | Ships Direct from Melbourne",
+      "info": "Separate messages with a pipe character ( | ). Leave blank to hide the bar."
+    },
     {
       "type": "image_picker",
       "id": "logo",
