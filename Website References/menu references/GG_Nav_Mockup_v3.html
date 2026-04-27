@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GarageGains — Nav Mockup v3</title>
+
+<!--
+  FONT SYSTEM v3
+  ─────────────────────────────────────────────
+  Logo wordmark   → Bebas Neue        (raw, heavy, single-word lockup)
+  Nav links       → Archivo Narrow    (industrial, mechanical, fast to scan)
+  Category labels → Barlow Condensed  (ALL-CAPS section headers)
+  Body / meta     → Archivo Narrow    (consistent, legible for prices/badges)
+  ─────────────────────────────────────────────
+-->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@600;700;800;900&family=Archivo+Narrow:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --forge-black: #111111;
+    --iron:        #1E1E1E;
+    --iron-light:  #252525;
+    --steel:       #5C5C5C;
+    --ash:         #E2DED8;
+    --bone:        #F5F3EF;
+    --ember:       #C94A1E;
+    --ember-dark:  #A33818;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    font-family: 'Archivo Narrow', sans-serif;
+    color: var(--bone);
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    padding: 28px 32px 12px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ember);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #222;
+  }
+
+  /* ── SVG ICONS (replacing emojis) ── */
+  .ml-icon {
+    width: 30px;
+    height: 30px;
+    background: #2a2a2a;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ml-icon svg {
+    width: 15px;
+    height: 15px;
+    stroke: var(--ash);
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ============================================================
+     1. ANNOUNCEMENT BAR
+  ============================================================ */
+  .announcement-bar {
+    background: var(--ember);
+    height: 34px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .announce-track {
+    display: flex;
+    align-items: center;
+    animation: ticker 26s linear infinite;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  @keyframes ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .announce-item {
+    font-family: 'Archivo Narrow', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: white;
+    padding: 0 36px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .announce-sep {
+    width: 3px;
+    height: 3px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ============================================================
+     2. MAIN NAV BAR
+  ============================================================ */
+  .navbar {
+    background: var(--forge-black);
+    height: 72px;
+    border-bottom: 2px solid var(--ember);
+  }
+  .navbar-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 0;
+  }
+
+  /* ── LOGO ── */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    margin-right: 36px;
+    flex-shrink: 0;
+  }
+  .logo-badge {
+    width: 46px;
+    height: 46px;
+    background: var(--ember);
+    clip-path: polygon(7px 0%, 100% 0%, calc(100% - 7px) 100%, 0% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-badge span {
+    /* Bebas Neue for the GG badge */
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: white;
+    letter-spacing: 0.04em;
+  }
+  .logo-words {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .logo-name {
+    /* Bebas Neue: raw, heavy, industrial */
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.08em;
+    color: var(--bone);
+    line-height: 1;
+  }
+  .logo-sub {
+    font-family: 'Archivo Narrow', sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--steel);
+    line-height: 1;
+  }
+
+  /* ── NAV LINKS ── */
+  .nav-links {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    list-style: none;
+    flex: 1;
+  }
+  .nav-item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 15px;
+    height: 100%;
+    /* Archivo Narrow: industrial, fast-scanning */
+    font-family: 'Archivo Narrow', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: var(--ash);
+    text-decoration: none;
+    position: relative;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--bone); }
+  .nav-link.is-active {
+    color: var(--bone);
+    font-weight: 700;
+  }
+  .nav-link.is-active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    right: 15px;
+    height: 2px;
+    background: var(--ember);
+  }
+  .nav-link.sale {
+    color: var(--ember);
+    font-weight: 700;
+  }
+
+  /* Chevron */
+  .chev {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-right: 1.8px solid currentColor;
+    border-bottom: 1.8px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .nav-link.is-active .chev { transform: rotate(-135deg) translateY(1px); opacity: 1; }
+
+  /* ── RIGHT ACTIONS ── */
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--ash);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.15s;
+    position: relative;
+  }
+  .icon-btn:hover { background: var(--iron); color: var(--bone); }
+  .icon-btn svg { width: 19px; height: 19px; stroke-width: 1.8; }
+
+  .cart-count {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    background: var(--ember);
+    border-radius: 50%;
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .shop-now-btn {
+    margin-left: 14px;
+    padding: 0 26px;
+    height: 42px;
+    background: var(--ember);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+  .shop-now-btn:hover { background: var(--ember-dark); }
+
+  /* ============================================================
+     3. MEGA MENU
+  ============================================================ */
+  .mega-menu {
+    background: var(--iron);
+    border-top: 2px solid var(--ember);
+    border-bottom: 1px solid #282828;
+    box-shadow: 0 20px 48px rgba(0,0,0,0.55);
+  }
+  .mega-inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 32px 32px 36px;
+    display: grid;
+    grid-template-columns: 240px 240px 1fr;
+    gap: 0;
+  }
+
+  .mega-col {
+    padding-right: 32px;
+    border-right: 1px solid #2a2a2a;
+  }
+  .mega-col + .mega-col { padding-left: 32px; }
+
+  /* Barlow Condensed kept for ALL-CAPS category labels */
+  .mega-col-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ember);
+    padding-bottom: 12px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
+  .mega-list { list-style: none; display: flex; flex-direction: column; gap: 1px; }
+
+  .mega-list-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    text-decoration: none;
+    color: var(--ash);
+    /* Archivo Narrow for menu items */
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .mega-list-link:hover,
+  .mega-list-link.is-hovered {
+    background: #2a2a2a;
+    color: var(--bone);
+  }
+  .mega-list-link:hover .ml-arrow,
+  .mega-list-link.is-hovered .ml-arrow { opacity: 1; transform: translateX(0); }
+
+  .ml-arrow {
+    margin-left: auto;
+    color: var(--ember);
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.15s, transform 0.15s;
+    font-family: 'Archivo Narrow', sans-serif;
+  }
+
+  .ml-badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    clip-path: polygon(3px 0%, 100% 0%, calc(100% - 3px) 100%, 0% 100%);
+    flex-shrink: 0;
+  }
+  .badge-ember { background: var(--ember); color: white; }
+  .badge-steel { background: var(--steel);  color: white; }
+
+  /* ── Featured panel ── */
+  .mega-featured {
+    padding-left: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .feat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .feat-card {
+    background: var(--forge-black);
+    border: 1px solid #2a2a2a;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .feat-card:hover { border-color: var(--ember); }
+
+  /* Product image placeholder — CSS only, no emoji */
+  .feat-img {
+    height: 100px;
+    background: linear-gradient(135deg, #181818 0%, #202020 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Diagonal texture lines */
+  .feat-img::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      rgba(255,255,255,0.02) 8px,
+      rgba(255,255,255,0.02) 9px
+    );
+  }
+  /* Product silhouette — pure CSS shape */
+  .feat-img .product-icon {
+    position: relative;
+    z-index: 1;
+  }
+  .feat-img .product-icon svg {
+    width: 44px;
+    height: 44px;
+    stroke: var(--steel);
+    fill: none;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.55;
+  }
+
+  .feat-img-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: var(--ember);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    clip-path: polygon(3px 0%, 100% 0%, calc(100% - 3px) 100%, 0% 100%);
+    z-index: 2;
+  }
+
+  .feat-body { padding: 10px 12px 12px; }
+  .feat-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 3px;
+    line-height: 1.2;
+  }
+  .feat-stars { color: var(--ember); font-size: 10px; letter-spacing: 2px; margin-bottom: 6px; }
+  .feat-price { display: flex; align-items: baseline; gap: 7px; }
+  .price-now {
+    font-family: 'Archivo Narrow', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--bone);
+  }
+  .price-was {
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 12px;
+    color: var(--steel);
+    text-decoration: line-through;
+  }
+
+  .feat-view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: var(--ember);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: background 0.2s;
+    align-self: flex-start;
+  }
+  .feat-view-all:hover { background: var(--ember-dark); }
+
+  /* ============================================================
+     4. SIMPLE DROPDOWNS
+  ============================================================ */
+  .dropdown-showcase {
+    display: flex;
+    gap: 24px;
+    padding: 0 32px 32px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .dropdown-box {
+    background: var(--iron);
+    border: 1px solid #2a2a2a;
+    border-top: 2px solid var(--ember);
+    min-width: 210px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+    overflow: hidden;
+  }
+  .dropdown-box-label {
+    padding: 10px 16px 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ember);
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .dd-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: var(--ash);
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid #202020;
+    transition: background 0.15s, color 0.15s;
+  }
+  .dd-link:last-child { border-bottom: none; }
+  .dd-link:hover,
+  .dd-link.is-hovered { background: var(--iron-light); color: var(--bone); }
+  .dd-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--ember);
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .dd-link:hover .dd-dot,
+  .dd-link.is-hovered .dd-dot { opacity: 1; }
+
+  /* ============================================================
+     5. MOBILE NAV DRAWER
+  ============================================================ */
+  .mobile-showcase {
+    padding: 0 32px 32px;
+  }
+  .mobile-nav-frame {
+    width: 320px;
+    background: var(--forge-black);
+    border: 1px solid #2a2a2a;
+    overflow: hidden;
+  }
+  .mob-topbar {
+    height: 60px;
+    background: var(--forge-black);
+    border-bottom: 2px solid var(--ember);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  .mob-logo { display: flex; align-items: center; gap: 9px; }
+  .mob-badge {
+    width: 38px;
+    height: 38px;
+    background: var(--ember);
+    clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: white;
+    letter-spacing: 0.04em;
+  }
+  .mob-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    color: var(--bone);
+  }
+  .mob-icons { display: flex; align-items: center; gap: 4px; }
+  .mob-icon {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ash);
+    position: relative;
+  }
+  .mob-icon svg { width: 19px; height: 19px; stroke-width: 1.8; }
+  .mob-cart-count {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 14px;
+    height: 14px;
+    background: var(--ember);
+    border-radius: 50%;
+    font-size: 8px;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Archivo Narrow', sans-serif;
+  }
+  .hamburger {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .hamburger span {
+    display: block;
+    height: 2px;
+    background: var(--ash);
+    border-radius: 1px;
+  }
+  .hamburger span:first-child { width: 100%; }
+  .hamburger span:nth-child(2) { width: 72%; }
+  .hamburger span:last-child { width: 44%; }
+
+  /* Drawer items */
+  .mob-drawer { background: var(--forge-black); }
+  .mob-nav-item { border-bottom: 1px solid #1e1e1e; }
+  .mob-nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 16px;
+    color: var(--ash);
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+  .mob-nav-link.is-open { color: var(--bone); background: var(--iron); }
+  .mob-nav-link.sale { color: var(--ember); }
+  .mob-chev {
+    width: 8px;
+    height: 8px;
+    border-right: 1.8px solid currentColor;
+    border-bottom: 1.8px solid currentColor;
+    transform: rotate(45deg);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .mob-nav-link.is-open .mob-chev { transform: rotate(-135deg); opacity: 1; }
+
+  .mob-sub { background: var(--iron); border-top: 1px solid #2a2a2a; }
+  .mob-sub-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 20px;
+    color: var(--ash);
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid #242424;
+    transition: background 0.15s, color 0.15s;
+  }
+  .mob-sub-link:last-child { border-bottom: none; }
+  .mob-sub-link:hover { background: var(--iron-light); color: var(--bone); }
+  .mob-sub-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--ember);
+    border-radius: 50%;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+  .mob-cta {
+    margin: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    background: var(--ember);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: background 0.2s;
+  }
+  .mob-cta:hover { background: var(--ember-dark); }
+
+  /* ============================================================
+     FONT SPECIMEN PANEL
+  ============================================================ */
+  .font-panel {
+    margin: 8px 32px 0;
+    background: var(--iron);
+    border: 1px solid #2a2a2a;
+    border-left: 3px solid var(--ember);
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 32px;
+  }
+  .font-specimen h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .font-specimen .sample-large {
+    font-size: 36px;
+    line-height: 1;
+    color: var(--bone);
+    margin-bottom: 6px;
+  }
+  .font-specimen .sample-mid {
+    font-size: 16px;
+    color: var(--ash);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .font-specimen .sample-small {
+    font-size: 12px;
+    color: var(--steel);
+    letter-spacing: 0.06em;
+  }
+  .font-meta {
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 11px;
+    color: var(--steel);
+    margin-top: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ============================================================
+     HANDOFF NOTES
+  ============================================================ */
+  .notes {
+    margin: 24px 32px 48px;
+    background: var(--iron);
+    border: 1px solid #2a2a2a;
+    border-left: 3px solid var(--ember);
+    padding: 28px 32px;
+  }
+  .notes h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone);
+    margin-bottom: 20px;
+  }
+  .notes h3 span { color: var(--ember); }
+  .note-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .note-list li {
+    display: flex;
+    gap: 12px;
+    font-family: 'Archivo Narrow', sans-serif;
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.55;
+  }
+  .note-n {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    color: var(--ember);
+    flex-shrink: 0;
+    min-width: 22px;
+  }
+  code {
+    background: #111;
+    border: 1px solid #2a2a2a;
+    padding: 1px 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #ccc;
+    border-radius: 2px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     FONT SPECIMEN
+════════════════════════════════════════════════════ -->
+<div class="section-label">0 — Font System</div>
+
+<div class="font-panel">
+
+  <div class="font-specimen">
+    <h4>Logo Wordmark</h4>
+    <div class="sample-large" style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em;">GarageGains</div>
+    <div class="sample-mid" style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.06em;">REDEFINING PERFORMANCE</div>
+    <p class="font-meta">Bebas Neue — Raw, heavy, industrial. Better lockup weight than Barlow for a single brand name.</p>
+  </div>
+
+  <div class="font-specimen">
+    <h4>Nav Links &amp; Body</h4>
+    <div class="sample-large" style="font-family:'Archivo Narrow',sans-serif; font-weight:700; font-size:28px;">Strength &nbsp; Cardio</div>
+    <div class="sample-mid" style="font-family:'Archivo Narrow',sans-serif; font-weight:500;">Ships from Melbourne · Lifetime Warranty</div>
+    <div class="sample-small" style="font-family:'Archivo Narrow',sans-serif;">$1,299 &nbsp; WAS $1,599 &nbsp; IN STOCK</div>
+    <p class="font-meta">Archivo Narrow — Mechanical, industrial. Fast-scanning at small nav sizes. Excellent number rendering.</p>
+  </div>
+
+  <div class="font-specimen">
+    <h4>Section Labels &amp; CTAs</h4>
+    <div class="sample-large" style="font-family:'Barlow Condensed',sans-serif; font-weight:900; text-transform:uppercase; letter-spacing:0.06em;">SHOP NOW</div>
+    <div class="sample-mid" style="font-family:'Barlow Condensed',sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:0.18em; font-size:13px;">SHOP BY CATEGORY</div>
+    <div class="sample-small" style="font-family:'Barlow Condensed',sans-serif; font-weight:800; text-transform:uppercase; letter-spacing:0.2em;">BEST SELLER &nbsp; NEW &nbsp; HOT</div>
+    <p class="font-meta">Barlow Condensed — Kept for ALL-CAPS labels, badges, CTAs. Strong contrast to Archivo Narrow.</p>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     1. ANNOUNCEMENT BAR
+════════════════════════════════════════════════════ -->
+<div class="section-label">1 — Announcement Bar</div>
+
+<div class="announcement-bar">
+  <div class="announce-track">
+    <span class="announce-item">Free Delivery Australia-Wide <span class="announce-sep"></span></span>
+    <span class="announce-item">Commercial-Grade Equipment <span class="announce-sep"></span></span>
+    <span class="announce-item">Lifetime Warranty on All Racks <span class="announce-sep"></span></span>
+    <span class="announce-item">Up to 30% Off — Sale Now On <span class="announce-sep"></span></span>
+    <span class="announce-item">Ships Direct from Melbourne <span class="announce-sep"></span></span>
+    <!-- duplicate for loop -->
+    <span class="announce-item">Free Delivery Australia-Wide <span class="announce-sep"></span></span>
+    <span class="announce-item">Commercial-Grade Equipment <span class="announce-sep"></span></span>
+    <span class="announce-item">Lifetime Warranty on All Racks <span class="announce-sep"></span></span>
+    <span class="announce-item">Up to 30% Off — Sale Now On <span class="announce-sep"></span></span>
+    <span class="announce-item">Ships Direct from Melbourne <span class="announce-sep"></span></span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     2. MAIN NAV BAR
+════════════════════════════════════════════════════ -->
+<div class="section-label">2 — Main Nav Bar (72px height)</div>
+
+<div class="navbar">
+  <div class="navbar-inner">
+
+    <a href="#" class="logo">
+      <div class="logo-badge"><span>GG</span></div>
+      <div class="logo-words">
+        <span class="logo-name">GarageGains</span>
+        <span class="logo-sub">Australia</span>
+      </div>
+    </a>
+
+    <ul class="nav-links">
+      <li class="nav-item"><a href="#" class="nav-link is-active">Strength <span class="chev"></span></a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Cardio <span class="chev"></span></a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Functional <span class="chev"></span></a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Recovery</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Commercial</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Bundles</a></li>
+      <li class="nav-item"><a href="#" class="nav-link sale">Sale</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <!-- Search -->
+      <button class="icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+      <!-- Account -->
+      <button class="icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+        </svg>
+      </button>
+      <!-- Cart -->
+      <button class="icon-btn" aria-label="Cart" style="position:relative">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span class="cart-count">3</span>
+      </button>
+      <a href="#" class="shop-now-btn">Shop Now</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     3. MEGA MENU — STRENGTH OPEN
+════════════════════════════════════════════════════ -->
+<div class="section-label">3 — Mega Menu: "Strength" open (hover state)</div>
+
+<div class="mega-menu">
+  <div class="mega-inner">
+
+    <!-- Col 1: By Category -->
+    <div class="mega-col">
+      <p class="mega-col-title">Shop by Category</p>
+      <ul class="mega-list">
+
+        <li><a href="#" class="mega-list-link is-hovered">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><path d="M6 5h12M6 19h12M5 5v14M19 5v14M9 12h6"/></svg>
+          </span>
+          Dumbbells &amp; Racks
+          <span class="ml-badge badge-ember">Hot</span>
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+        <li><a href="#" class="mega-list-link">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><line x1="2" y1="12" x2="22" y2="12"/><rect x="7" y="9" width="2" height="6" rx="1"/><rect x="15" y="9" width="2" height="6" rx="1"/></svg>
+          </span>
+          Barbells &amp; Plates
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+        <li><a href="#" class="mega-list-link">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M12 12v8M8 20h8"/></svg>
+          </span>
+          Kettlebells
+          <span class="ml-badge badge-steel">New</span>
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+        <li><a href="#" class="mega-list-link">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="10" width="18" height="8" rx="2"/><path d="M7 10V7a2 2 0 014 0v3M13 10V7a2 2 0 014 0v3"/></svg>
+          </span>
+          Benches
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+        <li><a href="#" class="mega-list-link">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><rect x="4" y="3" width="3" height="18" rx="1"/><rect x="17" y="3" width="3" height="18" rx="1"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="15" x2="17" y2="15"/></svg>
+          </span>
+          Power Racks &amp; Cages
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+        <li><a href="#" class="mega-list-link">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
+          </span>
+          Cable Machines
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+      </ul>
+    </div>
+
+    <!-- Col 2: By Goal -->
+    <div class="mega-col">
+      <p class="mega-col-title">Shop by Goal</p>
+      <ul class="mega-list">
+
+        <li><a href="#" class="mega-list-link">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+          </span>
+          Build Strength
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+        <li><a href="#" class="mega-list-link">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="5"/><path d="M7 21h10M12 13v8"/></svg>
+          </span>
+          Powerlifting Setup
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+        <li><a href="#" class="mega-list-link is-hovered">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </span>
+          Home Gym Package
+          <span class="ml-badge badge-ember">Hot</span>
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+        <li><a href="#" class="mega-list-link">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </span>
+          Beginner Starter Kit
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+        <li><a href="#" class="mega-list-link">
+          <span class="ml-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          </span>
+          Commercial Setup
+          <span class="ml-arrow">›</span>
+        </a></li>
+
+      </ul>
+    </div>
+
+    <!-- Col 3: Featured -->
+    <div class="mega-featured">
+      <p class="mega-col-title">Featured Gear</p>
+      <div class="feat-grid">
+
+        <div class="feat-card">
+          <div class="feat-img">
+            <div class="product-icon">
+              <!-- Power rack silhouette SVG -->
+              <svg viewBox="0 0 24 24">
+                <rect x="4" y="2" width="3" height="20" rx="1"/>
+                <rect x="17" y="2" width="3" height="20" rx="1"/>
+                <line x1="7" y1="7" x2="17" y2="7"/>
+                <line x1="7" y1="13" x2="17" y2="13"/>
+                <line x1="2" y1="20" x2="7" y2="20"/>
+                <line x1="17" y1="20" x2="22" y2="20"/>
+              </svg>
+            </div>
+            <span class="feat-img-badge">Best Seller</span>
+          </div>
+          <div class="feat-body">
+            <p class="feat-name">Power Rack Pro X</p>
+            <p class="feat-stars">★★★★★</p>
+            <div class="feat-price">
+              <span class="price-now">$1,299</span>
+              <span class="price-was">$1,599</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div class="feat-img">
+            <div class="product-icon">
+              <!-- Barbell silhouette SVG -->
+              <svg viewBox="0 0 24 24">
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <rect x="5" y="9" width="2" height="6" rx="1"/>
+                <rect x="17" y="9" width="2" height="6" rx="1"/>
+                <rect x="2" y="10" width="3" height="4" rx="0.5"/>
+                <rect x="19" y="10" width="3" height="4" rx="0.5"/>
+              </svg>
+            </div>
+            <span class="feat-img-badge">New</span>
+          </div>
+          <div class="feat-body">
+            <p class="feat-name">20kg Olympic Bar</p>
+            <p class="feat-stars">★★★★★</p>
+            <div class="feat-price">
+              <span class="price-now">$289</span>
+              <span class="price-was">$349</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <a href="#" class="feat-view-all">View All Strength Gear →</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     4. SIMPLE DROPDOWNS
+════════════════════════════════════════════════════ -->
+<div class="section-label">4 — Simple Dropdowns: Cardio &amp; Functional</div>
+
+<div class="dropdown-showcase">
+
+  <div class="dropdown-box">
+    <div class="dropdown-box-label">Cardio</div>
+    <a href="#" class="dd-link is-hovered"><span class="dd-dot"></span>Treadmills</a>
+    <a href="#" class="dd-link"><span class="dd-dot"></span>Rowing Machines</a>
+    <a href="#" class="dd-link"><span class="dd-dot"></span>Assault Bikes</a>
+    <a href="#" class="dd-link"><span class="dd-dot"></span>Ski Ergs</a>
+    <a href="#" class="dd-link"><span class="dd-dot"></span>Jump Ropes</a>
+  </div>
+
+  <div class="dropdown-box">
+    <div class="dropdown-box-label">Functional</div>
+    <a href="#" class="dd-link"><span class="dd-dot"></span>Battle Ropes</a>
+    <a href="#" class="dd-link is-hovered"><span class="dd-dot"></span>Plyo Boxes</a>
+    <a href="#" class="dd-link"><span class="dd-dot"></span>Sleds &amp; Prowlers</a>
+    <a href="#" class="dd-link"><span class="dd-dot"></span>Pull-Up Bars</a>
+    <a href="#" class="dd-link"><span class="dd-dot"></span>Resistance Bands</a>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     5. MOBILE DRAWER
+════════════════════════════════════════════════════ -->
+<div class="section-label">5 — Mobile Drawer (≤809px) — Strength expanded</div>
+
+<div class="mobile-showcase">
+  <div class="mobile-nav-frame">
+
+    <div class="mob-topbar">
+      <div class="mob-logo">
+        <div class="mob-badge">GG</div>
+        <span class="mob-name">GarageGains</span>
+      </div>
+      <div class="mob-icons">
+        <div class="mob-icon" style="position:relative">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="mob-cart-count">3</span>
+        </div>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+
+    <div class="mob-drawer">
+      <div class="mob-nav-item">
+        <a href="#" class="mob-nav-link is-open">Strength <span class="mob-chev"></span></a>
+        <div class="mob-sub">
+          <a href="#" class="mob-sub-link"><span class="mob-sub-dot"></span>Dumbbells &amp; Racks</a>
+          <a href="#" class="mob-sub-link"><span class="mob-sub-dot"></span>Barbells &amp; Plates</a>
+          <a href="#" class="mob-sub-link"><span class="mob-sub-dot"></span>Kettlebells</a>
+          <a href="#" class="mob-sub-link"><span class="mob-sub-dot"></span>Benches</a>
+          <a href="#" class="mob-sub-link"><span class="mob-sub-dot"></span>Power Racks &amp; Cages</a>
+          <a href="#" class="mob-sub-link"><span class="mob-sub-dot"></span>Cable Machines</a>
+        </div>
+      </div>
+      <div class="mob-nav-item"><a href="#" class="mob-nav-link">Cardio <span class="mob-chev"></span></a></div>
+      <div class="mob-nav-item"><a href="#" class="mob-nav-link">Functional <span class="mob-chev"></span></a></div>
+      <div class="mob-nav-item"><a href="#" class="mob-nav-link">Recovery</a></div>
+      <div class="mob-nav-item"><a href="#" class="mob-nav-link">Commercial</a></div>
+      <div class="mob-nav-item"><a href="#" class="mob-nav-link">Bundles</a></div>
+      <div class="mob-nav-item"><a href="#" class="mob-nav-link sale">Sale</a></div>
+      <div class="mob-nav-item"><a href="#" class="mob-nav-link">Contact</a></div>
+      <a href="#" class="mob-cta">Shop Now</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     HANDOFF NOTES
+════════════════════════════════════════════════════ -->
+<div class="section-label">Claude Code — Shopify Liquid Conversion Notes</div>
+
+<div class="notes">
+  <h3>Shopify Liquid <span>Conversion Notes</span></h3>
+  <ul class="note-list">
+    <li><span class="note-n">01</span>Save as <code>sections/header.liquid</code>. Load all 3 fonts via <code>assets/fonts.css</code> or link Google Fonts in <code>layout/theme.liquid</code>.</li>
+    <li><span class="note-n">02</span>Font stack: <code>font-family: 'Bebas Neue'</code> for logo/badge, <code>'Archivo Narrow'</code> for nav links and body, <code>'Barlow Condensed'</code> for CTAs and badges only.</li>
+    <li><span class="note-n">03</span>Nav links: <code>{% for link in section.settings.menu.links %}</code>. Use <code>link.links.size > 0</code> to conditionally render mega menu vs simple dropdown vs plain link.</li>
+    <li><span class="note-n">04</span>Announcement bar: schema repeatable block, max 6 messages, each with a short text field. Duplicate the track div in HTML for seamless CSS loop.</li>
+    <li><span class="note-n">05</span>Featured product cards: bind to <code>section.settings.mega_featured_collection</code>, loop first 2 products, use <code>product.featured_image | image_url: width: 400</code> in place of SVG placeholders.</li>
+    <li><span class="note-n">06</span>Cart count: <code>{{ cart.item_count }}</code>. Toggle visibility with <code>{% if cart.item_count == 0 %}style="display:none"{% endif %}</code>.</li>
+    <li><span class="note-n">07</span>Sticky nav: JS scroll listener adds <code>.is-sticky</code> at <code>scrollY > 0</code>. Sticky state: <code>position:fixed; top:0; backdrop-filter:blur(10px); background:rgba(17,17,17,0.92)</code>.</li>
+    <li><span class="note-n">08</span>Mobile drawer: <code>&lt;details&gt;/&lt;summary&gt;</code> for accordion — zero JS for open/close. Add CSS <code>details[open] summary .mob-chev</code> to rotate chevron.</li>
+    <li><span class="note-n">09</span>"Sale" colour: <code>{% if link.title == 'Sale' %}class="nav-link sale"{% else %}class="nav-link"{% endif %}</code>.</li>
+    <li><span class="note-n">10</span>Mega menu hover: CSS-only via <code>.nav-item:hover .mega-menu</code>. Use <code>visibility + opacity</code> transition — never <code>display:none</code> — so CSS transitions fire correctly.</li>
+    <li><span class="note-n">11</span>SVG icons in mega menu: extract to <code>snippets/icon-[name].liquid</code> and include via <code>{% render 'icon-rack' %}</code> for reuse across the theme.</li>
+    <li><span class="note-n">12</span>All skewed shapes use <code>clip-path: polygon()</code> Performance Skew motif — do not replace with <code>border-radius</code>.</li>
+  </ul>
+</div>
+
+</body>
+</html>

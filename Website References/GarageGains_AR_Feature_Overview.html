@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GarageGains — Shopify AR Feature Overview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Archivo+Narrow:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forge:  #111111;
+      --iron:   #1E1E1E;
+      --ember:  #C94A1E;
+      --bone:   #F5F3EF;
+      --ash:    #E2DED8;
+      --steel:  #5C5C5C;
+      --border: #2A2A2A;
+    }
+
+    body {
+      background: #ffffff;
+      color: #1a1a1a;
+      font-family: 'Archivo Narrow', sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0;
+    }
+
+    /* ── HEADER ── */
+    .doc-header {
+      background: var(--forge);
+      padding: 48px 56px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .doc-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -65deg,
+        transparent,
+        transparent 18px,
+        rgba(201,74,30,0.06) 18px,
+        rgba(201,74,30,0.06) 19px
+      );
+    }
+    .doc-header__badge {
+      display: inline-block;
+      background: var(--ember);
+      color: var(--forge);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      transform: skewX(-20deg);
+      margin-bottom: 20px;
+    }
+    .doc-header__badge span { display: inline-block; transform: skewX(20deg); }
+    .doc-header h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 48px;
+      line-height: 1;
+      text-transform: uppercase;
+      color: var(--bone);
+      letter-spacing: 0.02em;
+      position: relative;
+    }
+    .doc-header h1 em {
+      color: var(--ember);
+      font-style: normal;
+    }
+    .doc-header__sub {
+      color: var(--ash);
+      font-size: 13px;
+      margin-top: 12px;
+      position: relative;
+      letter-spacing: 0.03em;
+    }
+    .doc-header__rule {
+      width: 48px;
+      height: 3px;
+      background: var(--ember);
+      margin-top: 24px;
+      position: relative;
+    }
+
+    /* ── BODY ── */
+    .doc-body {
+      padding: 48px 56px 64px;
+      background: #ffffff;
+    }
+
+    /* ── SECTION ── */
+    .doc-section {
+      margin-bottom: 44px;
+    }
+    .doc-section:last-child { margin-bottom: 0; }
+
+    .doc-section__label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .doc-section__number {
+      background: var(--ember);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: skewX(-20deg);
+      flex-shrink: 0;
+    }
+    .doc-section__number span { transform: skewX(20deg); display: inline-block; }
+    .doc-section h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      text-transform: uppercase;
+      color: var(--forge);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── INTRO TEXT ── */
+    .doc-intro {
+      background: #f7f6f4;
+      border-left: 3px solid var(--ember);
+      padding: 16px 20px;
+      margin-bottom: 44px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    /* ── HOW IT WORKS CARDS ── */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    .platform-card {
+      border: 1px solid #e0ddd8;
+      border-top: 3px solid var(--ember);
+      padding: 20px;
+      background: #fafaf9;
+    }
+    .platform-card__title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      color: var(--forge);
+    }
+    .platform-card p { font-size: 13px; color: #444; line-height: 1.6; }
+    .platform-card .tag {
+      display: inline-block;
+      background: var(--forge);
+      color: var(--bone);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      margin-top: 8px;
+    }
+    .note-bar {
+      background: #f0ede9;
+      border: 1px solid #ddd9d4;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #555;
+      margin-top: 4px;
+    }
+    .note-bar strong { color: var(--ember); }
+
+    /* ── TABLE ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    thead tr {
+      background: var(--forge);
+      color: var(--bone);
+    }
+    thead th {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    tbody tr { border-bottom: 1px solid #e8e5e0; }
+    tbody tr:nth-child(even) { background: #f9f8f6; }
+    tbody td { padding: 10px 14px; color: #333; vertical-align: top; }
+    tbody td:first-child { font-weight: 600; color: var(--forge); white-space: nowrap; }
+    .cost { color: var(--ember); font-weight: 700; }
+
+    /* ── STEPS ── */
+    .steps { list-style: none; counter-reset: step-counter; }
+    .steps li {
+      counter-increment: step-counter;
+      display: flex;
+      gap: 16px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(step-counter);
+      background: var(--forge);
+      color: var(--bone);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 13px;
+      min-width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .steps li p { font-size: 13px; color: #333; padding-top: 5px; line-height: 1.6; }
+    .steps li p strong { color: var(--forge); }
+
+    /* ── CAPABILITY LIST ── */
+    .capability-list { list-style: none; margin-top: 4px; }
+    .capability-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #eeebe6;
+      font-size: 13px;
+      color: #333;
+    }
+    .capability-list li:last-child { border-bottom: none; }
+    .capability-list li::before {
+      content: '▸';
+      color: var(--ember);
+      font-size: 12px;
+      flex-shrink: 0;
+      padding-top: 1px;
+    }
+
+    /* ── CONSTRAINT BOX ── */
+    .constraint-box {
+      background: #fff8f6;
+      border: 1px solid #f0c4b4;
+      border-left: 4px solid var(--ember);
+      padding: 20px 24px;
+    }
+    .constraint-box h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ember);
+      margin-bottom: 8px;
+    }
+    .constraint-box p { font-size: 13px; color: #444; line-height: 1.65; }
+
+    /* ── NEXT STEPS ── */
+    .next-steps {
+      background: var(--forge);
+      padding: 28px 32px;
+      margin-top: 4px;
+    }
+    .next-steps h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      text-transform: uppercase;
+      color: var(--bone);
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+    .next-steps ol { list-style: none; counter-reset: ns; }
+    .next-steps ol li {
+      counter-increment: ns;
+      display: flex;
+      gap: 14px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+    .next-steps ol li:last-child { margin-bottom: 0; }
+    .next-steps ol li::before {
+      content: "0" counter(ns);
+      background: var(--ember);
+      color: #fff;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 12px;
+      min-width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .next-steps ol li p { color: var(--ash); font-size: 13px; padding-top: 5px; line-height: 1.6; }
+    .next-steps ol li p strong { color: var(--bone); }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      background: #f2f0ec;
+      border-top: 2px solid var(--ember);
+      padding: 16px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #888;
+      letter-spacing: 0.05em;
+    }
+    .doc-footer strong { color: var(--ember); font-weight: 700; }
+
+    /* ── PRINT ── */
+    @media print {
+      body { max-width: 100%; }
+      .doc-body { padding: 32px 48px 48px; }
+      .doc-header { padding: 40px 48px 32px; }
+      .doc-footer { padding: 12px 48px; }
+      .platform-grid { break-inside: avoid; }
+      .doc-section { break-inside: avoid; }
+      .next-steps { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="doc-header">
+    <div class="doc-header__badge"><span>Feature Brief</span></div>
+    <h1>Shopify <em>AR</em><br>Feature Overview</h1>
+    <p class="doc-header__sub">GarageGains &nbsp;·&nbsp; Product Page Enhancement &nbsp;·&nbsp; April 2026</p>
+    <div class="doc-header__rule"></div>
+  </header>
+
+  <!-- BODY -->
+  <main class="doc-body">
+
+    <div class="doc-intro">
+      This document outlines how Augmented Reality (AR) can be added to GarageGains product pages, allowing customers to visualise gym equipment in their own home gym via smartphone — no app download required.
+    </div>
+
+    <!-- SECTION 1 — HOW IT WORKS -->
+    <section class="doc-section">
+      <div class="doc-section__label">
+        <div class="doc-section__number"><span>1</span></div>
+        <h2>How Shopify AR Works</h2>
+      </div>
+      <div class="platform-grid">
+        <div class="platform-card">
+          <div class="platform-card__title">iOS (iPhone / iPad)</div>
+          <p>Customer taps "View in AR" on the product page. Apple's native <strong>Quick Look</strong> AR viewer launches — places the equipment in the room using the camera.</p>
+          <span class="tag">.usdz model required</span>
+        </div>
+        <div class="platform-card">
+          <div class="platform-card__title">Android</div>
+          <p>Opens <strong>Google Scene Viewer</strong> AR directly in the browser. Same experience — no app install required for the customer.</p>
+          <span class="tag">.glb model required</span>
+        </div>
+      </div>
+      <div class="note-bar">
+        <strong>Powered by:</strong> Google's <code>&lt;model-viewer&gt;</code> web component — already bundled inside the Dawn base theme GarageGains is built on. No third-party app or monthly subscription needed.
+      </div>
+    </section>
+
+    <!-- SECTION 2 — WHAT'S REQUIRED -->
+    <section class="doc-section">
+      <div class="doc-section__label">
+        <div class="doc-section__number"><span>2</span></div>
+        <h2>What's Required</h2>
+      </div>
+      <ol class="steps">
+        <li><p><strong>3D model files for each product</strong> — a <code>.glb</code> file (Android) and/or <code>.usdz</code> file (iOS). This is the main prerequisite. See Section 3 for sourcing options.</p></li>
+        <li><p><strong>Upload to Shopify</strong> — add the 3D model as product media (same workflow as uploading images). Shopify automatically detects the file type and flags it as a 3D model.</p></li>
+        <li><p><strong>Liquid code on the PDP</strong> — the AR viewer panel is wired into <code>gg-product-main.liquid</code>. Claude Code handles all of this once a model file is available.</p></li>
+      </ol>
+    </section>
+
+    <!-- SECTION 3 — SOURCING 3D MODELS -->
+    <section class="doc-section">
+      <div class="doc-section__label">
+        <div class="doc-section__number"><span>3</span></div>
+        <h2>Sourcing 3D Model Files</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>How It Works</th>
+            <th>Cost</th>
+            <th>Quality</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Commission a 3D artist</td>
+            <td>Provide product photos/dimensions; artist delivers .glb + .usdz files</td>
+            <td class="cost">$50–$200 / product</td>
+            <td>Best — production-grade</td>
+          </tr>
+          <tr>
+            <td>Photogrammetry (Capture app / Matterport)</td>
+            <td>Photograph the real product from multiple angles; software auto-generates a 3D model</td>
+            <td class="cost">Free – $50</td>
+            <td>Good for solid objects</td>
+          </tr>
+          <tr>
+            <td>AI-to-3D (Luma AI / Meshy.ai)</td>
+            <td>Upload photos; AI generates a 3D mesh automatically</td>
+            <td class="cost">Free tier available</td>
+            <td>Variable — test first</td>
+          </tr>
+          <tr>
+            <td>Morgan Sports catalogue</td>
+            <td>Ask the supplier directly — some wholesalers provide 3D assets for retail partners</td>
+            <td class="cost">Likely free</td>
+            <td>Official, accurate</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION 4 — WHAT CLAUDE CODE BUILDS -->
+    <section class="doc-section">
+      <div class="doc-section__label">
+        <div class="doc-section__number"><span>4</span></div>
+        <h2>What Claude Code Will Build</h2>
+      </div>
+      <ul class="capability-list">
+        <li>AR viewer panel embedded in the product page that activates automatically when a 3D model is attached to the product</li>
+        <li>Device detection — shows the correct AR button for iOS (Quick Look) vs Android (Scene Viewer) vs desktop (3D rotate-only view)</li>
+        <li>Graceful fallback — if no 3D model is uploaded, the section renders a standard product image with no broken UI</li>
+        <li>Styled AR launch button using the GarageGains skewed parallelogram button aesthetic</li>
+        <li>No third-party apps, no monthly subscription — uses Shopify's native model-viewer component</li>
+      </ul>
+    </section>
+
+    <!-- SECTION 5 — THE CONSTRAINT -->
+    <section class="doc-section">
+      <div class="doc-section__label">
+        <div class="doc-section__number"><span>5</span></div>
+        <h2>The Key Constraint</h2>
+      </div>
+      <div class="constraint-box">
+        <h3>3D Models Must Be Sourced Externally</h3>
+        <p>Claude Code can write all the Liquid, JavaScript, and CSS required for the AR feature. The one thing it cannot do is generate the 3D model files themselves — those need to come from a 3D artist, a photogrammetry scan, an AI-to-3D service, or the Morgan Sports supplier catalogue. Once a single <code>.glb</code> file exists, the complete AR feature can be built and tested live on the GarageGains product page immediately.</p>
+      </div>
+    </section>
+
+    <!-- NEXT STEPS -->
+    <div class="next-steps">
+      <h3>Recommended Next Steps</h3>
+      <ol>
+        <li><p><strong>Contact Morgan Sports</strong> — ask if 3D model assets (.glb / .usdz) are available for any products in their wholesale catalogue. This is the fastest and most accurate path.</p></li>
+        <li><p><strong>Choose a sourcing method</strong> — if Morgan Sports don't supply models, pick between Luma AI (free, test quality first) or commissioning a 3D artist for flagship products.</p></li>
+        <li><p><strong>Provide one .glb file to Claude Code</strong> — the full AR viewer will be built and deployed to the GarageGains PDP immediately, ready for testing on a real device.</p></li>
+      </ol>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="doc-footer">
+    <span>GarageGains &nbsp;·&nbsp; Internal Feature Brief</span>
+    <span>Generated April 2026 &nbsp;·&nbsp; <strong>CONFIDENTIAL</strong></span>
+  </footer>
+
+</body>
+</html>
